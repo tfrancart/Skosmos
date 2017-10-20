@@ -513,6 +513,7 @@ function getTreeConfiguration() {
                   data: params,
                 url: json_url, 
                 success: function (response) {
+                  getConceptVersions(nodeId,lang);
                   if (response.broaderTransitive) { // the default hierarchy query that fires when a page loads.
                     return cb(buildParentTree(nodeId, response.broaderTransitive, schemeObjects));
                   } else if (response.topconcepts) {
