@@ -107,7 +107,9 @@ a:hover {
  ***************************/
 
 html,body {
-  background-color: #d5dbde;
+  /*background-color: #d5dbde;#ccc*/
+
+  background-color: white;
   margin: 0;
   min-height: 100%;
   min-width: 100%;
@@ -169,10 +171,11 @@ ul {
   line-height: 50px;
   margin: 0;
   position: absolute;
+  padding-left: 70px;
 }
 
 .topbar-white > #language, .topbar-white > #navigation {
-  background: #ffffff;
+  background: #f2f2f2;
 }
 
 #language {
@@ -295,7 +298,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 .multiselect-container > li.active > a, .multiselect-container > li > a:focus, .dropdown-menu > li:hover > a, .dropdown-menu > .active:focus > a, .dropdown-menu > .active:hover > a  {
-  background-color: #00748F;
+  /*background-color: #00748F;*/
   color: #ffffff;
 }
 
@@ -314,7 +317,7 @@ ul.dropdown-menu > li:last-child > input {
 
 .headerbar-coloured {
   position: absolute;
-  background-color: #00748F;
+  /*background-color: #00748F;*/
   width: 100%;
   margin: 0 0 0 15px;
   height: 50px;
@@ -381,7 +384,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 #search-all-button {
-  background-color: #394554;
+  background-color:  #288bcc;
   border-radius: 0;
   border: medium none;
   height: 40px;
@@ -405,7 +408,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 .search-vocab-text > p {
-  color: #fff;
+  color: black;
   margin: 0 5px;
   font-size: 14px !important;
 }
@@ -465,7 +468,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 #lang-dropdown-toggle, .multiselect {
-  background-color: #394554;
+  background-color:  #288bcc;
   border: medium none;
   border-radius: 0;
   box-shadow: none;
