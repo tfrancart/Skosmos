@@ -20,7 +20,7 @@ h1, .prefLabel, .prefLabelLang, .notation {
 }
 
 #service-name {
-  font-size: 27px;
+  font-size: 24px;
   font-weight: bold;
 }
 
@@ -647,7 +647,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 .vocabularies {
-  padding: 0 10px;
+  padding: 0 20px;
 }
 
 /* feedback page

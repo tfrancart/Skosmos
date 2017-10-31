@@ -9,14 +9,22 @@
   </div>
   <div class="vocabularies">
     {% for vocabClassName,vocabArray in request.vocabList %}
-    <div class="vocab-category">
+    <section>
+    <div class="vocab-category row">
       <h2>{{ vocabClassName|upper }}</h2>
-      <ul>
+      <br><br>
       {% for vocab in vocabArray %}
-        <li><a class="navigation-font" href="{{ vocab.id }}/{{ request.lang }}/{% if request.contentLang != request.lang and request.contentLang != '' %}?clang={{ request.contentLang }}{% endif %}">{{ vocab.title }}</a></li>
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <a class="navigation-font" href="{{ vocab.id }}/{{ request.lang }}/{% if request.contentLang != request.lang and request.contentLang != '' %}?clang={{ request.contentLang }}{% endif %}">{{ vocab.title }}</a>
+            </div>
+            <div class="panel-body"></div>
+          </div>
+        </div>
       {% endfor %}
-      </ul>
     </div>
+    </section>
     {% if not loop.last %}<div class="vocabulary-separator"></div>{% endif %}
     {% endfor %}
   </div>
