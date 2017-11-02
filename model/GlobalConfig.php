@@ -173,7 +173,7 @@ class GlobalConfig {
      */
     public function getServiceName() 
     {
-        return $this->getConstant('SERVICE_NAME', 'Skosmos');
+        return $this->getConstant('SERVICE_NAME', '');
     }
     
     /**

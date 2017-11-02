@@ -171,7 +171,7 @@ ul {
   line-height: 50px;
   margin: 0;
   position: absolute;
-  padding-left: 70px;
+  padding-left: 150px;
 }
 
 .topbar-white > #language, .topbar-white > #navigation {
@@ -312,7 +312,7 @@ ul.dropdown-menu > li:last-child > input {
   margin: 0 auto;
   position: relative;
   width: 95%;
-  min-height: 65px;
+  min-height: 51px;
 }
 
 .headerbar-coloured {
@@ -343,8 +343,9 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 .header-float {
+  padding-top: 3px;
   float: right;
-  margin: 5px 15px 19px 5px;
+  margin: 3px 15px 19px 5px;
 }
   
 .frontpage-spacing > .header-float {
@@ -1920,7 +1921,7 @@ body, .versal, h1, h2, p, .versal-bold {
   }
   
   .frontpage-spacing > .header-float > .navbar-form > .input-group {
-    margin-top: 5px;
+    margin-top: 15px;
   }
 
 }

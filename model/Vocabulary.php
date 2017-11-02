@@ -297,7 +297,7 @@ class Vocabulary extends DataObject
     public function getVocabStatistics($lang){
         $results = array();
         $stat=$this->getLabelStatistics();
-        $concepts=$this->getStatistics($lang,null,null);
+        $concepts=$this->getStatistics($lang?$lang:'fr',null,null);
         foreach ($concepts as $key => $value) {
                 if($key=='http://www.w3.org/2004/02/skos/core#Concept'){
                     $results['concept']['Concept']=$value;
@@ -305,10 +305,11 @@ class Vocabulary extends DataObject
                     $results['concept']['Collection']=$value;
                 }
         }
+
         $results['stat']=array(
-                    'prefLabel'=>$stat['terms'][$lang]['skos:prefLabel'],
-                    'altLabel'=>$stat['terms'][$lang]['skos:altLabel'],
-                    'hiddenLabel'=>$stat['terms'][$lang]['skos:hiddenLabel'],
+                    'prefLabel'=>$stat['terms'][$lang?$lang:'fr']['skos:prefLabel'],
+                    'altLabel'=>$stat['terms'][$lang?$lang:'fr']['skos:altLabel'],
+                    'hiddenLabel'=>$stat['terms'][$lang?$lang:'fr']['skos:hiddenLabel']
                 );
 
         return $results;

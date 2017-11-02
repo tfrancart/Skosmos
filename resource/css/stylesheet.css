@@ -1,12 +1,24 @@
 .headerbar-coloured {
   position: absolute;
-  background-color: #288bcc;
+  background: url('../pics/fond_header.jpg');
   width: 100%;
   margin: 0 0 0 15px;
   
 }
-#service-name{
-  color:black;
+.vocab-category.row{
+  background-color: #f2f2f2;
+  padding: 30px;
+  min-width: 1250px;
+}
+.frontpage-spacing{
+  background: url('../pics/fond_header.jpg');
+  height: 50px;
+  width: 79%;
+
+}
+.topbar.frontpage {
+  width: 100%;
+  background-color: #f2f2f2;
 }
 .container, .mCSB_container{
   background-color: #f2f2f2;
@@ -23,7 +35,7 @@
 }
 
 .header-left > h1 {
-  background-color: #288bcc;
+  background: url('../pics/fond_header.jpg');
   line-height: 50px;
   margin: 0 0 0 15px;
   opacity: 0.99;
@@ -46,9 +58,11 @@
 }
 #logo{
   min-width: 30px;
-  width:18%;
+  width:15%;
   display: normal;
-  margin-left:-150px;
   position: absolute;
+
+}
+.vocab-category{
 
 }
