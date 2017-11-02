@@ -14,12 +14,32 @@
       <h2>{{ vocabClassName|upper }}</h2>
       <br><br>
       {% for vocab in vocabArray %}
+      {% set stat = vocab.getVocabStatistics(request.contentLang) %}
         <div class="col-sm-4">
           <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-body">
               <a class="navigation-font" href="{{ vocab.id }}/{{ request.lang }}/{% if request.contentLang != request.lang and request.contentLang != '' %}?clang={{ request.contentLang }}{% endif %}">{{ vocab.title }}</a>
+              <br>
+              {% for key, val in stat %}
+                {% if key == 'stat' %}
+                  {% for keyLabel, labelValue in val %}
+                    {{keyLabel}} : {{labelValue}}<br>
+                  {% endfor %}
+                {% endif %}
+                {% if key == 'concept' %}
+                  {% for keyLabel, labelValue in val %}
+
+                    {{keyLabel}} : {% for keyConcept, conceptValue in labelValue %}
+                                      {% if keyConcept == 'count' %}
+                                        {{conceptValue}}
+                                      {% endif %}
+
+                                    {% endfor %}
+                    {% if loop.last %}<br>{% endif %}
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
             </div>
-            <div class="panel-body"></div>
           </div>
         </div>
       {% endfor %}
