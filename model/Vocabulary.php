@@ -294,6 +294,26 @@ class Vocabulary extends DataObject
         return $ret;
     }
 
+    public function getVocabStatistics($lang){
+        $results = array();
+        $stat=$this->getLabelStatistics();
+        $concepts=$this->getStatistics($lang,null,null);
+        foreach ($concepts as $key => $value) {
+                if($key=='http://www.w3.org/2004/02/skos/core#Concept'){
+                    $results['concept']['Concept']=$value;
+                }elseif ($key=='http://www.w3.org/2004/02/skos/core#Collection') {
+                    $results['concept']['Collection']=$value;
+                }
+        }
+        $results['stat']=array(
+                    'prefLabel'=>$stat['terms'][$lang]['skos:prefLabel'],
+                    'altLabel'=>$stat['terms'][$lang]['skos:altLabel'],
+                    'hiddenLabel'=>$stat['terms'][$lang]['skos:hiddenLabel'],
+                );
+
+        return $results;
+    }
+
     /**
      * Gets the parent concepts of a concept and child concepts for all of those.
      * @param string $uri
