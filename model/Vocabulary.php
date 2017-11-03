@@ -306,9 +306,9 @@ class Vocabulary extends DataObject
                 }
         }
         $results['stat']=array(
-                    'prefLabel'=>$stat['terms'][$lang]['skos:prefLabel'],
-                    'altLabel'=>$stat['terms'][$lang]['skos:altLabel'],
-                    'hiddenLabel'=>$stat['terms'][$lang]['skos:hiddenLabel'],
+                    'prefLabel'=>$stat['terms'][$lang?$lang:'fr']['skos:prefLabel'],
+                    'altLabel'=>$stat['terms'][$lang?$lang:'fr']['skos:altLabel'],
+                    'hiddenLabel'=>$stat['terms'][$lang?$lang:'fr']['skos:hiddenLabel'],
                 );
 
         return $results;
