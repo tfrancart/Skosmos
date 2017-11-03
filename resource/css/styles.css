@@ -175,7 +175,7 @@ ul {
 }
 
 .topbar-white > #language, .topbar-white > #navigation {
-  background: #f2f2f2;
+  background: #e0e4e7;
 }
 
 #language {
@@ -385,7 +385,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 #search-all-button {
-  background-color:  #288bcc;
+  background-color:  #00748f;
   border-radius: 0;
   border: medium none;
   height: 40px;
@@ -400,7 +400,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 .search-vocab-text {
-  background-color: #3c535b;
+  background-color: #00748f;
   opacity: 0.95;
   height: 40px;
   float: left;
@@ -409,7 +409,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 .search-vocab-text > p {
-  color: black;
+  color: white;
   margin: 0 5px;
   font-size: 14px !important;
 }
@@ -469,7 +469,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 #lang-dropdown-toggle, .multiselect {
-  background-color:  #288bcc;
+  background-color:  #00748f;
   border: medium none;
   border-radius: 0;
   box-shadow: none;

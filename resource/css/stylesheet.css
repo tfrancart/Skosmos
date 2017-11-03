@@ -1,41 +1,35 @@
 .headerbar-coloured {
   position: absolute;
-
+  background-color:#00748f;
   width: 100%;
   margin: 0 0 0 15px;
   
 }
 .vocab-category.row{
-  background-color: #f2f2f2;
+  background-color: #e0e4e7;
   padding: 30px;
   min-width: 1250px;
 }
 .frontpage-spacing{
-  background: url('../pics/fond_header.jpg');
+  background-color: #00748f;
   height: 50px;
   width: 79%;
 
 }
 .topbar.frontpage {
   width: 100%;
-  background-color: #f2f2f2;
+  background-color: #e0e4e7;
 }
-.container, .mCSB_container{
-  background-color: #f2f2f2;
-}
+
 .space{
   margin-bottom:10px;
 }
 .headerbar{
   margin-top: 10px;
 }
-.search-vocab-text {
-  background-color: #f2f2f2;
-
-}
 
 .header-left > h1 {
-  background: url('../pics/fond_header.jpg');
+  background-color: #00748f;
   line-height: 50px;
   margin: 0 0 0 15px;
   opacity: 0.99;
@@ -43,24 +37,7 @@
 }
 
 .topbar-white {
-  background-color: #f2f2f2;
-
-}
-
-#language, #navigation{
-  float: right;
-  height: 50px;
-  line-height: 70px;
-  padding-left: 0;
-  padding-right: 2%;
-  text-align: right;
-  width: auto;
-}
-#logo{
-  min-width: 30px;
-  width:15%;
-  display: normal;
-  position: absolute;
+  background-color: #e0e4e7;
 
 }
 
