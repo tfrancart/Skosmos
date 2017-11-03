@@ -22,7 +22,7 @@
               {% set stat = vocab.getVocabStatistics(request.lang) %}
               {% set terms = 0 %}
               <br>
-
+				(
               {% for key, val in stat %}
                 {% if key == 'stat' %}
                   {% for keyLabel, labelValue in val %}
@@ -36,11 +36,13 @@
                     {% for keyConcept, conceptValue in labelValue %}
                       {% if keyConcept == 'count' %}
                          {{conceptValue}}
+                         
                       {% endif %}
                    {% endfor %}
+                   {% if not loop.last %}, {% endif %}
                   {% endfor %}
                 {% endif %}
-                {% if loop.last %}<br>{% endif %}
+                {% if loop.last %})<br>{% endif %}
                 {% if not loop.last %}, {% endif %}
               {% endfor %}
             </div>
