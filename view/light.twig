@@ -24,8 +24,10 @@
     <a href="{{ request.langurl }}#maincontent">skip to main content</a>
   </div>
   {% if request.vocabid != '' or request.page == 'feedback' or request.page == 'about' %}<div class="topbar-white">{% endif %}
-    <div class="topbar{% if request.vocabid != '' or request.vocabid == 'feedback' or request.vocabid == 'about' %} topbar-white{% else %} frontpage{% endif %}">
+  	<div id="content">
+    <div class="topbar{% if request.vocabid != '' or request.vocabid == 'feedback' or request.vocabid == 'about' %} topbar-white{% else %} topbar-white{% endif %}">
       {% include 'topbar.twig' %}
+    </div>
     </div>
   {% if request.vocabid != '' or request.page == 'feedback' or request.page == 'about' %}</div>{% endif %}
   {% block headernav %}

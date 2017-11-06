@@ -8,12 +8,11 @@
 .vocab-category.row{
   background-color: #f2f2f2;
   padding: 30px;
-  min-width: 1250px;
+  width: 100%;
+  margin: 0 0 4px 6px;
 }
 .frontpage-spacing{
   background: url('../pics/fond_header.jpg');
-  height: 50px;
-  width: 79%;
 
 }
 .topbar.frontpage {
@@ -46,6 +45,10 @@
   background-color: #f2f2f2;
 
 }
+#content{
+	width:100%;
+	background-color: #f2f2f2;
+}
 
 #language, #navigation{
   float: right;
@@ -57,12 +60,11 @@
   width: auto;
 }
 #logo{
-  min-width: 30px;
-  width:15%;
+  min-width: 40px;
   display: normal;
   position: absolute;
 
 }
-.vocab-category{
-
+#service-name{
+	margin-left:100px;
 }
