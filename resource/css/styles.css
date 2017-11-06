@@ -109,7 +109,7 @@ a:hover {
 html,body {
   /*background-color: #d5dbde;#ccc*/
 
-  background-color: white;
+  background-color: #e0e4e7;
   margin: 0;
   min-height: 100%;
   min-width: 100%;
@@ -175,7 +175,7 @@ ul {
 }
 
 .topbar-white > #language, .topbar-white > #navigation {
-  background: #e0e4e7;
+  background: #ffffff;
 }
 
 #language {
@@ -599,7 +599,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 #vocabulary-list, #vocabulary-list-wide, #vocabulary-list-left, #vocabulary-list-right {
-  background-color: #fff;
+  
   display: inline-block;
 }
 
