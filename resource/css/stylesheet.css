@@ -1,3 +1,11 @@
+a {
+  color: #007DAD;
+}
+
+.vocabularies {
+  padding: 0 0;
+}
+
 .headerbar-coloured {
   position: absolute;
   background: url('../pics/fond_header.jpg');
@@ -9,7 +17,7 @@
   background-color: #f2f2f2;
   padding: 30px;
   width: 100%;
-  margin: 0 0 4px 6px;
+  margin: 10px 0 0 0;
 }
 .frontpage-spacing{
   background: url('../pics/fond_header.jpg');
