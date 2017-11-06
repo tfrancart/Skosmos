@@ -1,3 +1,11 @@
+.header-float {
+  padding-right: 10px;
+}
+
+.header-float, #header-float.btn-group, #lang-dropdown-toggle, #search-all-button {
+  background-color: transparent;
+}
+
 a {
   color: #007DAD;
 }
