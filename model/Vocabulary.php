@@ -300,9 +300,9 @@ class Vocabulary extends DataObject
         $concepts=$this->getStatistics($lang,null,null);
         foreach ($concepts as $key => $value) {
                 if($key=='http://www.w3.org/2004/02/skos/core#Concept'){
-                    $results['concept']['Concept']=$value;
+                    $results['concept']['Concept(s)']=$value;
                 }elseif ($key=='http://www.w3.org/2004/02/skos/core#Collection') {
-                    $results['concept']['Collection']=$value;
+                    $results['collection']['Collection(s)']=$value;
                 }
         }
         $results['stat']=array(

@@ -385,7 +385,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 #search-all-button {
-  background-color:  #00748f;
+  background-color:  #3c535b;
   border-radius: 0;
   border: medium none;
   height: 40px;
@@ -400,7 +400,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 .search-vocab-text {
-  background-color: #00748f;
+  background-color: #3c535b;
   opacity: 0.95;
   height: 40px;
   float: left;
@@ -469,7 +469,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 #lang-dropdown-toggle, .multiselect {
-  background-color:  #00748f;
+  background-color:  #3c535b;
   border: medium none;
   border-radius: 0;
   box-shadow: none;

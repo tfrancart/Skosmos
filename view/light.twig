@@ -24,10 +24,12 @@
     <a href="{{ request.langurl }}#maincontent">skip to main content</a>
   </div>
   {% if request.vocabid != '' or request.page == 'feedback' or request.page == 'about' %}<div class="topbar-white">{% endif %}
-    <div class="topbar{% if request.vocabid != '' or request.vocabid == 'feedback' or request.vocabid == 'about' %} topbar-white{% else %} frontpage{% endif %}">
+  	<div id="content">
+    <div class="topbar{% if request.vocabid != '' or request.vocabid == 'feedback' or request.vocabid == 'about' %} topbar-white{% else %} topbar-white{% endif %}">
       {% include 'topbar.twig' %}
     </div>
-  {% if request.vocabid != '' or request.page == 'feedback' or request.page == 'about' %}</div>{% endif %}
+    </div>
+  {% if request.vocabid != '' or request.page == 'feedback' or request.page == 'about' %}</div>{% endif %}<br>
   {% block headernav %}
   <div class="headerbar{% if request.vocabid == '' or global_search %} frontpage-spacing{% endif %}">
     {% include 'headerbar.twig' %}
@@ -73,7 +75,7 @@
               {% if all_letters == true %}
                 {% set alpha = value.prefLabel|upper|first %}{% if alpha != previous %}<li class="alphabet-header" name="{{ alpha }}"><h5>{{ alpha }}</h5></li>{% set previous = alpha %}{% endif %}
               {% endif %}
-              <li>
+              <li class="space">
               {% if value.altLabel %}
               <span class="replaced">{{ value.altLabel }}</span>	&rarr; <a href="{{ value.uri | link_url(vocab,request.lang,'page',request.contentLang) }}">{{ value.prefLabel }}</a>
               {% else %}
@@ -136,7 +138,7 @@
       {% include 'left.inc' ignore missing %}
     {% endif %}
     {% block error %}
-    <div id="maincontent" page_color>
+    <div id="maincontent">
       {% if request.vocabid == '' and request.page != 'feedback' and request.page != 'about' and not global_search %}
         {% include 'vocabularylist.twig' %}
       {% endif %}

@@ -6,15 +6,13 @@
   
 }
 .vocab-category.row{
-  background-color: #e0e4e7;
+  background-color: #f2f2f2;
   padding: 30px;
-  min-width: 1250px;
+  width: 100%;
+  margin: 0 0 4px 6px;
 }
 .frontpage-spacing{
   background-color: #00748f;
-  height: 50px;
-  width: 79%;
-
 }
 .topbar.frontpage {
   width: 100%;
@@ -39,5 +37,18 @@
 .topbar-white {
   background-color: #e0e4e7;
 
+}
+#content{
+  width:100%;
+  background-color: #e0e4e7;
+}
+#logo{
+  min-width: 40px;
+  display: normal;
+  position: absolute;
+
+}
+#service-name{
+  margin-left:100px;
 }
 
