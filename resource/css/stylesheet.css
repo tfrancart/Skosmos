@@ -29,24 +29,23 @@
 
 .topbar-white {
   background-color: #003a80;
-  height: 70px;
- 
 }
 
-#language,  #navigation{
-  background-color: #a4c400;
-  float: right;
-  height: 50px;
-  line-height: 70px;
-  padding-left: 0;
-  padding-right: 2%;
-  text-align: right;
-  width: auto;
-  margin-top: 10px;
-}
 #logo{
-  min-width: 30px;
-  width:6%;
+  min-width: 40px;
   display: normal;
   position: absolute;
+  width: 4%;
+  height: 100%;
+}
+#service-name{
+  margin-left:100px;
+}
+#content{
+  width:100%;
+  background-color: #003a80;
+}
+
+.frontpage-spacing{
+  background-color: #003a80;
 }
