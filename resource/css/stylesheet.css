@@ -1,0 +1,48 @@
+.headerbar-coloured {
+  position: absolute;
+  background-color: #003a80;
+  width: 100%;
+  margin: 0 0 0 15px;
+  height: 50px;
+}
+
+.search-vocab-text {
+  background-color: #a4c400;
+  opacity: 0.95;
+  height: 40px;
+  float: left;
+  text-align: right;
+  line-height: 40px;
+}
+
+.header-left > h1 {
+  background-color: #003a80;
+  line-height: 50px;
+  margin: 0 0 0 15px;
+  opacity: 0.99;
+  overflow: hidden;
+}
+
+.topbar-white {
+  background-color: #003a80;
+  height: 70px;
+ 
+}
+
+#language,  #navigation{
+  background-color: #a4c400;
+  float: right;
+  height: 50px;
+  line-height: 70px;
+  padding-left: 0;
+  padding-right: 2%;
+  text-align: right;
+  width: auto;
+  margin-top: 10px;
+}
+#logo{
+  min-width: 30px;
+  width:6%;
+  display: normal;
+  position: absolute;
+}
