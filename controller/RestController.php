@@ -51,8 +51,7 @@ class RestController extends Controller
 
         return $limit;
     }
-
-
+    
 /** Global REST methods **/
 
     /**
@@ -63,9 +62,7 @@ class RestController extends Controller
         if (!$request->getLang()) {
             return $this->returnError(400, "Bad Request", "lang parameter missing");
         }
-
         $this->setLanguageProperties($request->getLang());
-
         $vocabs = array();
         foreach ($this->model->getVocabularies() as $voc) {
             $vocabs[$voc->getId()] = $voc->getConfig()->getTitle($request->getLang());
@@ -76,9 +73,9 @@ class RestController extends Controller
             $results[] = array(
                 'uri' => $id,
                 'id' => $id,
-                'title' => $title);
+                'title' => $title
+            );
         }
-
         /* encode the results in a JSON-LD compatible array */
         $ret = array(
             '@context' => array(
@@ -93,7 +90,6 @@ class RestController extends Controller
             'uri' => '',
             'vocabularies' => $results,
         );
-
         return $this->returnJson($ret);
     }
     
@@ -300,7 +296,7 @@ class RestController extends Controller
         return $this->returnJson($ret);
     }
 
-    /**
+    /*
      * Loads the vocabulary metadata. And wraps the result in a json-ld object.
      * @param Request $request
      */

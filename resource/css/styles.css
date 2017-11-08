@@ -107,7 +107,9 @@ a:hover {
  ***************************/
 
 html,body {
-  background-color: #d5dbde;
+  /*background-color: #d5dbde;#ccc*/
+
+  background-color: #e0e4e7;
   margin: 0;
   min-height: 100%;
   min-width: 100%;
@@ -169,6 +171,7 @@ ul {
   line-height: 50px;
   margin: 0;
   position: absolute;
+  padding-left: 150px;
 }
 
 .topbar-white > #language, .topbar-white > #navigation {
@@ -295,7 +298,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 .multiselect-container > li.active > a, .multiselect-container > li > a:focus, .dropdown-menu > li:hover > a, .dropdown-menu > .active:focus > a, .dropdown-menu > .active:hover > a  {
-  background-color: #00748F;
+  /*background-color: #00748F;*/
   color: #ffffff;
 }
 
@@ -309,12 +312,12 @@ ul.dropdown-menu > li:last-child > input {
   margin: 0 auto;
   position: relative;
   width: 95%;
-  min-height: 65px;
+  min-height: 51px;
 }
 
 .headerbar-coloured {
   position: absolute;
-  background-color: #00748F;
+  /*background-color: #00748F;*/
   width: 100%;
   margin: 0 0 0 15px;
   height: 50px;
@@ -340,8 +343,9 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 .header-float {
+  padding-top: 3px;
   float: right;
-  margin: 5px 15px 19px 5px;
+  margin: 3px 15px 19px 5px;
 }
   
 .frontpage-spacing > .header-float {
@@ -381,7 +385,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 #search-all-button {
-  background-color: #394554;
+  background-color:  #3c535b;
   border-radius: 0;
   border: medium none;
   height: 40px;
@@ -405,7 +409,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 .search-vocab-text > p {
-  color: #fff;
+  color: white;
   margin: 0 5px;
   font-size: 14px !important;
 }
@@ -465,7 +469,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 #lang-dropdown-toggle, .multiselect {
-  background-color: #394554;
+  background-color:  #3c535b;
   border: medium none;
   border-radius: 0;
   box-shadow: none;
@@ -595,7 +599,7 @@ ul.dropdown-menu > li:last-child > input {
 }
 
 #vocabulary-list, #vocabulary-list-wide, #vocabulary-list-left, #vocabulary-list-right {
-  background-color: #fff;
+  
   display: inline-block;
 }
 
@@ -1917,7 +1921,7 @@ body, .versal, h1, h2, p, .versal-bold {
   }
   
   .frontpage-spacing > .header-float > .navbar-form > .input-group {
-    margin-top: 5px;
+    margin-top: 15px;
   }
 
 }
