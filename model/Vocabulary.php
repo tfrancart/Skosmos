@@ -597,6 +597,28 @@ class Vocabulary extends DataObject
       }
       return $bydate;
     }
+    
+    public function getVocabStatistics($lang){
+        $results = array();
+        
+        $concepts=$this->getStatistics($lang,null,null);
+        foreach ($concepts as $key => $value) {
+            if($key=='http://www.w3.org/2004/02/skos/core#Concept'){
+                $results['concept']['Concept(s)']=$value;
+            }
+        }
+        
+        /*
+        $stat=$this->getLabelStatistics();
+        $results['stat']=array(
+            'prefLabel'=>$stat['terms'][$lang]['skos:prefLabel'],
+            'altLabel'=>$stat['terms'][$lang]['skos:altLabel'],
+            'hiddenLabel'=>$stat['terms'][$lang]['skos:hiddenLabel'],
+        );
+        */
+        
+        return $results;
+    }
 
     public function getTitle($lang=null) {
       return $this->config->getTitle($lang);

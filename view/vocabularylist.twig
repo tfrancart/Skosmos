@@ -34,8 +34,7 @@
                   {% for keyLabel, labelValue in val %}
                     {% for keyConcept, conceptValue in labelValue %}
                       {% if keyConcept == 'count' %}
-                         {{conceptValue}} {{keyLabel}} 
-                         
+                         {{conceptValue}} {{keyLabel}}                          
                       {% endif %}
                    {% endfor %}
                   {% endfor %}
