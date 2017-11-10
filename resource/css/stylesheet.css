@@ -38,15 +38,14 @@ a {
 .container, .mCSB_container{
   background-color: #f2f2f2;
 }
+
+/* espacement dans la liste alphabétique */
 .space{
   margin-bottom:7px;
 }
+
 .headerbar{
   margin-top: 10px;
-}
-.search-vocab-text {
-  background-color: #f2f2f2;
-
 }
 
 .header-left > h1 {
