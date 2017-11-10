@@ -43,7 +43,7 @@ class GenericSparql {
 
         // create the EasyRDF SPARQL client instance to use
         $this->initializeHttpClient();
-        $this->client = new EasyRdf\Sparql\Client($endpoint);
+        $this->client = new EasyRdf_Sparql_Client($endpoint);
 
         // set graphClause so that it can be used by all queries
         if ($this->isDefaultEndpoint()) // default endpoint; query any graph (and catch it in a variable)
@@ -108,7 +108,7 @@ class GenericSparql {
 
     protected function initializeHttpClient() {
         // configure the HTTP client used by EasyRdf\Sparql\Client
-        $httpclient = EasyRdf\Http::getDefaultHttpClient();
+        $httpclient = EasyRdf_Http::getDefaultHttpClient();
         $httpclient->setConfig(array('timeout' => $this->model->getConfig()->getSparqlTimeout()));
 
         // if special cache control (typically no-cache) was requested by the
@@ -123,7 +123,7 @@ class GenericSparql {
         }
         // @codeCoverageIgnoreEnd
 
-        EasyRdf\Http::setDefaultHttpClient($httpclient); // actually redundant..
+        EasyRdf_Http::setDefaultHttpClient($httpclient); // actually redundant..
     }
 
     /**
@@ -150,7 +150,7 @@ class GenericSparql {
      */
     private function shortenUri($uri) {
         if (!array_key_exists($uri, $this->qnamecache)) {
-            $res = new EasyRdf\Resource($uri);
+            $res = new EasyRdf_Resource($uri);
             $qname = $res->shorten(); // returns null on failure
             $this->qnamecache[$uri] = ($qname !== null) ? $qname : $uri;
         }
@@ -732,7 +732,7 @@ EOQ;
         $typePatterns = array();
         if (!empty($types)) {
             foreach ($types as $type) {
-                $unprefixed = EasyRdf\RdfNamespace::expand($type);
+                $unprefixed = EasyRdf_Namespace::expand($type);
                 $typePatterns[] = "{ ?s a <$unprefixed> }";
             }
         }

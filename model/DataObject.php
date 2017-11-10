@@ -25,7 +25,7 @@ class DataObject
      */
     public function __construct($model, $resource)
     {
-        if (!($model instanceof Model) || !($resource instanceof EasyRdf\Resource)) {
+        if (!($model instanceof Model) || !($resource instanceof EasyRdf_Resource)) {
             throw new Exception('Invalid constructor parameter given to DataObject.');
         }
 
