@@ -294,27 +294,6 @@ class Vocabulary extends DataObject
         return $ret;
     }
 
-    public function getVocabStatistics($lang){
-        $results = array();
-        $stat=$this->getLabelStatistics();
-        $concepts=$this->getStatistics($lang?$lang:'fr',null,null);
-        foreach ($concepts as $key => $value) {
-                if($key=='http://www.w3.org/2004/02/skos/core#Concept'){
-                    $results['concept']['Concept(s)']=$value;
-                }elseif ($key=='http://www.w3.org/2004/02/skos/core#Collection') {
-                    $results['collection']['Collection(s)']=$value;
-                }
-        }
-
-        $results['stat']=array(
-                    'prefLabel'=>$stat['terms'][$lang?$lang:'fr']['skos:prefLabel'],
-                    'altLabel'=>$stat['terms'][$lang?$lang:'fr']['skos:altLabel'],
-                    'hiddenLabel'=>$stat['terms'][$lang?$lang:'fr']['skos:hiddenLabel']
-                );
-
-        return $results;
-    }
-
     /**
      * Gets the parent concepts of a concept and child concepts for all of those.
      * @param string $uri
@@ -454,7 +433,7 @@ class Vocabulary extends DataObject
         }
         // no group class defined, so empty result
         $group = $this->getConceptURI($glname);
-        $contents = $this->getSparql()->listConceptGroupContents($gclass, $group, $clang);
+        $contents = $this->getSparql()->listConceptGroupContents($gclass, $group, $clang, $this->config->getShowDeprecated());
         foreach ($contents as $uri => $label) {
             $ret[$uri] = $label;
         }
@@ -503,7 +482,7 @@ class Vocabulary extends DataObject
      */
     public function searchConceptsAlphabetical($letter, $limit = null, $offset = null, $clang = null)
     {
-        return $this->getSparql()->queryConceptsAlphabetical($letter, $clang, $limit, $offset, $this->config->getIndexClasses());
+        return $this->getSparql()->queryConceptsAlphabetical($letter, $clang, $limit, $offset, $this->config->getIndexClasses(),$this->config->getShowDeprecated());
     }
 
     /**
@@ -630,4 +609,5 @@ class Vocabulary extends DataObject
     public function getId() {
       return $this->config->getId();
     }
+    
 }
