@@ -3,11 +3,11 @@
 /**
  * Setting some often needed namespace prefixes
  */
-EasyRdf_Namespace::set('skosmos', 'http://purl.org/net/skosmos#');
-EasyRdf_Namespace::set('void', 'http://rdfs.org/ns/void#');
-EasyRdf_Namespace::set('skosext', 'http://purl.org/finnonto/schema/skosext#');
-EasyRdf_Namespace::set('isothes', 'http://purl.org/iso25964/skos-thes#');
-EasyRdf_Namespace::set('mads', 'http://www.loc.gov/mads/rdf/v1#');
+EasyRdf\RdfNamespace::set('skosmos', 'http://purl.org/net/skosmos#');
+EasyRdf\RdfNamespace::set('void', 'http://rdfs.org/ns/void#');
+EasyRdf\RdfNamespace::set('skosext', 'http://purl.org/finnonto/schema/skosext#');
+EasyRdf\RdfNamespace::set('isothes', 'http://purl.org/iso25964/skos-thes#');
+EasyRdf\RdfNamespace::set('mads', 'http://www.loc.gov/mads/rdf/v1#');
 
 /**
  * Model provides access to the data.
@@ -96,7 +96,7 @@ class Model
 
     private function parseVocabularies($filename)
     {
-        $this->graph = new EasyRdf_Graph();
+        $this->graph = new EasyRdf\Graph();
         $parser = new SkosmosTurtleParser();
         $parser->parse($this->graph, file_get_contents($filename), 'turtle', $filename);
         $this->namespaces = $parser->getNamespaces();
@@ -108,9 +108,9 @@ class Model
     
     private function initializeNamespaces() {
         foreach ($this->namespaces as $prefix => $fullUri) {
-            if ($prefix != '' && EasyRdf_Namespace::get($prefix) === null) // if not already defined
+            if ($prefix != '' && EasyRdf\RdfNamespace::get($prefix) === null) // if not already defined
             {
-                EasyRdf_Namespace::set($prefix, $fullUri);
+                EasyRdf\RdfNamespace::set($prefix, $fullUri);
             }
         }
     }
@@ -213,7 +213,7 @@ class Model
 
         foreach ($result as $uri => $values) {
             if (empty($values)) {
-                $shorteneduri = EasyRdf_Namespace::shorten($uri);
+                $shorteneduri = EasyRdf\RdfNamespace::shorten($uri);
                 if ($shorteneduri !== null) {
                     $trans = gettext($shorteneduri);
                     if ($trans) {
@@ -257,13 +257,13 @@ class Model
 
         if ($format == 'text/turtle') {
             $retform = 'turtle';
-            $serialiser = new EasyRdf_Serialiser_Turtle();
+            $serialiser = new EasyRdf\Serialiser_Turtle();
         } elseif ($format == 'application/ld+json' || $format == 'application/json') {
             $retform = 'jsonld'; // serve JSON-LD for both JSON-LD and plain JSON requests
-            $serialiser = new EasyRdf_Serialiser_JsonLd();
+            $serialiser = new EasyRdf\Serialiser_JsonLd();
         } else {
             $retform = 'rdfxml';
-            $serialiser = new EasyRdf_Serialiser_RdfXml();
+            $serialiser = new EasyRdf\Serialiser_RdfXml();
         }
 
         if ($vocid !== null) {
@@ -425,9 +425,9 @@ class Model
                 // register vocabulary ids as RDF namespace prefixes
                 $prefix = preg_replace('/\W+/', '', $voc->getId()); // strip non-word characters
                 try {
-                    if ($prefix != '' && EasyRdf_Namespace::get($prefix) === null) // if not already defined
+                    if ($prefix != '' && EasyRdf\RdfNamespace::get($prefix) === null) // if not already defined
                     {
-                        EasyRdf_Namespace::set($prefix, $voc->getUriSpace());
+                        EasyRdf\RdfNamespace::set($prefix, $voc->getUriSpace());
                     }
 
                 } catch (Exception $e) {
@@ -565,7 +565,7 @@ class Model
         }
 
         // try to guess the URI space and look it up in the cache
-        $res = new EasyRdf_Resource($uri);
+        $res = new EasyRdf\Resource($uri);
         $namespace = substr($uri, 0, -strlen($res->localName()));
         if (array_key_exists($namespace, $this->vocabsByUriSpace)) {
             $vocabs = $this->vocabsByUriSpace[$namespace];
@@ -606,11 +606,11 @@ class Model
     {
         try {
             // change the timeout setting for external requests
-            $httpclient = EasyRdf_Http::getDefaultHttpClient();
+            $httpclient = EasyRdf\Http::getDefaultHttpClient();
             $httpclient->setConfig(array('timeout' => $this->getConfig()->getHttpTimeout()));
-            EasyRdf_Http::setDefaultHttpClient($httpclient);
+            EasyRdf\Http::setDefaultHttpClient($httpclient);
 
-            $client = EasyRdf_Graph::newAndLoad(EasyRdf_Utils::removeFragmentFromUri($uri));
+            $client = EasyRdf\Graph::newAndLoad(EasyRdf\Utils::removeFragmentFromUri($uri));
             return $client->resource($uri);
         } catch (Exception $e) {
             return null;
@@ -621,9 +621,9 @@ class Model
     {
         // prevent parsing errors for sources which return invalid JSON (see #447)
         // 1. Unregister the legacy RDF/JSON parser, we don't want to use it
-        EasyRdf_Format::unregister('json'); 
+        EasyRdf\Format::unregister('json'); 
         // 2. Add "application/json" as a possible MIME type for the JSON-LD format
-        $jsonld = EasyRdf_Format::getFormat('jsonld');
+        $jsonld = EasyRdf\Format::getFormat('jsonld');
         $mimetypes = $jsonld->getMimeTypes();
         $mimetypes['application/json'] = 0.5;
         $jsonld->setMimeTypes($mimetypes);
