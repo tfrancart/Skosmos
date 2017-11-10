@@ -50,6 +50,40 @@
       {% else %}
       <div class="property-value-column">{% if concept.notation %}<span class="notation">{{ concept.notation }}</span>{% endif %}
         <span class="prefLabel conceptlabel">{{ concept.label }}</span>
+          {% set link = '' %}
+        {% if request.getVocab().id=='legal-subject-theme' and concept.label!=''%}
+        	{% set link = 'thematique='~concept.label %}
+        {% endif %}
+        {% if request.getVocab().id=='legal-institution' and concept.label!=''%}
+        	{% set link = 'ministere='~concept.label %}
+        {% endif %}
+        {% if request.getVocab().id=='legal-subject-place' and concept.label!=''%}
+        	{% set link = 'lieu='~concept.label %}
+        {% endif %}
+        {% if request.getVocab().id=='legal-subject-organisation' and concept.label!=''%}
+        	{% set link = 'organisation='~concept.label%}
+        {% endif %}
+        {% if link!=''%}
+        	<a href="http://legilux.public.lu/search/?{{ link }}" target="_blank">Rechercher dans le m&eacutemorial</a>
+        {% endif %}
+        {% if request.getVocab().id=='resource-type' and concept.label!=''%}
+        	{% if concept.label=='règlement ministériel' %}
+        		{% set index = 'z4' %}
+        	{% elseif concept.label=='loi'%}
+        		{% set index = 'z1' %}
+        	{% elseif concept.label=='code'%}
+        		{% set index = 'z2' %}
+        	{% elseif concept.label=='règlement grand-ducal'%}
+        		{% set index = 'z3' %}
+        	{% elseif concept.label=='règlement communal'%}
+        		{% set index = 'z5' %}
+        	{% elseif concept.label=='directive européenne'%}
+        		{% set index = 'z6' %}
+        	{% else%}
+        		{% set index = 'z0' %}
+        	{% endif %}
+        	<a href="http://legilux.public.lu/search/?type={{index}}/{{ concept.label }}" target="_blank">Rechercher dans le m&eacutemorial</a>
+        {% endif %}
       </div>
       {% endif %}
         <div class="col-md-12"><div class="preflabel-spacer"></div></div>
