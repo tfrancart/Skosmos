@@ -11,6 +11,12 @@
   color: #ffffff;
 }
 
+/* bold 'Vocabulaires' menu link */
+#navigation > a:nth-of-type(1) {
+	font-weight: bold;
+}
+
+
 a {
   color: #007DAD;
 }
