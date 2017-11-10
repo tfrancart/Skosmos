@@ -1,4 +1,3 @@
-<br>
 <div id="vocabulary-list">
   <div class="logo-header">
   {% if request.vocabList|length == 0 %}
@@ -19,11 +18,11 @@
         <div class="col-sm-4">
           <div class="panel panel-default">
             <div class="panel-body">
-              <a class="navigation-font" href="{{ vocab.id }}/{{ request.lang }}/{% if request.contentLang != request.lang and request.contentLang != '' %}?clang={{ request.contentLang }}{% endif %}"><font size="2">{{ vocab.title }}</font></a>
+              <a class="navigation-font" href="{{ vocab.id }}/{{ request.lang }}/{% if request.contentLang != request.lang and request.contentLang != '' %}?clang={{ request.contentLang }}{% endif %}"><font>{{ vocab.title }}</font></a>
               {% set stat = vocab.getVocabStatistics(request.lang) %}
               {#{% set terms = 0 %}#}
              	
-				<em><font size="1" color="gray">(
+				<em><font size="2" color="gray">-
               {% for key, val in stat %}
                 {#{% if key == 'stat' %}
                   {% for keyLabel, labelValue in val %}
@@ -41,7 +40,7 @@
                    {% endfor %}
                   {% endfor %}
                 {% endif %}
-                {% if loop.last %})</font></em><br>{% endif %}
+                {% if loop.last %}</font></em><br>{% endif %}
               {% endfor %}
             </div>
           </div>

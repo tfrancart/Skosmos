@@ -1,0 +1,2047 @@
+[2017-11-03 11:17:28] INFO [qid 95428] SPARQL query:
+SELECT DISTINCT ?type ?label ?superclass 
+WHERE {
+  {
+    { BIND( skos:Concept as ?type ) }
+    UNION
+    { BIND( skos:Collection as ?type ) }
+    UNION
+    { BIND( isothes:ConceptGroup as ?type ) }
+    UNION
+    { BIND( isothes:ThesaurusArray as ?type ) }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Concept . }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Collection . }
+  }
+  OPTIONAL {
+    ?type rdfs:label ?label .
+    FILTER(langMatches(lang(?label), 'sv'))
+  }
+  OPTIONAL {
+    ?type rdfs:subClassOf ?superclass .
+  }
+  FILTER EXISTS {
+    ?s a ?type .
+    ?s skos:prefLabel ?prefLabel .
+  }
+}
+
+[2017-11-03 11:17:31] INFO [qid 76681] SPARQL query:
+CONSTRUCT {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+} FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+  FILTER (?property != skos:hasTopConcept)
+}
+
+[2017-11-03 11:17:31] INFO [qid 76681] result: 12 triples returned in 173 ms
+[2017-11-03 11:17:32] INFO [qid 72521] SPARQL query:
+SELECT DISTINCT ?type ?label ?superclass 
+WHERE {
+  {
+    { BIND( skos:Concept as ?type ) }
+    UNION
+    { BIND( skos:Collection as ?type ) }
+    UNION
+    { BIND( isothes:ConceptGroup as ?type ) }
+    UNION
+    { BIND( isothes:ThesaurusArray as ?type ) }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Concept . }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Collection . }
+  }
+  OPTIONAL {
+    ?type rdfs:label ?label .
+    FILTER(langMatches(lang(?label), 'sv'))
+  }
+  OPTIONAL {
+    ?type rdfs:subClassOf ?superclass .
+  }
+  FILTER EXISTS {
+    ?s a ?type .
+    ?s skos:prefLabel ?prefLabel .
+  }
+}
+
+[2017-11-03 11:17:32] INFO [qid 55001] SPARQL query:
+SELECT DISTINCT ?s ?label ?alabel FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  {
+    ?s skos:prefLabel ?label .
+    FILTER (
+      regex(str(?label), '^.*$', 'i') && langMatches(lang(?label), 'fr')
+    )
+  }
+  UNION
+  {
+    {
+      ?s skos:altLabel ?alabel .
+      FILTER (
+        regex(str(?alabel), '^.*$', 'i') && langMatches(lang(?alabel), 'fr')
+      )
+    }
+    {
+      ?s skos:prefLabel ?label .
+      FILTER (langMatches(lang(?label), 'fr'))
+    }
+  }
+  ?s a ?type .
+  FILTER NOT EXISTS { ?s owl:deprecated true }
+  VALUES (?type) { (<http://www.w3.org/2004/02/skos/core#Concept>) }
+}
+ORDER BY LCASE(IF(BOUND(?alabel), STR(?alabel), STR(?label))) 
+
+[2017-11-03 11:17:32] INFO [qid 55001] result: 5 rows returned in 81 ms
+[2017-11-03 11:17:33] INFO [qid 09436] SPARQL query:
+CONSTRUCT {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+} FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+  FILTER (?property != skos:hasTopConcept)
+}
+
+[2017-11-03 11:17:33] INFO [qid 09436] result: 12 triples returned in 138 ms
+[2017-11-03 11:17:36] INFO [qid 84951] SPARQL query:
+SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+     SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+   WHERE {
+     {
+     {
+     VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+     VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+     ?s ?prop ?match. 
+                   ?match bif:contains '"ht**"' option (score ?sc).
+              
+    }
+     UNION
+     { ?s skos:notation "ht" }
+     OPTIONAL {
+      ?s skos:prefLabel ?label .
+      FILTER (LANGMATCHES(lang(?label), 'fr'))
+     } 
+     BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+     BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+     OPTIONAL { ?s skos:notation ?notation }
+    }
+    
+   }
+   
+  }
+    FILTER(BOUND(?s))
+  BIND(IRI("") AS ?unbound)
+  BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+  BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+  BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+  BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+  BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+  { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+  { 
+   ?s a ?type .
+    
+  }
+  FILTER NOT EXISTS { ?s owl:deprecated true }
+ }
+ 
+}
+GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:19:30] INFO [qid 22619] SPARQL query:
+SELECT DISTINCT ?type ?label ?superclass 
+WHERE {
+  {
+    { BIND( skos:Concept as ?type ) }
+    UNION
+    { BIND( skos:Collection as ?type ) }
+    UNION
+    { BIND( isothes:ConceptGroup as ?type ) }
+    UNION
+    { BIND( isothes:ThesaurusArray as ?type ) }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Concept . }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Collection . }
+  }
+  OPTIONAL {
+    ?type rdfs:label ?label .
+    FILTER(langMatches(lang(?label), 'sv'))
+  }
+  OPTIONAL {
+    ?type rdfs:subClassOf ?superclass .
+  }
+  FILTER EXISTS {
+    ?s a ?type .
+    ?s skos:prefLabel ?prefLabel .
+  }
+}
+
+[2017-11-03 11:20:07] INFO [qid 14605] SPARQL query:
+CONSTRUCT {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+} FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+  FILTER (?property != skos:hasTopConcept)
+}
+
+[2017-11-03 11:20:07] INFO [qid 14605] result: 12 triples returned in 137 ms
+[2017-11-03 11:20:08] INFO [qid 76571] SPARQL query:
+SELECT DISTINCT ?type ?label ?superclass 
+WHERE {
+  {
+    { BIND( skos:Concept as ?type ) }
+    UNION
+    { BIND( skos:Collection as ?type ) }
+    UNION
+    { BIND( isothes:ConceptGroup as ?type ) }
+    UNION
+    { BIND( isothes:ThesaurusArray as ?type ) }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Concept . }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Collection . }
+  }
+  OPTIONAL {
+    ?type rdfs:label ?label .
+    FILTER(langMatches(lang(?label), 'sv'))
+  }
+  OPTIONAL {
+    ?type rdfs:subClassOf ?superclass .
+  }
+  FILTER EXISTS {
+    ?s a ?type .
+    ?s skos:prefLabel ?prefLabel .
+  }
+}
+
+[2017-11-03 11:20:08] INFO [qid 71963] SPARQL query:
+SELECT DISTINCT ?s ?label ?alabel FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  {
+    ?s skos:prefLabel ?label .
+    FILTER (
+      regex(str(?label), '^.*$', 'i') && langMatches(lang(?label), 'fr')
+    )
+  }
+  UNION
+  {
+    {
+      ?s skos:altLabel ?alabel .
+      FILTER (
+        regex(str(?alabel), '^.*$', 'i') && langMatches(lang(?alabel), 'fr')
+      )
+    }
+    {
+      ?s skos:prefLabel ?label .
+      FILTER (langMatches(lang(?label), 'fr'))
+    }
+  }
+  ?s a ?type .
+  FILTER NOT EXISTS { ?s owl:deprecated true }
+  VALUES (?type) { (<http://www.w3.org/2004/02/skos/core#Concept>) }
+}
+ORDER BY LCASE(IF(BOUND(?alabel), STR(?alabel), STR(?label))) 
+
+[2017-11-03 11:20:08] INFO [qid 71963] result: 5 rows returned in 85 ms
+[2017-11-03 11:20:08] INFO [qid 48883] SPARQL query:
+CONSTRUCT {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+} FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+  FILTER (?property != skos:hasTopConcept)
+}
+
+[2017-11-03 11:20:09] INFO [qid 48883] result: 12 triples returned in 112 ms
+[2017-11-03 11:20:11] INFO [qid 62802] SPARQL query:
+SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+     SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+   WHERE {
+     {
+     {
+     VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+     VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+     ?s ?prop ?match. 
+                   ?match bif:contains '"ht*"' option (score ?sc).
+              
+    }
+     UNION
+     { ?s skos:notation "ht" }
+     OPTIONAL {
+      ?s skos:prefLabel ?label .
+      FILTER (LANGMATCHES(lang(?label), 'fr'))
+     } 
+     BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+     BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+     OPTIONAL { ?s skos:notation ?notation }
+    }
+    
+   }
+   
+  }
+    FILTER(BOUND(?s))
+  BIND(IRI("") AS ?unbound)
+  BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+  BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+  BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+  BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+  BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+  { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+  { 
+   ?s a ?type .
+    
+  }
+  FILTER NOT EXISTS { ?s owl:deprecated true }
+ }
+ 
+}
+GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:20:12] INFO [qid 15917] SPARQL query:
+SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+     SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+   WHERE {
+     {
+     {
+     VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+     VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+     ?s ?prop ?match. 
+                   ?match bif:contains '"htm*"' option (score ?sc).
+              
+    }
+     UNION
+     { ?s skos:notation "htm" }
+     OPTIONAL {
+      ?s skos:prefLabel ?label .
+      FILTER (LANGMATCHES(lang(?label), 'fr'))
+     } 
+     BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+     BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+     OPTIONAL { ?s skos:notation ?notation }
+    }
+    
+   }
+   
+  }
+    FILTER(BOUND(?s))
+  BIND(IRI("") AS ?unbound)
+  BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+  BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+  BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+  BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+  BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+  { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+  { 
+   ?s a ?type .
+    
+  }
+  FILTER NOT EXISTS { ?s owl:deprecated true }
+ }
+ 
+}
+GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:20:13] INFO [qid 66796] SPARQL query:
+SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+     SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+   WHERE {
+     {
+     {
+     VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+     VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+     ?s ?prop ?match. 
+                   ?match bif:contains '"html*"' option (score ?sc).
+              
+    }
+     UNION
+     { ?s skos:notation "html" }
+     OPTIONAL {
+      ?s skos:prefLabel ?label .
+      FILTER (LANGMATCHES(lang(?label), 'fr'))
+     } 
+     BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+     BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+     OPTIONAL { ?s skos:notation ?notation }
+    }
+    
+   }
+   
+  }
+    FILTER(BOUND(?s))
+  BIND(IRI("") AS ?unbound)
+  BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+  BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+  BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+  BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+  BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+  { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+  { 
+   ?s a ?type .
+    
+  }
+  FILTER NOT EXISTS { ?s owl:deprecated true }
+ }
+ 
+}
+GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:20:13] INFO [qid 66796] result: 1 rows returned in 122 ms
+[2017-11-03 11:20:18] INFO [qid 18533] SPARQL query:
+SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+     SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+   WHERE {
+     {
+     {
+     VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+     VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+     ?s ?prop ?match. 
+                   ?match bif:contains '"ht*"' option (score ?sc).
+              
+    }
+     UNION
+     { ?s skos:notation "ht" }
+     OPTIONAL {
+      ?s skos:prefLabel ?label .
+      FILTER (LANGMATCHES(lang(?label), 'fr'))
+     } 
+     BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+     BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+     OPTIONAL { ?s skos:notation ?notation }
+    }
+    
+   }
+   
+  }
+    FILTER(BOUND(?s))
+  BIND(IRI("") AS ?unbound)
+  BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+  BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+  BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+  BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+  BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+  { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+  { 
+   ?s a ?type .
+    
+  }
+  FILTER NOT EXISTS { ?s owl:deprecated true }
+ }
+ 
+}
+GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:20:20] INFO [qid 31243] SPARQL query:
+SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+     SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+   WHERE {
+     {
+     {
+     VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+     VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+     ?s ?prop ?match. 
+                   ?match bif:contains '"auth*"' option (score ?sc).
+              
+    }
+     UNION
+     { ?s skos:notation "auth" }
+     OPTIONAL {
+      ?s skos:prefLabel ?label .
+      FILTER (LANGMATCHES(lang(?label), 'fr'))
+     } 
+     BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+     BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+     OPTIONAL { ?s skos:notation ?notation }
+    }
+    
+   }
+   
+  }
+    FILTER(BOUND(?s))
+  BIND(IRI("") AS ?unbound)
+  BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+  BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+  BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+  BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+  BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+  { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+  { 
+   ?s a ?type .
+    
+  }
+  FILTER NOT EXISTS { ?s owl:deprecated true }
+ }
+ 
+}
+GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:20:21] INFO [qid 31243] result: 1 rows returned in 113 ms
+[2017-11-03 11:20:21] INFO [qid 22732] SPARQL query:
+SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+     SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+   WHERE {
+     {
+     {
+     VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+     VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+     ?s ?prop ?match. 
+                   ?match bif:contains '"autho*"' option (score ?sc).
+              
+    }
+     UNION
+     { ?s skos:notation "autho" }
+     OPTIONAL {
+      ?s skos:prefLabel ?label .
+      FILTER (LANGMATCHES(lang(?label), 'fr'))
+     } 
+     BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+     BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+     OPTIONAL { ?s skos:notation ?notation }
+    }
+    
+   }
+   
+  }
+    FILTER(BOUND(?s))
+  BIND(IRI("") AS ?unbound)
+  BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+  BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+  BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+  BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+  BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+  { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+  { 
+   ?s a ?type .
+    
+  }
+  FILTER NOT EXISTS { ?s owl:deprecated true }
+ }
+ 
+}
+GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:20:21] INFO [qid 22732] result: 0 rows returned in 96 ms
+[2017-11-03 11:20:28] INFO [qid 38958] SPARQL query:
+CONSTRUCT {
+ ?s ?p ?uri .
+ ?sp ?uri ?op .
+ ?uri ?p ?o .
+ ?p rdfs:label ?proplabel .
+ ?p rdfs:subPropertyOf ?pp .
+ ?pp rdfs:label ?plabel .
+ ?o a ?ot .
+ ?o skos:prefLabel ?opl .
+ ?o rdfs:label ?ol .
+ ?o rdf:value ?ov .
+ ?o skos:notation ?on .
+ ?o ?oprop ?oval .
+ ?o ?xlprop ?xlval .
+ ?directgroup skos:member ?uri .
+ ?parent skos:member ?group .
+ ?group skos:prefLabel ?grouplabel .
+ ?b1 rdf:first ?item .
+ ?b1 rdf:rest ?b2 .
+ ?item a ?it .
+ ?item skos:prefLabel ?il .
+ ?group a ?grouptype . 
+ ?x skos:member ?o . ?x skos:prefLabel ?xl . ?x a <http://purl.org/iso25964/skos-thes#ThesaurusArray> .
+} FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph>  WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+    ?s ?p ?uri .
+    FILTER(!isBlank(?s))
+    FILTER(?p != skos:inScheme)
+  }
+  UNION
+  { ?sp ?uri ?op . }
+  UNION
+  {
+    ?directgroup skos:member ?uri .
+    ?group skos:member+ ?uri .
+    ?group skos:prefLabel ?grouplabel .
+    ?group a ?grouptype .
+    OPTIONAL { ?parent skos:member ?group }
+  }
+  UNION
+  {
+   ?uri ?p ?o .
+   OPTIONAL {
+     ?o rdf:rest* ?b1 .
+     ?b1 rdf:first ?item .
+     ?b1 rdf:rest ?b2 .
+     OPTIONAL { ?item a ?it . }
+     OPTIONAL { ?item skos:prefLabel ?il . }
+   }
+   OPTIONAL {
+     { ?p rdfs:label ?proplabel . }
+     UNION
+     { ?p rdfs:subPropertyOf ?pp . }
+   }
+   OPTIONAL {
+     { ?o a ?ot . }
+     UNION
+     { ?o skos:prefLabel ?opl . }
+     UNION
+     { ?o rdfs:label ?ol . }
+     UNION
+     { ?o rdf:value ?ov . 
+       OPTIONAL { ?o ?oprop ?oval . }
+     }
+     UNION
+     { ?o skos:notation ?on . }
+     UNION
+     { ?o a skosxl:Label .
+       ?o ?xlprop ?xlval }
+   } 
+ OPTIONAL {
+                      ?x skos:member ?o .
+                      ?x a <http://purl.org/iso25964/skos-thes#ThesaurusArray> .
+                      ?x skos:prefLabel ?xl .
+                      FILTER NOT EXISTS {
+                        ?x skos:member ?other .
+                        FILTER NOT EXISTS { ?other skos:broader ?uri }
+                      }
+                    }
+  }
+ }
+ VALUES (?uri) { (<http://data.legilux.public.lu/resource/authority/user-format/pdfa>) }
+}
+
+
+[2017-11-03 11:20:29] INFO [qid 38958] result: 9 triples returned in 169 ms
+[2017-11-03 11:20:29] INFO [qid 12301] SPARQL query:
+SELECT * FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  SELECT ?object ?label (GROUP_CONCAT(STR(?dir);separator=' ') as ?direct)
+  WHERE {
+    <http://data.legilux.public.lu/resource/authority/user-format/pdfa> a skos:Concept .
+    OPTIONAL {
+      <http://data.legilux.public.lu/resource/authority/user-format/pdfa> skos:broader* ?object .
+      OPTIONAL {
+        ?object skos:broader ?dir .
+      }
+    }
+    OPTIONAL {
+      ?object skos:prefLabel ?label .
+      FILTER (langMatches(lang(?label), "fr"))
+    }
+    OPTIONAL { ?object skos:prefLabel ?label }
+  }
+  GROUP BY ?object ?label
+}
+LIMIT 1000
+
+[2017-11-03 11:20:29] INFO [qid 12301] result: 1 rows returned in 131 ms
+[2017-11-03 11:20:30] INFO [qid 17614] SPARQL query:
+SELECT ?cs ?label ?preflabel ?title FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+ ?cs a skos:ConceptScheme .
+ OPTIONAL {
+   ?cs rdfs:label ?label .
+   FILTER(langMatches(lang(?label), 'fr'))
+ }
+ OPTIONAL {
+   ?cs skos:prefLabel ?preflabel .
+   FILTER(langMatches(lang(?preflabel), 'fr'))
+ }
+ OPTIONAL {
+   { ?cs dc11:title ?title }
+   UNION
+   { ?cs dc:title ?title }
+   FILTER(langMatches(lang(?title), 'fr'))
+ }
+} ORDER BY ?cs
+
+[2017-11-03 11:20:30] INFO [qid 21383] SPARQL query:
+SELECT DISTINCT ?type ?label ?superclass 
+WHERE {
+  {
+    { BIND( skos:Concept as ?type ) }
+    UNION
+    { BIND( skos:Collection as ?type ) }
+    UNION
+    { BIND( isothes:ConceptGroup as ?type ) }
+    UNION
+    { BIND( isothes:ThesaurusArray as ?type ) }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Concept . }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Collection . }
+  }
+  OPTIONAL {
+    ?type rdfs:label ?label .
+    FILTER(langMatches(lang(?label), 'sv'))
+  }
+  OPTIONAL {
+    ?type rdfs:subClassOf ?superclass .
+  }
+  FILTER EXISTS {
+    ?s a ?type .
+    ?s skos:prefLabel ?prefLabel .
+  }
+}
+
+[2017-11-03 11:20:30] INFO [qid 17614] result: 1 rows returned in 87 ms
+[2017-11-03 11:20:30] INFO [qid 88931] SPARQL query:
+SELECT ?broad ?parent ?member ?children ?grandchildren
+(SAMPLE(?lab) as ?label) (SAMPLE(?childlab) as ?childlabel) (SAMPLE(?topcs) AS ?top) (SAMPLE(?nota) as ?notation) (SAMPLE(?childnota) as ?childnotation) FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format/pdfa> a skos:Concept .
+  OPTIONAL {
+    <http://data.legilux.public.lu/resource/authority/user-format/pdfa> skos:broader* ?broad .
+    OPTIONAL {
+      ?broad skos:prefLabel ?lab .
+      FILTER (langMatches(lang(?lab), "fr"))
+    }
+    OPTIONAL {
+      ?broad skos:prefLabel ?lab .
+      FILTER (langMatches(lang(?lab), "fr"))
+    }
+    OPTIONAL { # fallback - other language case
+      ?broad skos:prefLabel ?lab .
+    }
+    OPTIONAL { ?broad skos:notation ?nota . }
+    OPTIONAL { ?broad skos:broader ?parent . }
+    OPTIONAL { ?broad skos:narrower ?children .
+      OPTIONAL {
+        ?children skos:prefLabel ?childlab .
+        FILTER (langMatches(lang(?childlab), "fr"))
+      }
+      OPTIONAL {
+        ?children skos:prefLabel ?childlab .
+        FILTER (langMatches(lang(?childlab), "fr"))
+      }
+      OPTIONAL { # fallback - other language case
+        ?children skos:prefLabel ?childlab .
+      }
+      OPTIONAL {
+        ?children skos:notation ?childnota .
+      }
+    }
+    BIND ( EXISTS { ?children skos:narrower ?a . } AS ?grandchildren )
+    OPTIONAL { ?broad skos:topConceptOf ?topcs . }
+  }
+}
+GROUP BY ?broad ?parent ?member ?children ?grandchildren
+
+[2017-11-03 11:20:31] INFO [qid 88931] result: 1 rows returned in 95 ms
+[2017-11-03 11:20:31] INFO [qid 10870] SPARQL query:
+SELECT ?cs ?label ?preflabel ?title FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+ ?cs a skos:ConceptScheme .
+ OPTIONAL {
+   ?cs rdfs:label ?label .
+   FILTER(langMatches(lang(?label), 'fr'))
+ }
+ OPTIONAL {
+   ?cs skos:prefLabel ?preflabel .
+   FILTER(langMatches(lang(?preflabel), 'fr'))
+ }
+ OPTIONAL {
+   { ?cs dc11:title ?title }
+   UNION
+   { ?cs dc:title ?title }
+   FILTER(langMatches(lang(?title), 'fr'))
+ }
+} ORDER BY ?cs
+
+[2017-11-03 11:20:31] INFO [qid 10870] result: 1 rows returned in 100 ms
+[2017-11-03 11:20:31] INFO [qid 81918] SPARQL query:
+SELECT DISTINCT ?top ?topuri ?label ?notation ?children FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  ?top skos:topConceptOf ?topuri .
+  OPTIONAL {
+    ?top skos:prefLabel ?label .
+    FILTER (langMatches(lang(?label), "fr"))
+  }
+  OPTIONAL {
+    ?top skos:prefLabel ?label .
+    FILTER (langMatches(lang(?label), "fr"))
+  }
+  OPTIONAL { # fallback - other language case
+    ?top skos:prefLabel ?label .
+  }
+  OPTIONAL { ?top skos:notation ?notation . }
+  BIND ( EXISTS { ?top skos:narrower ?a . } AS ?children )
+  VALUES (?topuri) { (<http://data.legilux.public.lu/resource/authority/user-format>) }
+}
+
+[2017-11-03 11:20:31] INFO [qid 81918] result: 5 rows returned in 113 ms
+[2017-11-03 11:23:20] INFO [qid 12084] SPARQL query:
+CONSTRUCT {
+ ?s ?p ?uri .
+ ?sp ?uri ?op .
+ ?uri ?p ?o .
+ ?p rdfs:label ?proplabel .
+ ?p rdfs:subPropertyOf ?pp .
+ ?pp rdfs:label ?plabel .
+ ?o a ?ot .
+ ?o skos:prefLabel ?opl .
+ ?o rdfs:label ?ol .
+ ?o rdf:value ?ov .
+ ?o skos:notation ?on .
+ ?o ?oprop ?oval .
+ ?o ?xlprop ?xlval .
+ ?directgroup skos:member ?uri .
+ ?parent skos:member ?group .
+ ?group skos:prefLabel ?grouplabel .
+ ?b1 rdf:first ?item .
+ ?b1 rdf:rest ?b2 .
+ ?item a ?it .
+ ?item skos:prefLabel ?il .
+ ?group a ?grouptype . 
+ ?x skos:member ?o . ?x skos:prefLabel ?xl . ?x a <http://purl.org/iso25964/skos-thes#ThesaurusArray> .
+} FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph>  WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+    ?s ?p ?uri .
+    FILTER(!isBlank(?s))
+    FILTER(?p != skos:inScheme)
+  }
+  UNION
+  { ?sp ?uri ?op . }
+  UNION
+  {
+    ?directgroup skos:member ?uri .
+    ?group skos:member+ ?uri .
+    ?group skos:prefLabel ?grouplabel .
+    ?group a ?grouptype .
+    OPTIONAL { ?parent skos:member ?group }
+  }
+  UNION
+  {
+   ?uri ?p ?o .
+   OPTIONAL {
+     ?o rdf:rest* ?b1 .
+     ?b1 rdf:first ?item .
+     ?b1 rdf:rest ?b2 .
+     OPTIONAL { ?item a ?it . }
+     OPTIONAL { ?item skos:prefLabel ?il . }
+   }
+   OPTIONAL {
+     { ?p rdfs:label ?proplabel . }
+     UNION
+     { ?p rdfs:subPropertyOf ?pp . }
+   }
+   OPTIONAL {
+     { ?o a ?ot . }
+     UNION
+     { ?o skos:prefLabel ?opl . }
+     UNION
+     { ?o rdfs:label ?ol . }
+     UNION
+     { ?o rdf:value ?ov . 
+       OPTIONAL { ?o ?oprop ?oval . }
+     }
+     UNION
+     { ?o skos:notation ?on . }
+     UNION
+     { ?o a skosxl:Label .
+       ?o ?xlprop ?xlval }
+   } 
+ OPTIONAL {
+                      ?x skos:member ?o .
+                      ?x a <http://purl.org/iso25964/skos-thes#ThesaurusArray> .
+                      ?x skos:prefLabel ?xl .
+                      FILTER NOT EXISTS {
+                        ?x skos:member ?other .
+                        FILTER NOT EXISTS { ?other skos:broader ?uri }
+                      }
+                    }
+  }
+ }
+ VALUES (?uri) { (<http://data.legilux.public.lu/resource/authority/user-format/pdfa>) }
+}
+
+
+[2017-11-03 11:23:20] INFO [qid 12084] result: 9 triples returned in 90 ms
+[2017-11-03 11:23:20] INFO [qid 67434] SPARQL query:
+SELECT * FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  SELECT ?object ?label (GROUP_CONCAT(STR(?dir);separator=' ') as ?direct)
+  WHERE {
+    <http://data.legilux.public.lu/resource/authority/user-format/pdfa> a skos:Concept .
+    OPTIONAL {
+      <http://data.legilux.public.lu/resource/authority/user-format/pdfa> skos:broader* ?object .
+      OPTIONAL {
+        ?object skos:broader ?dir .
+      }
+    }
+    OPTIONAL {
+      ?object skos:prefLabel ?label .
+      FILTER (langMatches(lang(?label), "fr"))
+    }
+    OPTIONAL { ?object skos:prefLabel ?label }
+  }
+  GROUP BY ?object ?label
+}
+LIMIT 1000
+
+[2017-11-03 11:23:20] INFO [qid 67434] result: 1 rows returned in 81 ms
+[2017-11-03 11:23:22] INFO [qid 23992] SPARQL query:
+SELECT ?cs ?label ?preflabel ?title FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+ ?cs a skos:ConceptScheme .
+ OPTIONAL {
+   ?cs rdfs:label ?label .
+   FILTER(langMatches(lang(?label), 'fr'))
+ }
+ OPTIONAL {
+   ?cs skos:prefLabel ?preflabel .
+   FILTER(langMatches(lang(?preflabel), 'fr'))
+ }
+ OPTIONAL {
+   { ?cs dc11:title ?title }
+   UNION
+   { ?cs dc:title ?title }
+   FILTER(langMatches(lang(?title), 'fr'))
+ }
+} ORDER BY ?cs
+
+[2017-11-03 11:23:22] INFO [qid 57556] SPARQL query:
+SELECT DISTINCT ?type ?label ?superclass 
+WHERE {
+  {
+    { BIND( skos:Concept as ?type ) }
+    UNION
+    { BIND( skos:Collection as ?type ) }
+    UNION
+    { BIND( isothes:ConceptGroup as ?type ) }
+    UNION
+    { BIND( isothes:ThesaurusArray as ?type ) }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Concept . }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Collection . }
+  }
+  OPTIONAL {
+    ?type rdfs:label ?label .
+    FILTER(langMatches(lang(?label), 'sv'))
+  }
+  OPTIONAL {
+    ?type rdfs:subClassOf ?superclass .
+  }
+  FILTER EXISTS {
+    ?s a ?type .
+    ?s skos:prefLabel ?prefLabel .
+  }
+}
+
+[2017-11-03 11:23:22] INFO [qid 23992] result: 1 rows returned in 86 ms
+[2017-11-03 11:23:22] INFO [qid 43527] SPARQL query:
+SELECT ?broad ?parent ?member ?children ?grandchildren
+(SAMPLE(?lab) as ?label) (SAMPLE(?childlab) as ?childlabel) (SAMPLE(?topcs) AS ?top) (SAMPLE(?nota) as ?notation) (SAMPLE(?childnota) as ?childnotation) FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format/pdfa> a skos:Concept .
+  OPTIONAL {
+    <http://data.legilux.public.lu/resource/authority/user-format/pdfa> skos:broader* ?broad .
+    OPTIONAL {
+      ?broad skos:prefLabel ?lab .
+      FILTER (langMatches(lang(?lab), "fr"))
+    }
+    OPTIONAL {
+      ?broad skos:prefLabel ?lab .
+      FILTER (langMatches(lang(?lab), "fr"))
+    }
+    OPTIONAL { # fallback - other language case
+      ?broad skos:prefLabel ?lab .
+    }
+    OPTIONAL { ?broad skos:notation ?nota . }
+    OPTIONAL { ?broad skos:broader ?parent . }
+    OPTIONAL { ?broad skos:narrower ?children .
+      OPTIONAL {
+        ?children skos:prefLabel ?childlab .
+        FILTER (langMatches(lang(?childlab), "fr"))
+      }
+      OPTIONAL {
+        ?children skos:prefLabel ?childlab .
+        FILTER (langMatches(lang(?childlab), "fr"))
+      }
+      OPTIONAL { # fallback - other language case
+        ?children skos:prefLabel ?childlab .
+      }
+      OPTIONAL {
+        ?children skos:notation ?childnota .
+      }
+    }
+    BIND ( EXISTS { ?children skos:narrower ?a . } AS ?grandchildren )
+    OPTIONAL { ?broad skos:topConceptOf ?topcs . }
+  }
+}
+GROUP BY ?broad ?parent ?member ?children ?grandchildren
+
+[2017-11-03 11:23:22] INFO [qid 43527] result: 1 rows returned in 68 ms
+[2017-11-03 11:23:22] INFO [qid 33703] SPARQL query:
+SELECT ?cs ?label ?preflabel ?title FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+ ?cs a skos:ConceptScheme .
+ OPTIONAL {
+   ?cs rdfs:label ?label .
+   FILTER(langMatches(lang(?label), 'fr'))
+ }
+ OPTIONAL {
+   ?cs skos:prefLabel ?preflabel .
+   FILTER(langMatches(lang(?preflabel), 'fr'))
+ }
+ OPTIONAL {
+   { ?cs dc11:title ?title }
+   UNION
+   { ?cs dc:title ?title }
+   FILTER(langMatches(lang(?title), 'fr'))
+ }
+} ORDER BY ?cs
+
+[2017-11-03 11:23:22] INFO [qid 33703] result: 1 rows returned in 78 ms
+[2017-11-03 11:23:22] INFO [qid 05117] SPARQL query:
+SELECT DISTINCT ?top ?topuri ?label ?notation ?children FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  ?top skos:topConceptOf ?topuri .
+  OPTIONAL {
+    ?top skos:prefLabel ?label .
+    FILTER (langMatches(lang(?label), "fr"))
+  }
+  OPTIONAL {
+    ?top skos:prefLabel ?label .
+    FILTER (langMatches(lang(?label), "fr"))
+  }
+  OPTIONAL { # fallback - other language case
+    ?top skos:prefLabel ?label .
+  }
+  OPTIONAL { ?top skos:notation ?notation . }
+  BIND ( EXISTS { ?top skos:narrower ?a . } AS ?children )
+  VALUES (?topuri) { (<http://data.legilux.public.lu/resource/authority/user-format>) }
+}
+
+[2017-11-03 11:23:23] INFO [qid 05117] result: 5 rows returned in 137 ms
+[2017-11-03 11:25:22] INFO [qid 87701] SPARQL query:
+CONSTRUCT {
+ ?s ?p ?uri .
+ ?sp ?uri ?op .
+ ?uri ?p ?o .
+ ?p rdfs:label ?proplabel .
+ ?p rdfs:subPropertyOf ?pp .
+ ?pp rdfs:label ?plabel .
+ ?o a ?ot .
+ ?o skos:prefLabel ?opl .
+ ?o rdfs:label ?ol .
+ ?o rdf:value ?ov .
+ ?o skos:notation ?on .
+ ?o ?oprop ?oval .
+ ?o ?xlprop ?xlval .
+ ?directgroup skos:member ?uri .
+ ?parent skos:member ?group .
+ ?group skos:prefLabel ?grouplabel .
+ ?b1 rdf:first ?item .
+ ?b1 rdf:rest ?b2 .
+ ?item a ?it .
+ ?item skos:prefLabel ?il .
+ ?group a ?grouptype . 
+ ?x skos:member ?o . ?x skos:prefLabel ?xl . ?x a <http://purl.org/iso25964/skos-thes#ThesaurusArray> .
+} FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph>  WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+    ?s ?p ?uri .
+    FILTER(!isBlank(?s))
+    FILTER(?p != skos:inScheme)
+  }
+  UNION
+  { ?sp ?uri ?op . }
+  UNION
+  {
+    ?directgroup skos:member ?uri .
+    ?group skos:member+ ?uri .
+    ?group skos:prefLabel ?grouplabel .
+    ?group a ?grouptype .
+    OPTIONAL { ?parent skos:member ?group }
+  }
+  UNION
+  {
+   ?uri ?p ?o .
+   OPTIONAL {
+     ?o rdf:rest* ?b1 .
+     ?b1 rdf:first ?item .
+     ?b1 rdf:rest ?b2 .
+     OPTIONAL { ?item a ?it . }
+     OPTIONAL { ?item skos:prefLabel ?il . }
+   }
+   OPTIONAL {
+     { ?p rdfs:label ?proplabel . }
+     UNION
+     { ?p rdfs:subPropertyOf ?pp . }
+   }
+   OPTIONAL {
+     { ?o a ?ot . }
+     UNION
+     { ?o skos:prefLabel ?opl . }
+     UNION
+     { ?o rdfs:label ?ol . }
+     UNION
+     { ?o rdf:value ?ov . 
+       OPTIONAL { ?o ?oprop ?oval . }
+     }
+     UNION
+     { ?o skos:notation ?on . }
+     UNION
+     { ?o a skosxl:Label .
+       ?o ?xlprop ?xlval }
+   } 
+ OPTIONAL {
+                      ?x skos:member ?o .
+                      ?x a <http://purl.org/iso25964/skos-thes#ThesaurusArray> .
+                      ?x skos:prefLabel ?xl .
+                      FILTER NOT EXISTS {
+                        ?x skos:member ?other .
+                        FILTER NOT EXISTS { ?other skos:broader ?uri }
+                      }
+                    }
+  }
+ }
+ VALUES (?uri) { (<http://data.legilux.public.lu/resource/authority/user-format/pdfa>) }
+}
+
+
+[2017-11-03 11:25:22] INFO [qid 87701] result: 9 triples returned in 112 ms
+[2017-11-03 11:25:22] INFO [qid 19003] SPARQL query:
+SELECT * FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  SELECT ?object ?label (GROUP_CONCAT(STR(?dir);separator=' ') as ?direct)
+  WHERE {
+    <http://data.legilux.public.lu/resource/authority/user-format/pdfa> a skos:Concept .
+    OPTIONAL {
+      <http://data.legilux.public.lu/resource/authority/user-format/pdfa> skos:broader* ?object .
+      OPTIONAL {
+        ?object skos:broader ?dir .
+      }
+    }
+    OPTIONAL {
+      ?object skos:prefLabel ?label .
+      FILTER (langMatches(lang(?label), "fr"))
+    }
+    OPTIONAL { ?object skos:prefLabel ?label }
+  }
+  GROUP BY ?object ?label
+}
+LIMIT 1000
+
+[2017-11-03 11:25:22] INFO [qid 19003] result: 1 rows returned in 79 ms
+[2017-11-03 11:25:25] INFO [qid 92654] SPARQL query:
+SELECT ?cs ?label ?preflabel ?title FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+ ?cs a skos:ConceptScheme .
+ OPTIONAL {
+   ?cs rdfs:label ?label .
+   FILTER(langMatches(lang(?label), 'fr'))
+ }
+ OPTIONAL {
+   ?cs skos:prefLabel ?preflabel .
+   FILTER(langMatches(lang(?preflabel), 'fr'))
+ }
+ OPTIONAL {
+   { ?cs dc11:title ?title }
+   UNION
+   { ?cs dc:title ?title }
+   FILTER(langMatches(lang(?title), 'fr'))
+ }
+} ORDER BY ?cs
+
+[2017-11-03 11:25:25] INFO [qid 66845] SPARQL query:
+SELECT DISTINCT ?type ?label ?superclass 
+WHERE {
+  {
+    { BIND( skos:Concept as ?type ) }
+    UNION
+    { BIND( skos:Collection as ?type ) }
+    UNION
+    { BIND( isothes:ConceptGroup as ?type ) }
+    UNION
+    { BIND( isothes:ThesaurusArray as ?type ) }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Concept . }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Collection . }
+  }
+  OPTIONAL {
+    ?type rdfs:label ?label .
+    FILTER(langMatches(lang(?label), 'sv'))
+  }
+  OPTIONAL {
+    ?type rdfs:subClassOf ?superclass .
+  }
+  FILTER EXISTS {
+    ?s a ?type .
+    ?s skos:prefLabel ?prefLabel .
+  }
+}
+
+[2017-11-03 11:25:25] INFO [qid 92654] result: 1 rows returned in 78 ms
+[2017-11-03 11:25:25] INFO [qid 60443] SPARQL query:
+SELECT ?broad ?parent ?member ?children ?grandchildren
+(SAMPLE(?lab) as ?label) (SAMPLE(?childlab) as ?childlabel) (SAMPLE(?topcs) AS ?top) (SAMPLE(?nota) as ?notation) (SAMPLE(?childnota) as ?childnotation) FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format/pdfa> a skos:Concept .
+  OPTIONAL {
+    <http://data.legilux.public.lu/resource/authority/user-format/pdfa> skos:broader* ?broad .
+    OPTIONAL {
+      ?broad skos:prefLabel ?lab .
+      FILTER (langMatches(lang(?lab), "fr"))
+    }
+    OPTIONAL {
+      ?broad skos:prefLabel ?lab .
+      FILTER (langMatches(lang(?lab), "fr"))
+    }
+    OPTIONAL { # fallback - other language case
+      ?broad skos:prefLabel ?lab .
+    }
+    OPTIONAL { ?broad skos:notation ?nota . }
+    OPTIONAL { ?broad skos:broader ?parent . }
+    OPTIONAL { ?broad skos:narrower ?children .
+      OPTIONAL {
+        ?children skos:prefLabel ?childlab .
+        FILTER (langMatches(lang(?childlab), "fr"))
+      }
+      OPTIONAL {
+        ?children skos:prefLabel ?childlab .
+        FILTER (langMatches(lang(?childlab), "fr"))
+      }
+      OPTIONAL { # fallback - other language case
+        ?children skos:prefLabel ?childlab .
+      }
+      OPTIONAL {
+        ?children skos:notation ?childnota .
+      }
+    }
+    BIND ( EXISTS { ?children skos:narrower ?a . } AS ?grandchildren )
+    OPTIONAL { ?broad skos:topConceptOf ?topcs . }
+  }
+}
+GROUP BY ?broad ?parent ?member ?children ?grandchildren
+
+[2017-11-03 11:25:25] INFO [qid 60443] result: 1 rows returned in 79 ms
+[2017-11-03 11:25:25] INFO [qid 54098] SPARQL query:
+SELECT ?cs ?label ?preflabel ?title FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+ ?cs a skos:ConceptScheme .
+ OPTIONAL {
+   ?cs rdfs:label ?label .
+   FILTER(langMatches(lang(?label), 'fr'))
+ }
+ OPTIONAL {
+   ?cs skos:prefLabel ?preflabel .
+   FILTER(langMatches(lang(?preflabel), 'fr'))
+ }
+ OPTIONAL {
+   { ?cs dc11:title ?title }
+   UNION
+   { ?cs dc:title ?title }
+   FILTER(langMatches(lang(?title), 'fr'))
+ }
+} ORDER BY ?cs
+
+[2017-11-03 11:25:25] INFO [qid 54098] result: 1 rows returned in 77 ms
+[2017-11-03 11:25:25] INFO [qid 73474] SPARQL query:
+SELECT DISTINCT ?top ?topuri ?label ?notation ?children FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  ?top skos:topConceptOf ?topuri .
+  OPTIONAL {
+    ?top skos:prefLabel ?label .
+    FILTER (langMatches(lang(?label), "fr"))
+  }
+  OPTIONAL {
+    ?top skos:prefLabel ?label .
+    FILTER (langMatches(lang(?label), "fr"))
+  }
+  OPTIONAL { # fallback - other language case
+    ?top skos:prefLabel ?label .
+  }
+  OPTIONAL { ?top skos:notation ?notation . }
+  BIND ( EXISTS { ?top skos:narrower ?a . } AS ?children )
+  VALUES (?topuri) { (<http://data.legilux.public.lu/resource/authority/user-format>) }
+}
+
+[2017-11-03 11:25:25] INFO [qid 73474] result: 5 rows returned in 82 ms
+[2017-11-03 11:28:41] INFO [qid 77603] SPARQL query:
+CONSTRUCT {
+ ?s ?p ?uri .
+ ?sp ?uri ?op .
+ ?uri ?p ?o .
+ ?p rdfs:label ?proplabel .
+ ?p rdfs:subPropertyOf ?pp .
+ ?pp rdfs:label ?plabel .
+ ?o a ?ot .
+ ?o skos:prefLabel ?opl .
+ ?o rdfs:label ?ol .
+ ?o rdf:value ?ov .
+ ?o skos:notation ?on .
+ ?o ?oprop ?oval .
+ ?o ?xlprop ?xlval .
+ ?directgroup skos:member ?uri .
+ ?parent skos:member ?group .
+ ?group skos:prefLabel ?grouplabel .
+ ?b1 rdf:first ?item .
+ ?b1 rdf:rest ?b2 .
+ ?item a ?it .
+ ?item skos:prefLabel ?il .
+ ?group a ?grouptype . 
+ ?x skos:member ?o . ?x skos:prefLabel ?xl . ?x a <http://purl.org/iso25964/skos-thes#ThesaurusArray> .
+} FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph>  WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+    ?s ?p ?uri .
+    FILTER(!isBlank(?s))
+    FILTER(?p != skos:inScheme)
+  }
+  UNION
+  { ?sp ?uri ?op . }
+  UNION
+  {
+    ?directgroup skos:member ?uri .
+    ?group skos:member+ ?uri .
+    ?group skos:prefLabel ?grouplabel .
+    ?group a ?grouptype .
+    OPTIONAL { ?parent skos:member ?group }
+  }
+  UNION
+  {
+   ?uri ?p ?o .
+   OPTIONAL {
+     ?o rdf:rest* ?b1 .
+     ?b1 rdf:first ?item .
+     ?b1 rdf:rest ?b2 .
+     OPTIONAL { ?item a ?it . }
+     OPTIONAL { ?item skos:prefLabel ?il . }
+   }
+   OPTIONAL {
+     { ?p rdfs:label ?proplabel . }
+     UNION
+     { ?p rdfs:subPropertyOf ?pp . }
+   }
+   OPTIONAL {
+     { ?o a ?ot . }
+     UNION
+     { ?o skos:prefLabel ?opl . }
+     UNION
+     { ?o rdfs:label ?ol . }
+     UNION
+     { ?o rdf:value ?ov . 
+       OPTIONAL { ?o ?oprop ?oval . }
+     }
+     UNION
+     { ?o skos:notation ?on . }
+     UNION
+     { ?o a skosxl:Label .
+       ?o ?xlprop ?xlval }
+   } 
+ OPTIONAL {
+                      ?x skos:member ?o .
+                      ?x a <http://purl.org/iso25964/skos-thes#ThesaurusArray> .
+                      ?x skos:prefLabel ?xl .
+                      FILTER NOT EXISTS {
+                        ?x skos:member ?other .
+                        FILTER NOT EXISTS { ?other skos:broader ?uri }
+                      }
+                    }
+  }
+ }
+ VALUES (?uri) { (<http://data.legilux.public.lu/resource/authority/user-format/pdf>) }
+}
+
+
+[2017-11-03 11:28:41] INFO [qid 77603] result: 9 triples returned in 92 ms
+[2017-11-03 11:28:41] INFO [qid 76104] SPARQL query:
+SELECT * FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  SELECT ?object ?label (GROUP_CONCAT(STR(?dir);separator=' ') as ?direct)
+  WHERE {
+    <http://data.legilux.public.lu/resource/authority/user-format/pdf> a skos:Concept .
+    OPTIONAL {
+      <http://data.legilux.public.lu/resource/authority/user-format/pdf> skos:broader* ?object .
+      OPTIONAL {
+        ?object skos:broader ?dir .
+      }
+    }
+    OPTIONAL {
+      ?object skos:prefLabel ?label .
+      FILTER (langMatches(lang(?label), "fr"))
+    }
+    OPTIONAL { ?object skos:prefLabel ?label }
+  }
+  GROUP BY ?object ?label
+}
+LIMIT 1000
+
+[2017-11-03 11:28:41] INFO [qid 76104] result: 1 rows returned in 107 ms
+[2017-11-03 11:28:56] INFO [qid 92465] SPARQL query:
+CONSTRUCT {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+} FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+  FILTER (?property != skos:hasTopConcept)
+}
+
+[2017-11-03 11:28:56] INFO [qid 92465] result: 12 triples returned in 186 ms
+[2017-11-03 11:28:58] INFO [qid 61694] SPARQL query:
+SELECT DISTINCT ?type ?label ?superclass 
+WHERE {
+  {
+    { BIND( skos:Concept as ?type ) }
+    UNION
+    { BIND( skos:Collection as ?type ) }
+    UNION
+    { BIND( isothes:ConceptGroup as ?type ) }
+    UNION
+    { BIND( isothes:ThesaurusArray as ?type ) }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Concept . }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Collection . }
+  }
+  OPTIONAL {
+    ?type rdfs:label ?label .
+    FILTER(langMatches(lang(?label), 'fr'))
+  }
+  OPTIONAL {
+    ?type rdfs:subClassOf ?superclass .
+  }
+  FILTER EXISTS {
+    ?s a ?type .
+    ?s skos:prefLabel ?prefLabel .
+  }
+}
+
+[2017-11-03 11:28:58] INFO [qid 92544] SPARQL query:
+SELECT DISTINCT ?s ?label ?alabel FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  {
+    ?s skos:prefLabel ?label .
+    FILTER (
+      regex(str(?label), '^.*$', 'i') && langMatches(lang(?label), 'fr')
+    )
+  }
+  UNION
+  {
+    {
+      ?s skos:altLabel ?alabel .
+      FILTER (
+        regex(str(?alabel), '^.*$', 'i') && langMatches(lang(?alabel), 'fr')
+      )
+    }
+    {
+      ?s skos:prefLabel ?label .
+      FILTER (langMatches(lang(?label), 'fr'))
+    }
+  }
+  ?s a ?type .
+  FILTER NOT EXISTS { ?s owl:deprecated true }
+  VALUES (?type) { (<http://www.w3.org/2004/02/skos/core#Concept>) }
+}
+ORDER BY LCASE(IF(BOUND(?alabel), STR(?alabel), STR(?label))) 
+
+[2017-11-03 11:28:58] INFO [qid 92544] result: 5 rows returned in 80 ms
+[2017-11-03 11:28:58] INFO [qid 54718] SPARQL query:
+CONSTRUCT {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+} FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+  FILTER (?property != skos:hasTopConcept)
+}
+
+[2017-11-03 11:28:59] INFO [qid 54718] result: 12 triples returned in 129 ms
+[2017-11-03 11:30:54] INFO [qid 11312] SPARQL query:
+CONSTRUCT {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+} FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+  FILTER (?property != skos:hasTopConcept)
+}
+
+[2017-11-03 11:30:54] INFO [qid 11312] result: 12 triples returned in 168 ms
+[2017-11-03 11:30:56] INFO [qid 66088] SPARQL query:
+SELECT DISTINCT ?type ?label ?superclass 
+WHERE {
+  {
+    { BIND( skos:Concept as ?type ) }
+    UNION
+    { BIND( skos:Collection as ?type ) }
+    UNION
+    { BIND( isothes:ConceptGroup as ?type ) }
+    UNION
+    { BIND( isothes:ThesaurusArray as ?type ) }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Concept . }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Collection . }
+  }
+  OPTIONAL {
+    ?type rdfs:label ?label .
+    FILTER(langMatches(lang(?label), 'fr'))
+  }
+  OPTIONAL {
+    ?type rdfs:subClassOf ?superclass .
+  }
+  FILTER EXISTS {
+    ?s a ?type .
+    ?s skos:prefLabel ?prefLabel .
+  }
+}
+
+[2017-11-03 11:30:56] INFO [qid 98855] SPARQL query:
+SELECT DISTINCT ?s ?label ?alabel FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  {
+    ?s skos:prefLabel ?label .
+    FILTER (
+      regex(str(?label), '^.*$', 'i') && langMatches(lang(?label), 'fr')
+    )
+  }
+  UNION
+  {
+    {
+      ?s skos:altLabel ?alabel .
+      FILTER (
+        regex(str(?alabel), '^.*$', 'i') && langMatches(lang(?alabel), 'fr')
+      )
+    }
+    {
+      ?s skos:prefLabel ?label .
+      FILTER (langMatches(lang(?label), 'fr'))
+    }
+  }
+  ?s a ?type .
+  FILTER NOT EXISTS { ?s owl:deprecated true }
+  VALUES (?type) { (<http://www.w3.org/2004/02/skos/core#Concept>) }
+}
+ORDER BY LCASE(IF(BOUND(?alabel), STR(?alabel), STR(?label))) 
+
+[2017-11-03 11:30:56] INFO [qid 98855] result: 5 rows returned in 80 ms
+[2017-11-03 11:30:57] INFO [qid 61370] SPARQL query:
+CONSTRUCT {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+} FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format> ?property ?value .
+  FILTER (?property != skos:hasTopConcept)
+}
+
+[2017-11-03 11:30:57] INFO [qid 61370] result: 12 triples returned in 147 ms
+[2017-11-03 11:33:56] INFO [qid 80221] SPARQL query:
+        SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+        FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+        WHERE {
+         GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+          {
+                 SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+       WHERE {
+         {
+         {
+         VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+         VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+         ?s ?prop ?match. 
+                       ?match bif:contains '"utili*"' option (score ?sc).
+              
+        }
+         UNION
+         { ?s skos:notation "utili" }
+         OPTIONAL {
+          ?s skos:prefLabel ?label .
+          FILTER (LANGMATCHES(lang(?label), 'fr'))
+         } 
+         BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+         BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+         OPTIONAL { ?s skos:notation ?notation }
+        }
+        
+       }
+       
+          }
+                  FILTER(BOUND(?s))
+        BIND(IRI("") AS ?unbound)
+        BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+        BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+        BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+        BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+        BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+          { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+          { 
+           ?s a ?type .
+            
+          }
+          FILTER NOT EXISTS { ?s owl:deprecated true }
+         }
+         
+        }
+        GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+        ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:33:56] INFO [qid 80221] result: 0 rows returned in 99 ms
+[2017-11-03 11:33:59] INFO [qid 45886] SPARQL query:
+        SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+        FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+        WHERE {
+         GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+          {
+                 SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+       WHERE {
+         {
+         {
+         VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+         VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+         ?s ?prop ?match. 
+                       ?match bif:contains '"utilis*"' option (score ?sc).
+              
+        }
+         UNION
+         { ?s skos:notation "utilis" }
+         OPTIONAL {
+          ?s skos:prefLabel ?label .
+          FILTER (LANGMATCHES(lang(?label), 'fr'))
+         } 
+         BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+         BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+         OPTIONAL { ?s skos:notation ?notation }
+        }
+        
+       }
+       
+          }
+                  FILTER(BOUND(?s))
+        BIND(IRI("") AS ?unbound)
+        BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+        BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+        BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+        BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+        BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+          { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+          { 
+           ?s a ?type .
+            
+          }
+          FILTER NOT EXISTS { ?s owl:deprecated true }
+         }
+         
+        }
+        GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+        ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:33:59] INFO [qid 45886] result: 0 rows returned in 97 ms
+[2017-11-03 11:34:05] INFO [qid 95523] SPARQL query:
+        SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+        FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+        WHERE {
+         GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+          {
+                 SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+       WHERE {
+         {
+         {
+         VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+         VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+         ?s ?prop ?match. 
+                       ?match bif:contains '"ut*"' option (score ?sc).
+              
+        }
+         UNION
+         { ?s skos:notation "ut" }
+         OPTIONAL {
+          ?s skos:prefLabel ?label .
+          FILTER (LANGMATCHES(lang(?label), 'fr'))
+         } 
+         BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+         BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+         OPTIONAL { ?s skos:notation ?notation }
+        }
+        
+       }
+       
+          }
+                  FILTER(BOUND(?s))
+        BIND(IRI("") AS ?unbound)
+        BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+        BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+        BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+        BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+        BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+          { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+          { 
+           ?s a ?type .
+            
+          }
+          FILTER NOT EXISTS { ?s owl:deprecated true }
+         }
+         
+        }
+        GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+        ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:34:08] INFO [qid 54376] SPARQL query:
+        SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+        FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+        WHERE {
+         GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+          {
+                 SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+       WHERE {
+         {
+         {
+         VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+         VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+         ?s ?prop ?match. 
+                       ?match bif:contains '"ako*"' option (score ?sc).
+              
+        }
+         UNION
+         { ?s skos:notation "ako" }
+         OPTIONAL {
+          ?s skos:prefLabel ?label .
+          FILTER (LANGMATCHES(lang(?label), 'fr'))
+         } 
+         BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+         BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+         OPTIONAL { ?s skos:notation ?notation }
+        }
+        
+       }
+       
+          }
+                  FILTER(BOUND(?s))
+        BIND(IRI("") AS ?unbound)
+        BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+        BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+        BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+        BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+        BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+          { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+          { 
+           ?s a ?type .
+            
+          }
+          FILTER NOT EXISTS { ?s owl:deprecated true }
+         }
+         
+        }
+        GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+        ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:34:09] INFO [qid 61318] SPARQL query:
+        SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) 
+        FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph> 
+        WHERE {
+         GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+          {
+                 SELECT DISTINCT ?s ?label ?notation (?matchstr AS ?hit)
+       WHERE {
+         {
+         {
+         VALUES (?prop) { (skos:prefLabel) (skos:altLabel) (skos:hiddenLabel) }
+         VALUES (?prop ?pri) { (skos:prefLabel 1) (skos:altLabel 3) (skos:hiddenLabel 5)}
+         ?s ?prop ?match. 
+                       ?match bif:contains '"akom*"' option (score ?sc).
+              
+        }
+         UNION
+         { ?s skos:notation "akom" }
+         OPTIONAL {
+          ?s skos:prefLabel ?label .
+          FILTER (LANGMATCHES(lang(?label), 'fr'))
+         } 
+         BIND(IF(langMatches(LANG(?match),'fr'), ?pri, ?pri+1) AS ?npri)
+         BIND(CONCAT(STR(?npri), LANG(?match), '@', STR(?match)) AS ?matchstr)
+         OPTIONAL { ?s skos:notation ?notation }
+        }
+        
+       }
+       
+          }
+                  FILTER(BOUND(?s))
+        BIND(IRI("") AS ?unbound)
+        BIND(STR(SUBSTR(?hit,1,1)) AS ?pri)
+        BIND(IF((SUBSTR(STRBEFORE(?hit, '@'),1) != ?pri), STRLANG(STRAFTER(?hit, '@'), SUBSTR(STRBEFORE(?hit, '@'),2)), STRAFTER(?hit, '@')) AS ?match)
+        BIND(IF((?pri = "1" || ?pri = "2") && ?match != ?label, ?match, ?unbound) as ?plabel)
+        BIND(IF((?pri = "3" || ?pri = "4"), ?match, ?unbound) as ?alabel)
+        BIND(IF((?pri = "5" || ?pri = "6"), ?match, ?unbound) as ?hlabel)
+          { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } UNION { ?s a <http://purl.org/iso25964/skos-thes#ThesaurusArray> }
+          { 
+           ?s a ?type .
+            
+          }
+          FILTER NOT EXISTS { ?s owl:deprecated true }
+         }
+         
+        }
+        GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+        ORDER BY LCASE(STR(?match)) LANG(?match) 
+
+[2017-11-03 11:34:09] INFO [qid 61318] result: 1 rows returned in 97 ms
+[2017-11-03 11:34:19] INFO [qid 38629] SPARQL query:
+CONSTRUCT {
+ ?s ?p ?uri .
+ ?sp ?uri ?op .
+ ?uri ?p ?o .
+ ?p rdfs:label ?proplabel .
+ ?p rdfs:subPropertyOf ?pp .
+ ?pp rdfs:label ?plabel .
+ ?o a ?ot .
+ ?o skos:prefLabel ?opl .
+ ?o rdfs:label ?ol .
+ ?o rdf:value ?ov .
+ ?o skos:notation ?on .
+ ?o ?oprop ?oval .
+ ?o ?xlprop ?xlval .
+ ?directgroup skos:member ?uri .
+ ?parent skos:member ?group .
+ ?group skos:prefLabel ?grouplabel .
+ ?b1 rdf:first ?item .
+ ?b1 rdf:rest ?b2 .
+ ?item a ?it .
+ ?item skos:prefLabel ?il .
+ ?group a ?grouptype . 
+ ?x skos:member ?o . ?x skos:prefLabel ?xl . ?x a <http://purl.org/iso25964/skos-thes#ThesaurusArray> .
+} FROM NAMED <http://data.legilux.public.lu/resource/authority/user-format/graph>  WHERE {
+ GRAPH <http://data.legilux.public.lu/resource/authority/user-format/graph> {
+  {
+    ?s ?p ?uri .
+    FILTER(!isBlank(?s))
+    FILTER(?p != skos:inScheme)
+  }
+  UNION
+  { ?sp ?uri ?op . }
+  UNION
+  {
+    ?directgroup skos:member ?uri .
+    ?group skos:member+ ?uri .
+    ?group skos:prefLabel ?grouplabel .
+    ?group a ?grouptype .
+    OPTIONAL { ?parent skos:member ?group }
+  }
+  UNION
+  {
+   ?uri ?p ?o .
+   OPTIONAL {
+     ?o rdf:rest* ?b1 .
+     ?b1 rdf:first ?item .
+     ?b1 rdf:rest ?b2 .
+     OPTIONAL { ?item a ?it . }
+     OPTIONAL { ?item skos:prefLabel ?il . }
+   }
+   OPTIONAL {
+     { ?p rdfs:label ?proplabel . }
+     UNION
+     { ?p rdfs:subPropertyOf ?pp . }
+   }
+   OPTIONAL {
+     { ?o a ?ot . }
+     UNION
+     { ?o skos:prefLabel ?opl . }
+     UNION
+     { ?o rdfs:label ?ol . }
+     UNION
+     { ?o rdf:value ?ov . 
+       OPTIONAL { ?o ?oprop ?oval . }
+     }
+     UNION
+     { ?o skos:notation ?on . }
+     UNION
+     { ?o a skosxl:Label .
+       ?o ?xlprop ?xlval }
+   } 
+ OPTIONAL {
+                      ?x skos:member ?o .
+                      ?x a <http://purl.org/iso25964/skos-thes#ThesaurusArray> .
+                      ?x skos:prefLabel ?xl .
+                      FILTER NOT EXISTS {
+                        ?x skos:member ?other .
+                        FILTER NOT EXISTS { ?other skos:broader ?uri }
+                      }
+                    }
+  }
+ }
+ VALUES (?uri) { (<http://data.legilux.public.lu/resource/authority/user-format/xml-akomantoso>) }
+}
+
+
+[2017-11-03 11:34:19] INFO [qid 38629] result: 9 triples returned in 179 ms
+[2017-11-03 11:34:19] INFO [qid 95126] SPARQL query:
+SELECT * FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  SELECT ?object ?label (GROUP_CONCAT(STR(?dir);separator=' ') as ?direct)
+  WHERE {
+    <http://data.legilux.public.lu/resource/authority/user-format/xml-akomantoso> a skos:Concept .
+    OPTIONAL {
+      <http://data.legilux.public.lu/resource/authority/user-format/xml-akomantoso> skos:broader* ?object .
+      OPTIONAL {
+        ?object skos:broader ?dir .
+      }
+    }
+    OPTIONAL {
+      ?object skos:prefLabel ?label .
+      FILTER (langMatches(lang(?label), "fr"))
+    }
+    OPTIONAL { ?object skos:prefLabel ?label }
+  }
+  GROUP BY ?object ?label
+}
+LIMIT 1000
+
+[2017-11-03 11:34:19] INFO [qid 95126] result: 1 rows returned in 80 ms
+[2017-11-03 11:34:21] INFO [qid 49057] SPARQL query:
+SELECT DISTINCT ?type ?label ?superclass 
+WHERE {
+  {
+    { BIND( skos:Concept as ?type ) }
+    UNION
+    { BIND( skos:Collection as ?type ) }
+    UNION
+    { BIND( isothes:ConceptGroup as ?type ) }
+    UNION
+    { BIND( isothes:ThesaurusArray as ?type ) }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Concept . }
+    UNION
+    { ?type rdfs:subClassOf/rdfs:subClassOf* skos:Collection . }
+  }
+  OPTIONAL {
+    ?type rdfs:label ?label .
+    FILTER(langMatches(lang(?label), 'fr'))
+  }
+  OPTIONAL {
+    ?type rdfs:subClassOf ?superclass .
+  }
+  FILTER EXISTS {
+    ?s a ?type .
+    ?s skos:prefLabel ?prefLabel .
+  }
+}
+
+[2017-11-03 11:34:21] INFO [qid 89257] SPARQL query:
+SELECT ?cs ?label ?preflabel ?title FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+ ?cs a skos:ConceptScheme .
+ OPTIONAL {
+   ?cs rdfs:label ?label .
+   FILTER(langMatches(lang(?label), 'fr'))
+ }
+ OPTIONAL {
+   ?cs skos:prefLabel ?preflabel .
+   FILTER(langMatches(lang(?preflabel), 'fr'))
+ }
+ OPTIONAL {
+   { ?cs dc11:title ?title }
+   UNION
+   { ?cs dc:title ?title }
+   FILTER(langMatches(lang(?title), 'fr'))
+ }
+} ORDER BY ?cs
+
+[2017-11-03 11:34:21] INFO [qid 89257] result: 1 rows returned in 86 ms
+[2017-11-03 11:34:22] INFO [qid 66775] SPARQL query:
+SELECT ?broad ?parent ?member ?children ?grandchildren
+(SAMPLE(?lab) as ?label) (SAMPLE(?childlab) as ?childlabel) (SAMPLE(?topcs) AS ?top) (SAMPLE(?nota) as ?notation) (SAMPLE(?childnota) as ?childnotation) FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+  <http://data.legilux.public.lu/resource/authority/user-format/xml-akomantoso> a skos:Concept .
+  OPTIONAL {
+    <http://data.legilux.public.lu/resource/authority/user-format/xml-akomantoso> skos:broader* ?broad .
+    OPTIONAL {
+      ?broad skos:prefLabel ?lab .
+      FILTER (langMatches(lang(?lab), "fr"))
+    }
+    OPTIONAL {
+      ?broad skos:prefLabel ?lab .
+      FILTER (langMatches(lang(?lab), "fr"))
+    }
+    OPTIONAL { # fallback - other language case
+      ?broad skos:prefLabel ?lab .
+    }
+    OPTIONAL { ?broad skos:notation ?nota . }
+    OPTIONAL { ?broad skos:broader ?parent . }
+    OPTIONAL { ?broad skos:narrower ?children .
+      OPTIONAL {
+        ?children skos:prefLabel ?childlab .
+        FILTER (langMatches(lang(?childlab), "fr"))
+      }
+      OPTIONAL {
+        ?children skos:prefLabel ?childlab .
+        FILTER (langMatches(lang(?childlab), "fr"))
+      }
+      OPTIONAL { # fallback - other language case
+        ?children skos:prefLabel ?childlab .
+      }
+      OPTIONAL {
+        ?children skos:notation ?childnota .
+      }
+    }
+    BIND ( EXISTS { ?children skos:narrower ?a . } AS ?grandchildren )
+    OPTIONAL { ?broad skos:topConceptOf ?topcs . }
+  }
+}
+GROUP BY ?broad ?parent ?member ?children ?grandchildren
+
+[2017-11-03 11:34:22] INFO [qid 66775] result: 1 rows returned in 108 ms
+[2017-11-03 11:34:22] INFO [qid 89642] SPARQL query:
+SELECT ?cs ?label ?preflabel ?title FROM <http://data.legilux.public.lu/resource/authority/user-format/graph>
+WHERE {
+ ?cs a skos:ConceptScheme .
+ OPTIONAL {
+   ?cs rdfs:label ?label .
+   FILTER(langMatches(lang(?label), 'fr'))
+ }
+ OPTIONAL {
+   ?cs skos:prefLabel ?preflabel .
+   FILTER(langMatches(lang(?preflabel), 'fr'))
+ }
+ OPTIONAL {
+   { ?cs dc11:title ?title }
+   UNION
+   { ?cs dc:title ?title }
+   FILTER(langMatches(lang(?title), 'fr'))
+ }
+} ORDER BY ?cs
+
+[2017-11-03 11:34:22] INFO [qid 89642] result: 1 rows returned in 84 ms
+[2017-11-03 11:34:22] INFO [qid 86813] SPARQL query:
+SELECT DISTINCT ?top ?topuri ?label ?notation ?children FROM <http://data.legilux.public.lu/resource/authority/user-format/graph> WHERE {
+  ?top skos:topConceptOf ?topuri .
+  OPTIONAL {
+    ?top skos:prefLabel ?label .
+    FILTER (langMatches(lang(?label), "fr"))
+  }
+  OPTIONAL {
+    ?top skos:prefLabel ?label .
+    FILTER (langMatches(lang(?label), "fr"))
+  }
+  OPTIONAL { # fallback - other language case
+    ?top skos:prefLabel ?label .
+  }
+  OPTIONAL { ?top skos:notation ?notation . }
+  BIND ( EXISTS { ?top skos:narrower ?a . } AS ?children )
+  VALUES (?topuri) { (<http://data.legilux.public.lu/resource/authority/user-format>) }
+}
+
+[2017-11-03 11:34:22] INFO [qid 86813] result: 5 rows returned in 88 ms
