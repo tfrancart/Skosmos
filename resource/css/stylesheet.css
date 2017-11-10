@@ -2,7 +2,7 @@
   padding-right: 10px;
 }
 
-.header-float, #header-float.btn-group, #lang-dropdown-toggle, #search-all-button {
+.header-float, #header-float.btn-group, #lang-dropdown-toggle, #search-all-button, .multiselect {
   background-color: transparent;
 }
 
