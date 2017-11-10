@@ -43,7 +43,7 @@ class GenericSparql {
 
         // create the EasyRDF SPARQL client instance to use
         $this->initializeHttpClient();
-        $this->client = new EasyRdf\Sparql_Client($endpoint);
+        $this->client = new EasyRdf\Sparql\Client($endpoint);
 
         // set graphClause so that it can be used by all queries
         if ($this->isDefaultEndpoint()) // default endpoint; query any graph (and catch it in a variable)
@@ -732,7 +732,7 @@ EOQ;
         $typePatterns = array();
         if (!empty($types)) {
             foreach ($types as $type) {
-                $unprefixed = EasyRdf\Namespace::expand($type);
+                $unprefixed = EasyRdf\RdfNamespace::expand($type);
                 $typePatterns[] = "{ ?s a <$unprefixed> }";
             }
         }
