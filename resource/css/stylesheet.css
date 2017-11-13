@@ -2,11 +2,26 @@
 
 
 /* couleur des liens : framboise */
-a, .topbar a.navigation-font, .topbar .navigation-font, a.activated-concept {
+a,
+a:hover,
+.topbar a.navigation-font, 
+.topbar .navigation-font,
+a.activated-concept,
+/* letters in alphabet */
+.pagination > li > a,
+.pagination > li > a:hover,
+#sidebar > .pagination > .active > a,
+#sidebar > .pagination > li > a:hover,
+/* tree nodes */
+.jstree-node > .jstree-anchor,
+.tt-dataset-concept
+{
   color: #b3246b;
 }
-a:hover {
-	color: #b3246b;	
+
+/* bold letter */
+#sidebar > .pagination > .active > a {
+	font-weight: bold;
 }
 
 /* au global : couleur de fond blanche et police noire */
