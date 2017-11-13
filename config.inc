@@ -1,9 +1,7 @@
 <?php
 
 // configuration for easyRDF
-// define("VOCABULARIES_FILE", "vocabularies-test-domains.ttl");
-define("VOCABULARIES_FILE", "vocabularies-legilux.ttl");
-// define("VOCABULARIES_FILE", "vocabularies-irstea.ttl");
+define("VOCABULARIES_FILE", "vocabularies-scolomfr.ttl");
 
 // HTTP client configuration
 define("HTTP_TIMEOUT", 5); // external HTTP request timeout in seconds
