@@ -91,7 +91,7 @@
 
 
 :categories a skos:ConceptScheme;
-        skos:prefLabel "Skosmos Vocabulary Categories"@en .
+        skos:prefLabel "Versions du ScolomFr"@fr .
 
 :cat_general a skos:Concept ;
         skos:topConceptOf :categories ;
