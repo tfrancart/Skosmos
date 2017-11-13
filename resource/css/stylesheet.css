@@ -4,6 +4,8 @@
 /* couleur des liens : framboise */
 a,
 a:hover,
+/* liens d'alignement */
+a.versal,
 .topbar a.navigation-font, 
 .topbar .navigation-font,
 a.activated-concept,
