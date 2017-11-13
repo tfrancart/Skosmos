@@ -94,10 +94,10 @@ html, body {
 }
 
 #logo{
-  min-width: 30px;
-  width:6%;
+  min-width: 40px;
   display: normal;
   position: absolute;
+  height:70px;
 }
 
 #vocabulary-list {
