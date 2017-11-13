@@ -26,11 +26,11 @@ define("SEARCH_RESULTS_SIZE", 20);
 define("DEFAULT_TRANSITIVE_LIMIT", 1000);
 
 // a default location for Twig template rendering
-define("TEMPLATE_CACHE", "/tmp/skosmos-template-cache");
+define("TEMPLATE_CACHE", "/tmp/skosmos-template-cache-scolomfr");
 
 // default sparql-query extension, or "Generic" for plain SPARQL 1.1
 // set to "JenaText" instead if you use Fuseki with jena-text index
-define("DEFAULT_SPARQL_DIALECT", "Generic");
+define("DEFAULT_SPARQL_DIALECT", "JenaText");
 
 // default email address to send the feedback
 define("FEEDBACK_ADDRESS", "");
@@ -45,7 +45,7 @@ define ("LOG_CAUGHT_EXCEPTIONS", FALSE);
 define ("LOG_BROWSER_CONSOLE", FALSE);
 
 // set to a logfile path to enable logging into log file
-define ("LOG_FILE_NAME", "/tmp/skosmos.log");
+define ("LOG_FILE_NAME", "/tmp/skosmos-scolomfr.log");
 
 # customize the service name
 define("SERVICE_NAME", " ");
