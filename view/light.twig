@@ -29,7 +29,7 @@
       {% include 'topbar.twig' %}
     </div>
     </div>
-  {% if request.vocabid != '' or request.page == 'feedback' or request.page == 'about' %}</div>{% endif %}<br>
+  {% if request.vocabid != '' or request.page == 'feedback' or request.page == 'about' %}</div>{% endif %}
   {% block headernav %}
   <div class="headerbar{% if request.vocabid == '' or global_search %} frontpage-spacing{% endif %}">
     {% include 'headerbar.twig' %}

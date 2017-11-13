@@ -1,13 +1,22 @@
-.headerbar-coloured {
-  position: absolute;
-  background-color: #003a80;
-  width: 100%;
-  margin: 0 0 0 15px;
-  height: 50px;
+
+/* au global : couleur de fond grise et police noire */
+html, body {
+   background-color: rgb(234, 234, 234);
+   color:  rgb(51, 51, 51);
 }
 
+/* white-background */
+.container, .pagination, .sidebar-grey, .nav-tabs > li.active > a {
+	background-color: rgb(255, 255, 255);
+}
+
+.headerbar-coloured {
+  background-color: rgb(0, 159, 227);
+}
+
+/* Texte 'langue des données' */
 .search-vocab-text {
-  background-color: #a4c400;
+  background-color: transparent;
   opacity: 0.95;
   height: 40px;
   float: left;
@@ -15,12 +24,32 @@
   line-height: 40px;
 }
 
+/* bouton 'chercher' */
+#search-all-button {
+	background-color: #a4c400;
+	width:auto;
+}
+
+/* Multiselect 'partout' */
+.multiselect {
+	background-color: transparent;
+}
+.header-float > .btn-group > button {
+	width:100px;
+}
+
 .header-float {
   margin-right: 20px;
+  margin-bottom: 5px;
+}
+
+.frontpage-spacing > .header-float {
+	margin-bottom: 10px;
+	margin-right: 10px;
 }
 
 .header-left > h1 {
-  background-color: #003a80;
+  background-color: rgb(0, 159, 227);
   line-height: 50px;
   margin: 0 0 0 15px;
   opacity: 0.99;
@@ -30,9 +59,28 @@
 .topbar-white {
   background-color: #003a80;
   height: 70px;
- 
 }
 
+/* couleur de la barre de recherche de la home */
+/* Ajustement de la hauteur et padding haut */
+.headerbar{
+  margin-top: 10px;
+  background-color: rgb(0, 159, 227);
+  min-height:50px;
+  padding-top:5px;
+}
+
+/* Espacement de la barre de recherche dans ecran de navigation principal */
+.headerbar {
+	margin-bottom: 10px;
+}
+
+/* bold 'Vocabulaires' menu link */
+#navigation > a:nth-of-type(1) {
+	font-weight: bold;
+}
+
+/* Menu de navigation */
 #language,  #navigation{
   background-color: #a4c400;
   float: right;
@@ -44,9 +92,39 @@
   width: auto;
   margin-top: 10px;
 }
+
 #logo{
   min-width: 30px;
   width:6%;
   display: normal;
   position: absolute;
+}
+
+#vocabulary-list {
+	padding : 10px;
+}
+
+/* couleur des liens */
+a,
+a:hover,
+/* liens d'alignement */
+a.versal,
+.topbar a.navigation-font, 
+.topbar .navigation-font,
+a.activated-concept,
+/* letters in alphabet */
+.pagination > li > a,
+.pagination > li > a:hover,
+#sidebar > .pagination > .active > a,
+#sidebar > .pagination > li > a:hover,
+/* tree nodes */
+.jstree-node > .jstree-anchor,
+.tt-dataset-concept
+{
+  color: rgb(0, 58, 128);
+}
+
+/* donne de l'espace aux entrées de la liste alphabétique */
+.alphabetical-search-results > li {
+	margin-bottom: 6px;
 }
