@@ -46,7 +46,7 @@ define ("LOG_BROWSER_CONSOLE", FALSE);
 define ("LOG_FILE_NAME", "/tmp/skosmos-scolomfr.log");
 
 # customize the service name
-define("SERVICE_NAME", " ");
+define("SERVICE_NAME", "Vocabulaires ScolomFr");
 
 // customize the service logo by pointing to your logo here. 
 define("SERVICE_LOGO", "./resource/pics/logo.png");
