@@ -131,7 +131,7 @@
         skos:prefLabel "Version 3.3"@en, "Version 3.3"@fr .
 
 mdrtype:THESAURUS a skos:Concept ;
-        skos:prefLabel "Tezaurus"@cs, "Tesaurus"@da, "Thesaurus"@de, "Thesaurus"@en, "Tesaurus"@et, "Tesaurus"@fi, ""
+        skos:prefLabel "Tezaurus"@cs, "Tesaurus"@da, "Thesaurus"@de, "Thesaurus"@en, "Tesaurus"@et, "Tesaurus"@fi,
 Thésaurus"@fr, "Pojmovnik"@hr, "Tezaurusz"@hu, "Tesauro"@it, "Tezauras"@lt, "Teżawru"@mt, "Thesaurus"@nl, "Tesaurus"@no, "Tezaurus"@pl, "Tesauro"@pt, "Tezz
 aur"@ro, "Synonymický slovník"@sk, "Tezaver"@sl, "Tesauro"@es, "Tesaurus"@sv .
 
