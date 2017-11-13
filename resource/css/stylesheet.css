@@ -19,6 +19,19 @@ a.activated-concept,
   color: #b3246b;
 }
 
+/* font */
+body, h1, h2, h3 {
+	font-family: Arial,Helvetica Neue,Helvetica,sans-serif;
+}
+
+/* Titre principal de la home */
+#vocabulary-list > div > h2 {
+	font-weight: bold;
+	font-size: 150%;
+	padding-left: 0px;
+	padding-bottom: 20px;
+}
+
 /* bold letter */
 #sidebar > .pagination > .active > a {
 	font-weight: bold;
