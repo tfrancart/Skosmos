@@ -13,8 +13,8 @@
     <div class="vocab-category row">
       <h2>{{ vocabClassName|upper }}</h2>
       <br><br>
+      <div class="row">
       {% for vocab in vocabArray %}
-      
         <div class="col-sm-4">
           <div class="panel panel-default">
             <div class="panel-body">
@@ -44,7 +44,12 @@
             </div>
           </div>
         </div>
+        {% if loop.index == 0 or loop.index is divisibleby(3) %}
+        </div>
+        <div class="row">
+        {% endif %}
       {% endfor %}
+      </div>
     </div>
     </section>
     {% if not loop.last %}<div></div>{% endif %}

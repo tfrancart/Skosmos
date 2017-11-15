@@ -50,12 +50,17 @@
       {% else %}
       <div class="property-value-column">{% if concept.notation %}<span class="notation">{{ concept.notation }}</span>{% endif %}
         <span class="prefLabel conceptlabel">{{ concept.label }}</span>
-          {% set link = '' %}
+        <br /><a href="http://data.legilux.public.lu/sparql?query=DESCRIBE <{{concept.uri}}>&format=application%2Frdf%2Bxml" target="_blank" class="jumplink">&gt;&nbsp;Voir dans Casemates</a>
+        {% set link = '' %}
         {% if request.getVocab().id=='legal-subject-theme' and concept.label!=''%}
         	{% set link = 'thematique='~concept.label %}
         {% endif %}
         {% if request.getVocab().id=='legal-institution' and concept.label!=''%}
-        	{% set link = 'ministere='~concept.label %}
+          {% for group in concept.groupProperties %}
+            {% if group.uri == 'http://data.legilux.public.lu/resource/authority/legal-institution/collection/INIT' %}
+              {% set link = 'ministere='~concept.label %}
+            {% endif %}
+        	{% endfor %}          
         {% endif %}
         {% if request.getVocab().id=='legal-subject-place' and concept.label!=''%}
         	{% set link = 'lieu='~concept.label %}
@@ -64,7 +69,7 @@
         	{% set link = 'organisation='~concept.label%}
         {% endif %}
         {% if link!=''%}
-        	<a href="http://legilux.public.lu/search/?{{ link }}" target="_blank">Rechercher dans le m&eacutemorial</a>
+        	<br/><a href="http://legilux.public.lu/search/?{{ link }}" target="_blank" class="jumplink">&gt;&nbsp;Chercher dans Legilux</a>
         {% endif %}
         {% if request.getVocab().id=='resource-type' and concept.label!=''%}
         	{% if concept.label=='règlement ministériel' %}
@@ -82,7 +87,7 @@
         	{% else%}
         		{% set index = 'z0' %}
         	{% endif %}
-        	<a href="http://legilux.public.lu/search/?type={{index}}/{{ concept.label }}" target="_blank">Rechercher dans le m&eacutemorial</a>
+        	<br/><a href="http://legilux.public.lu/search/?type={{index}}/{{ concept.label }}" target="_blank" class="jumplink">&gt;&nbsp;Chercher dans Legilux</a>
         {% endif %}
       </div>
       {% endif %}

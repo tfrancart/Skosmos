@@ -1,25 +1,16 @@
 <?php
 
-/* Register text: namespace needed for jena-text queries */
-EasyRdf\RdfNamespace::set('text', 'http://jena.apache.org/text#');
-
 // @codeCoverageIgnore
 
 /**
- * Provides functions tailored to the JenaTextSparql extensions for the Fuseki SPARQL index.
+ * Provides functions to use Virtuoso full-text search operator
+ * Virtuoso wants the following modifications compared to a JenaText search :
+ *   1. The bif:contains predicated must be _after_ the "?s ?prop ?match." pattern
+ *   2. Virtuoso does not handle unbound variables so an unbound variable is explicitely inserted with BIND(IRI("") AS ?unbound)
+ *   3. the "?graph" variable needs to be deleted from the SELECT and ORDER BY clause
  */
 class VirtuosoSparql extends GenericSparql
 {
-
-    /**
-     * How many results to ask from the jena-text index.
-     * jena-text defaults to
-     * 10000, but that is too little in some cases.
-     * See issue reports:
-     * https://code.google.com/p/onki-light/issues/detail?id=109 (original, set to 1000000000)
-     * https://github.com/NatLibFi/Skosmos/issues/41 (reduced to 100000 because of bad performance)
-     */
-    const MAX_N = 100000;
 
     /*
      * Characters that need to be quoted for the Lucene query parser.
@@ -31,7 +22,7 @@ class VirtuosoSparql extends GenericSparql
      * note: don't include * because we want wildcard expansion
      *
      * /**
-     * Make a jena-text query condition that narrows the amount of search
+     * Make a Virtuoso query condition that narrows the amount of search
      * results in term searches
      *
      * @param string $term search term
@@ -54,18 +45,16 @@ class VirtuosoSparql extends GenericSparql
         $term = str_replace("'", "\\'", $term); // escape single quotes
         
         $langClause = empty($lang) ? '' : "FILTER (langMatches(lang(?match), \"" + $lang + "\"))";
-        
-        $maxResults = self::MAX_N;
-        
+
+        // This is where Virtuoso bif:contains is inserted
         $sparqlRequest = <<<EOQ
-              ?match bif:contains '"$term"' option (score ?sc).
-              
+              ?match bif:contains '"$term"' option (score ?sc).  
 EOQ;
         return $sparqlRequest;
     }
 
     /**
-     * Generate jena-text search condition for matching labels in SPARQL
+     * Generate Virtuoso search condition for matching labels in SPARQL
      *
      * @param string $term
      *            search term
@@ -96,7 +85,7 @@ EOQ;
      * @param ConceptSearchParameters $params
      * @return string sparql query
      */
-    protected function generateConceptSearchQuery($fields, $unique, $params)
+    protected function generateConceptSearchQuery($fields, $unique, $params, $showDeprecated = false)
     {
         $vocabs = $params->getVocabs();
         $gcl = $this->graphClause;
@@ -131,6 +120,12 @@ EOQ;
         }
         
         $filterGraph = empty($vocabs) ? $this->formatFilterGraph($vocabs) : '';
+
+        $filterDeprecated="";
+        //show or hide deprecated concepts
+        if(!$showDeprecated){
+            $filterDeprecated="FILTER NOT EXISTS { ?s owl:deprecated true }";
+        }
         
         // remove futile asterisks from the search term
         $term = $params->getSearchTerm();
@@ -165,7 +160,7 @@ EOQ;
            ?s a ?type .
            $extrafields $schemecond
           }
-          FILTER NOT EXISTS { ?s owl:deprecated true }
+          $filterDeprecated
          }
          $filterGraph
         }
