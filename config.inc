@@ -9,8 +9,7 @@ define("SPARQL_TIMEOUT", 20); // SPARQL HTTP request timeout in seconds
 
 // interface languages available, and the corresponding system locales
 $LANGUAGES = array(
-  'fr' => 'fr_FR.utf8',
-  'en' => 'en_GB.utf8'
+  'fr' => 'fr_FR.utf8'
 );
 
 // default SPARQL endpoint
