@@ -257,13 +257,13 @@ class Model
 
         if ($format == 'text/turtle') {
             $retform = 'turtle';
-            $serialiser = new EasyRdf\Serialiser_Turtle();
+            $serialiser = new EasyRdf\Serialiser\Turtle();
         } elseif ($format == 'application/ld+json' || $format == 'application/json') {
             $retform = 'jsonld'; // serve JSON-LD for both JSON-LD and plain JSON requests
-            $serialiser = new EasyRdf\Serialiser_JsonLd();
+            $serialiser = new EasyRdf\Serialiser\JsonLd();
         } else {
             $retform = 'rdfxml';
-            $serialiser = new EasyRdf\Serialiser_RdfXml();
+            $serialiser = new EasyRdf\Serialiser\RdfXml();
         }
 
         if ($vocid !== null) {
