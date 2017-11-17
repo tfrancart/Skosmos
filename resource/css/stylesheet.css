@@ -1,3 +1,19 @@
+/* general config on fonts and link colors */
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+a {
+  color: #007DAD;
+}
+/* Vocabularies section font */
+h2 {
+  color:rgb(230, 29, 52);
+}
+
+.topbar-white {
+  background-color: #f2f2f2;
+}
+
 .header-float {
   padding-right: 10px;
 }
@@ -16,15 +32,18 @@
 .search-vocab-text > p {
   color: #ffffff;
 }
+/* black labels in dropdown menu */
+.dropdown-menu > li > a:hover {
+  color: rgb(51, 51, 51);
+}
+/* width of dropdown menu */
+.header-float > .btn-group > .multiselect-container {
+  width: 250px;
+}
 
 /* bold 'Vocabulaires' menu link */
 #navigation > a:nth-of-type(1) {
 	font-weight: bold;
-}
-
-
-a {
-  color: #007DAD;
 }
 
 .vocabularies {
@@ -45,8 +64,8 @@ a {
 }
 .frontpage-spacing{
   background: url('../pics/fond_header.jpg');
-
 }
+
 .topbar.frontpage {
   width: 100%;
   background-color: #f2f2f2;
@@ -81,10 +100,10 @@ a {
   margin: 0 0 0 0px;
 }
 
-.topbar-white {
-  background-color: #f2f2f2;
-
+.bread-crumb {
+  font-size: 130%;
 }
+
 #content{
 	width:100%;
 	background-color: #f2f2f2;
@@ -99,12 +118,13 @@ a {
   text-align: right;
   width: auto;
 }
+
 #logo{
   min-width: 40px;
   display: normal;
   position: absolute;
-
 }
+
 #service-name{
 	margin-left:100px;
 }

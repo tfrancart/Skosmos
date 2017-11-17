@@ -1,6 +1,7 @@
 @prefix schema: <http://schema.org/> .
 @prefix skosmos: <http://purl.org/net/skosmos#> .
 @prefix void: <http://rdfs.org/ns/void#> .
+@prefix vocdomain: <http://data.legilux.public.lu/resource/authority/vocabulary-domain> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -25,34 +26,33 @@ mdrtype:NAL a skos:Concept ;
 	skos:prefLabel "Named Authorities List"@en , "Liste d'autorités"@fr ;
 	skos:topConceptOf <http://publications.europa.eu/resource/authority/dataset-type> .
 
-this:cat_jo a skos:Concept ;
-	skos:inScheme this:categories ;
-	skos:prefLabel "Journal Officiel : vocabulaires juridiques"@fr ;
-	skos:topConceptOf this:categories .
+<http://data.legilux.public.lu/resource/authority/vocabulary-domain> a skos:ConceptScheme ;
+	skos:hasTopConcept <http://data.legilux.public.lu/resource/authority/vocabulary-domainautre-application> , <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> , <http://data.legilux.public.lu/resource/authority/vocabulary-domainprojet> , <http://data.legilux.public.lu/resource/authority/vocabulary-domaintraite> .
 
-this:cat_jo_other a skos:Concept ;
-	skos:inScheme this:categories ;
-	skos:prefLabel "Journal Officiel : autres listes"@fr ;
-	skos:topConceptOf this:categories .
+<http://data.legilux.public.lu/resource/authority/vocabulary-domainautre-application> a skos:Concept ;
+	skos:inScheme <http://data.legilux.public.lu/resource/authority/vocabulary-domain> ;
+	skos:prefLabel "Vocabulaires utilisés par plusieurs applications"@fr ;
+	skos:topConceptOf <http://data.legilux.public.lu/resource/authority/vocabulary-domain> .
 
-this:cat_project a skos:Concept ;
-	skos:inScheme this:categories ;
-	skos:prefLabel "Projets législatifs"@fr ;
-	skos:topConceptOf this:categories .
+<http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> a skos:Concept ;
+	skos:inScheme <http://data.legilux.public.lu/resource/authority/vocabulary-domain> ;
+	skos:prefLabel "Vocabulaires utilisés pour l'application \"Legilux\""@fr ;
+	skos:topConceptOf <http://data.legilux.public.lu/resource/authority/vocabulary-domain> .
 
-this:cat_treaties a skos:Concept ;
-	skos:inScheme this:categories ;
-	skos:prefLabel "Traités internationaux"@fr ;
-	skos:topConceptOf this:categories .
+<http://data.legilux.public.lu/resource/authority/vocabulary-domainprojet> a skos:Concept ;
+	skos:inScheme <http://data.legilux.public.lu/resource/authority/vocabulary-domain> ;
+	skos:prefLabel "Vocabulaires utilisés pour l'application \"Projets\""@fr ;
+	skos:topConceptOf <http://data.legilux.public.lu/resource/authority/vocabulary-domain> .
 
-this:categories a skos:ConceptScheme ;
-	skos:hasTopConcept this:cat_jo , this:cat_jo_other , this:cat_project , this:cat_treaties .
+<http://data.legilux.public.lu/resource/authority/vocabulary-domaintraite> a skos:Concept ;
+	skos:inScheme <http://data.legilux.public.lu/resource/authority/vocabulary-domain> ;
+	skos:prefLabel "Vocabulaires utilisés pour l'application \"Traités\""@fr ;
+	skos:topConceptOf <http://data.legilux.public.lu/resource/authority/vocabulary-domain> .
 
 this:committee a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_project ;
-	dct:title "Liste des comités"@fr ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainprojet> ;
+	dct:title "Commissions impliquées dans le processus législatif"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -60,7 +60,7 @@ this:committee a skosmos:Vocabulary , void:Dataset ;
 	skosmos:language "fr" ;
 	skosmos:loadExternalResources "true"^^xsd:boolean ;
 	skosmos:mainConceptScheme <http://data.legilux.public.lu/resource/authority/committee> ;
-	skosmos:shortName "Liste des comités"@fr ;
+	skosmos:shortName "Commissions impliquées dans le processus législatif"@fr ;
 	skosmos:showChangeList "true"^^xsd:boolean ;
 	skosmos:showNotation "false"^^xsd:boolean ;
 	skosmos:showStatistics "false"^^xsd:boolean ;
@@ -71,10 +71,9 @@ this:committee a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/committee/" .
 
 this:draft-status a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_project ;
-	dct:title "Statut des projets"@fr ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainprojet> ;
+	dct:title "Statuts des projets"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -82,7 +81,7 @@ this:draft-status a skosmos:Vocabulary , void:Dataset ;
 	skosmos:language "fr" ;
 	skosmos:loadExternalResources "true"^^xsd:boolean ;
 	skosmos:mainConceptScheme <http://data.legilux.public.lu/resource/authority/draft-status> ;
-	skosmos:shortName "Statut des projets"@fr ;
+	skosmos:shortName "Statuts des projets"@fr ;
 	skosmos:showChangeList "true"^^xsd:boolean ;
 	skosmos:showNotation "false"^^xsd:boolean ;
 	skosmos:showStatistics "false"^^xsd:boolean ;
@@ -93,10 +92,9 @@ this:draft-status a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/draft-status/" .
 
 this:draft-status-conseil-etat a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_project ;
-	dct:title "Statut des projets pour le Conseil d'Etat"@fr ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainprojet> ;
+	dct:title "Statuts des projets pour le Conseil d'Etat"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -104,7 +102,7 @@ this:draft-status-conseil-etat a skosmos:Vocabulary , void:Dataset ;
 	skosmos:language "fr" ;
 	skosmos:loadExternalResources "true"^^xsd:boolean ;
 	skosmos:mainConceptScheme <http://data.legilux.public.lu/resource/authority/draft-status-conseil-etat> ;
-	skosmos:shortName "Statut des projets pour le Conseil d'Etat"@fr ;
+	skosmos:shortName "Statuts des projets pour le Conseil d'Etat"@fr ;
 	skosmos:showChangeList "true"^^xsd:boolean ;
 	skosmos:showNotation "false"^^xsd:boolean ;
 	skosmos:showStatistics "false"^^xsd:boolean ;
@@ -115,10 +113,9 @@ this:draft-status-conseil-etat a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/draft-status-conseil-etat/" .
 
 this:function a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_project ;
-	dct:title "Fonctions des personnes"@fr ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainprojet> ;
+	dct:title "Fonctions des personnes impliquées dans le processus législatif"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -126,7 +123,7 @@ this:function a skosmos:Vocabulary , void:Dataset ;
 	skosmos:language "fr" ;
 	skosmos:loadExternalResources "true"^^xsd:boolean ;
 	skosmos:mainConceptScheme <http://data.legilux.public.lu/resource/authority/function> ;
-	skosmos:shortName "Fonctions des personnes"@fr ;
+	skosmos:shortName "Fonctions des personnes impliquées dans le processus législatif"@fr ;
 	skosmos:showChangeList "true"^^xsd:boolean ;
 	skosmos:showNotation "false"^^xsd:boolean ;
 	skosmos:showStatistics "false"^^xsd:boolean ;
@@ -137,10 +134,9 @@ this:function a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/function/" .
 
 this:gender a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_project ;
-	dct:title "Genres des personnes"@fr ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainprojet> ;
+	dct:title "Genres des personnes impliquées dans le processus législatif"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -148,7 +144,7 @@ this:gender a skosmos:Vocabulary , void:Dataset ;
 	skosmos:language "fr" ;
 	skosmos:loadExternalResources "true"^^xsd:boolean ;
 	skosmos:mainConceptScheme <http://data.legilux.public.lu/resource/authority/gender> ;
-	skosmos:shortName "Genres des personnes"@fr ;
+	skosmos:shortName "Genres des personnes impliquées dans le processus législatif"@fr ;
 	skosmos:showChangeList "true"^^xsd:boolean ;
 	skosmos:showNotation "false"^^xsd:boolean ;
 	skosmos:showStatistics "false"^^xsd:boolean ;
@@ -159,10 +155,9 @@ this:gender a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/gender/" .
 
 this:instrument-type a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_treaties ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domaintraite> ;
 	dct:title "Types d'instrument"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -181,10 +176,9 @@ this:instrument-type a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/instrument-type/" .
 
 this:international-actor a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_treaties ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domaintraite> ;
 	dct:title "Acteurs internationaux"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -203,10 +197,9 @@ this:international-actor a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/international-actor/" .
 
 this:legal-institution a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
 	dct:title "Acteurs intervenant dans le processus législatif"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -226,10 +219,9 @@ this:legal-institution a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/legal-institution/" .
 
 this:legal-institution-historique a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo ;
-	dct:title "Historique des ministères"@fr ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
+	dct:title "Historiques des ministères"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -238,7 +230,7 @@ this:legal-institution-historique a skosmos:Vocabulary , void:Dataset ;
 	skosmos:language "fr" ;
 	skosmos:loadExternalResources "true"^^xsd:boolean ;
 	skosmos:mainConceptScheme <http://data.legilux.public.lu/resource/authority/legal-institution-history> ;
-	skosmos:shortName "Historique des ministères"@fr ;
+	skosmos:shortName "Historiques des ministères"@fr ;
 	skosmos:showChangeList "true"^^xsd:boolean ;
 	skosmos:showNotation "false"^^xsd:boolean ;
 	skosmos:showStatistics "false"^^xsd:boolean ;
@@ -249,10 +241,9 @@ this:legal-institution-historique a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/legal-institution-historique/" .
 
 this:legal-subject-organisation a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
 	dct:title "Organisations (classement thématique)"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -271,10 +262,9 @@ this:legal-subject-organisation a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/legal-subject/" .
 
 this:legal-subject-place a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
 	dct:title "Lieux (classement thématique)"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -293,10 +283,9 @@ this:legal-subject-place a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/legal-subject/" .
 
 this:legal-subject-theme a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
 	dct:title "Thèmes"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "false"^^xsd:boolean ;
@@ -315,10 +304,9 @@ this:legal-subject-theme a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/legal-subject/" .
 
 this:license a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo_other ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
 	dct:title "Licenses de réutilisation des contenus"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -337,10 +325,9 @@ this:license a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/license/" .
 
 this:notification-type a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_treaties ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domaintraite> ;
 	dct:title "Types de notification des traités"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -359,10 +346,9 @@ this:notification-type a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/notification-type/" .
 
 this:person a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_project ;
-	dct:title "Liste des personnes"@fr ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainprojet> ;
+	dct:title "Personnes impliquées dans le processus législatif"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -370,7 +356,7 @@ this:person a skosmos:Vocabulary , void:Dataset ;
 	skosmos:language "fr" ;
 	skosmos:loadExternalResources "true"^^xsd:boolean ;
 	skosmos:mainConceptScheme <http://data.legilux.public.lu/resource/authority/person> ;
-	skosmos:shortName "Liste des personnes"@fr ;
+	skosmos:shortName "Personnes impliquées dans le processus législatif"@fr ;
 	skosmos:showChangeList "true"^^xsd:boolean ;
 	skosmos:showNotation "false"^^xsd:boolean ;
 	skosmos:showStatistics "false"^^xsd:boolean ;
@@ -381,10 +367,9 @@ this:person a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/person/" .
 
 this:priority-level-for-government a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_project ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainprojet> ;
 	dct:title "Niveaux de priorité pour le processus législatif"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -403,10 +388,9 @@ this:priority-level-for-government a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/priority-level-for-government/" .
 
 this:prov-role-type a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo_other ;
-	dct:title "Rôles des agents prov"@fr ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainprojet> ;
+	dct:title "Rôles technique"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -414,7 +398,7 @@ this:prov-role-type a skosmos:Vocabulary , void:Dataset ;
 	skosmos:language "fr" ;
 	skosmos:loadExternalResources "true"^^xsd:boolean ;
 	skosmos:mainConceptScheme <http://data.legilux.public.lu/resource/authority/prov-role-type> ;
-	skosmos:shortName "Rôles des agents prov"@fr ;
+	skosmos:shortName "Rôles technique"@fr ;
 	skosmos:showChangeList "true"^^xsd:boolean ;
 	skosmos:showNotation "false"^^xsd:boolean ;
 	skosmos:showStatistics "false"^^xsd:boolean ;
@@ -425,10 +409,9 @@ this:prov-role-type a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/prov-role-type/" .
 
 this:resource-type a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
 	dct:title "Types des actes"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -447,10 +430,9 @@ this:resource-type a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/resource-type/" .
 
 this:statut-application a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo_other ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
 	dct:title "Statuts de mise en application"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -469,10 +451,9 @@ this:statut-application a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/statut-application/" .
 
 this:statut-transposition a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo_other ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
 	dct:title "Statuts de transposition des directives"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -491,10 +472,9 @@ this:statut-transposition a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/statut-transposition/" .
 
 this:statut-version a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo_other ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
 	dct:title "Valeurs des documents publiés"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -512,33 +492,10 @@ this:statut-version a skosmos:Vocabulary , void:Dataset ;
 	void:sparqlEndpoint <http://data.legilux.public.lu/sparql> ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/statut-version/" .
 
-this:transmission-type a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_project ;
-	dct:title "Types de transmission"@fr ;
-	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
-	skosmos:defaultLanguage "fr" ;
-	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
-	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
-	skosmos:hasMultilingualProperty skos:definition , skos:scopeNote ;
-	skosmos:language "fr" ;
-	skosmos:loadExternalResources "true"^^xsd:boolean ;
-	skosmos:mainConceptScheme <http://data.legilux.public.lu/resource/authority/transmission-type> ;
-	skosmos:shortName "Types de transmission"@fr ;
-	skosmos:showChangeList "true"^^xsd:boolean ;
-	skosmos:showNotation "false"^^xsd:boolean ;
-	skosmos:showStatistics "false"^^xsd:boolean ;
-	skosmos:showTopConcepts "true"^^xsd:boolean ;
-	skosmos:sparqlGraph <http://data.legilux.public.lu/resource/authority/transmission-type/graph> ;
-	void:dataDump <http://data.legilux.public.lu/sparql?query=CONSTRUCT { ?s ?p ?o } WHERE { GRAPH <http://data.legilux.public.lu/resource/authority/transmission-type/graph\> { ?s ?p ?o } }&format=application%2Frdf%2Bxml> ;
-	void:sparqlEndpoint <http://data.legilux.public.lu/sparql> ;
-	void:uriSpace "http://data.legilux.public.lu/resource/authority/transmission-type/" .
-
 this:treaty-domain a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_treaties ;
-	dct:title "Domaine des traités"@fr ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domaintraite> ;
+	dct:title "Domaines des traités"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -546,7 +503,7 @@ this:treaty-domain a skosmos:Vocabulary , void:Dataset ;
 	skosmos:language "fr" ;
 	skosmos:loadExternalResources "true"^^xsd:boolean ;
 	skosmos:mainConceptScheme <http://data.legilux.public.lu/resource/authority/treaty-domain> ;
-	skosmos:shortName "Domaine des traités"@fr ;
+	skosmos:shortName "Domaines des traités"@fr ;
 	skosmos:showChangeList "true"^^xsd:boolean ;
 	skosmos:showNotation "false"^^xsd:boolean ;
 	skosmos:showStatistics "false"^^xsd:boolean ;
@@ -557,10 +514,9 @@ this:treaty-domain a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/treaty-domain/" .
 
 this:treaty-status a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_treaties ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domaintraite> ;
 	dct:title "Statuts des traités"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -579,10 +535,9 @@ this:treaty-status a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/treaty-status/" .
 
 this:treaty-subject-theme a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_treaties ;
-	dct:title "Thématique des traités"@fr ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domaintraite> ;
+	dct:title "Thématiques des traités"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -590,7 +545,7 @@ this:treaty-subject-theme a skosmos:Vocabulary , void:Dataset ;
 	skosmos:language "fr" ;
 	skosmos:loadExternalResources "true"^^xsd:boolean ;
 	skosmos:mainConceptScheme <http://data.legilux.public.lu/resource/authority/treaty-subject-theme> ;
-	skosmos:shortName "Thématique des traités"@fr ;
+	skosmos:shortName "Thématiques des traités"@fr ;
 	skosmos:showChangeList "true"^^xsd:boolean ;
 	skosmos:showNotation "false"^^xsd:boolean ;
 	skosmos:showStatistics "false"^^xsd:boolean ;
@@ -601,10 +556,9 @@ this:treaty-subject-theme a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/treaty-subject-theme/" .
 
 this:treaty-type a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_treaties ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domaintraite> ;
 	dct:title "Types de traités"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -623,10 +577,9 @@ this:treaty-type a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/treaty-type/" .
 
 this:type-procedure a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo_other ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
 	dct:title "Types de procédures"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -645,10 +598,9 @@ this:type-procedure a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/type-procedure/" .
 
 this:type-projet a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_project ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainprojet> ;
 	dct:title "Types de projets et événements"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;
@@ -667,10 +619,9 @@ this:type-projet a skosmos:Vocabulary , void:Dataset ;
 	void:uriSpace "http://data.legilux.public.lu/resource/authority/type-projet/" .
 
 this:user-format a skosmos:Vocabulary , void:Dataset ;
-	dct:subject this:cat_jo_other ;
+	dct:subject <http://data.legilux.public.lu/resource/authority/vocabulary-domainjournal-officiel> ;
 	dct:title "Formats de publication"@fr ;
 	dct:type mdrtype:NAL ;
-	skosmos:arrayClass isothes:ThesaurusArray ;
 	skosmos:defaultLanguage "fr" ;
 	skosmos:explicitLanguageTags "false"^^xsd:boolean ;
 	skosmos:fullAlphabeticalIndex "true"^^xsd:boolean ;

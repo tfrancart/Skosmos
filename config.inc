@@ -9,8 +9,7 @@ define("SPARQL_TIMEOUT", 20); // SPARQL HTTP request timeout in seconds
 
 // interface languages available, and the corresponding system locales
 $LANGUAGES = array(
-  'fr' => 'fr_FR.utf8',
-  'en' => 'en_GB.utf8'
+  'fr' => 'fr_FR.utf8'
 );
 
 // default SPARQL endpoint
@@ -31,10 +30,10 @@ define("TEMPLATE_CACHE", "/tmp/skosmos-template-cache-legilux");
 define("DEFAULT_SPARQL_DIALECT", "Virtuoso");
 
 // default email address to send the feedback
-define("FEEDBACK_ADDRESS", "");
+define("FEEDBACK_ADDRESS", "info@legilux.public.lu");
 
 // email address to set as the envelope sender for feedback messages
-define("FEEDBACK_ENVELOPE_SENDER", "");
+define("FEEDBACK_ENVELOPE_SENDER", "skosmos@legilux.public.lu");
 
 // whether or not to log caught exceptions
 define ("LOG_CAUGHT_EXCEPTIONS", FALSE);
@@ -46,7 +45,7 @@ define ("LOG_BROWSER_CONSOLE", FALSE);
 define ("LOG_FILE_NAME", "/tmp/skosmos-legilux.log");
 
 # customize the service name
-define("SERVICE_NAME", " ");
+define("SERVICE_NAME", "Vocabulaires Legilux");
 
 // customize the service logo by pointing to your logo here. 
 define("SERVICE_LOGO", "./resource/pics/logo.png");
