@@ -539,8 +539,8 @@ class Model
             return $vocabs[0];
         }
         
-        // if there are multiple vocabularies and the vocabularies contain the preferred vocabulary, return it
-        if($preferredVocab != null) {
+        // if there are multiple vocabularies and one is the preferred vocabulary, return it
+        if($preferredVocabUri != null) {
             foreach ($vocabs as $vocab) {
                 if($vocab->resource->getUri() == $preferredVocabUri) {
                     return $vocab;
@@ -580,13 +580,13 @@ class Model
         $namespace = substr($uri, 0, -strlen($res->localName()));
         if (array_key_exists($namespace, $this->vocabsByUriSpace)) {
             $vocabs = $this->vocabsByUriSpace[$namespace];
-            return $this->disambiguateVocabulary($vocabs, $uri);
+            return $this->disambiguateVocabulary($vocabs, $uri, $preferredVocabUri);
         }
 
         // didn't work, try to match with each URI space separately
         foreach ($this->vocabsByUriSpace as $urispace => $vocabs) {
             if (strpos($uri, $urispace) === 0) {
-                return $this->disambiguateVocabulary($vocabs, $uri);
+                return $this->disambiguateVocabulary($vocabs, $uri, $preferredVocabUri);
             }
         }
 
