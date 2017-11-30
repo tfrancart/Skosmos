@@ -540,7 +540,7 @@ class Model
             return $vocabs[0];
         }
         
-        // if there are multiple vocabularies and the vocabularies contain the preferred vocabulary, return it
+        // if there are multiple vocabularies and one is the preferred vocabulary, return it
         if($preferredVocabUri != null) {
             foreach ($vocabs as $vocab) {
                 if($vocab->resource->getUri() == $preferredVocabUri) {
