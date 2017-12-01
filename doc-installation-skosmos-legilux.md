@@ -43,6 +43,8 @@ Cette version de Skosmos contient déjà tous les fichiers de configuration néc
 
 ## Installer les dépendances
 
+Lancer composer pour télécharger les dépendances PHP :
+
 
 ```
 cd /var/www/html/skosmos
@@ -53,7 +55,6 @@ php composer.phar install --no-dev
 
 
 ## Configurer Apache
-
 
 Skosmos a besoin que :
 
@@ -73,9 +74,7 @@ Typiquement, il s'agit de rajouter cet élément de configuration à Apache :
 ```
 
 
-
 ## Tester l'accès
-
 
 Une fois les sources récupérées et Apache configuré :
 
@@ -84,9 +83,7 @@ Une fois les sources récupérées et Apache configuré :
 3. Cliquer sur un concept sur la gauche; la "fiche" du concept doit s'afficher à droite;
 
 
-
 ## Configurer les redirections Apache
-
 
 * Attention, cette partie de la doc n'a pas été testée, il faudra sans doute l'ajuster. *
 
