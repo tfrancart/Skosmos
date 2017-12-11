@@ -46,7 +46,7 @@ define ("LOG_BROWSER_CONSOLE", FALSE);
 define ("LOG_FILE_NAME", "/tmp/skosmos-sparna.log");
 
 # customize the service name
-define("SERVICE_NAME", "Skosmos");
+define("SERVICE_NAME", " ");
 
 // customize the service logo by pointing to your logo here. 
 define("SERVICE_LOGO", "./resource/pics/logo.png");
