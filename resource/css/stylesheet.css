@@ -5,9 +5,12 @@ body {
 a {
   color: #007DAD;
 }
-/* Vocabularies section font */
+
+/* Vocabularies section font - reset font */
 .vocabularies h2 {
   color:rgb(230, 29, 52);
+  font-family: inherit;
+  font-size: 120%;
 }
 
 .topbar-white {
@@ -135,4 +138,24 @@ a {
 }
 .jumplink:hover {
   color: rgb(180, 19, 32);
+}
+
+/*** About page ***/
+/* Titles */
+#about h1 {
+  font-size: 36px;
+  font-family: inherit;
+}
+#about h2 {
+  font-size: 30px;
+  font-family: inherit;
+  margin-top: 40px;
+}
+/* Width */
+.content > #about {
+  width: 100%;
+}
+/* Lists */
+#about ul {
+  list-style: inherit;
 }

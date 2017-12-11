@@ -1,0 +1,127 @@
+/* rgb(247, 233, 240); */
+
+
+/* couleur des liens : framboise */
+a,
+a:hover,
+/* liens d'alignement */
+a.versal,
+.topbar a.navigation-font, 
+.topbar .navigation-font,
+a.activated-concept,
+/* letters in alphabet */
+.pagination > li > a,
+.pagination > li > a:hover,
+#sidebar > .pagination > .active > a,
+#sidebar > .pagination > li > a:hover,
+/* tree nodes */
+.jstree-node > .jstree-anchor,
+.tt-dataset-concept
+{
+  color: #b3246b;
+}
+
+/* font */
+body, h1, h2, h3 {
+	font-family: Arial,Helvetica Neue,Helvetica,sans-serif;
+}
+
+/* Titre principal de la home */
+#vocabulary-list > div > h2 {
+	font-weight: bold;
+	font-size: 150%;
+	padding-left: 0px;
+	padding-bottom: 20px;
+}
+
+/* bold letter */
+#sidebar > .pagination > .active > a {
+	font-weight: bold;
+}
+
+/* au global : couleur de fond blanche et police noire */
+html, body {
+   background-color: #ffffff;
+   color:  #000000;
+}
+
+.vocabularies {
+  padding: 0 0;
+}
+
+
+
+/* logo de la top bar */
+.topbar {
+  background: url('../pics/logo-scolomfr.png'); 
+  background-repeat: no-repeat;
+  background-position: 10px 10px;
+  background-size: auto 80%;
+}
+
+/* bandeau de la frontpage : ne pas mettre 100% width; */
+.topbar.frontpage {
+  width: 1240px;
+  background-color: #ffffff;
+}
+
+/* bandeau de menu principal */
+.topbar-white {
+  background-color: #ffffff;
+}
+
+/* decale le bouton 'chercher' */
+.header-float {
+  padding-right: 10px;
+  margin-bottom: 0px;
+}
+
+/* couleur de la barre de recherche de la home */
+/* Ajustement de la hauteur et padding haut */
+.headerbar{
+  margin-top: 10px;
+  background-color: #311625;
+  min-height:50px;
+  padding-top:5px;
+}
+
+/* Espacement de la barre de recherche dans ecran de navigation principal */
+.headerbar {
+	margin-bottom: 10px;
+}
+
+/* couleur de la barre de recherche */
+.headerbar-coloured, .header-left > h1, #lang-dropdown-toggle, #search-all-button, .search-vocab-text, .multiselect {
+	background-color: #311625;
+}
+
+
+/* fiche d'un vocabulaire */
+.container {
+  background-color: #ffffff;
+}
+
+/* item dans la liste hiérarchique */
+/* .mCSB_container */
+.space{
+  margin-bottom:10px;
+}
+
+/* donne de l'espace aux entrées de la liste alphabétique */
+.alphabetical-search-results > li {
+	margin-bottom: 6px;
+}
+
+/* bold 'Vocabulaires' menu link */
+#navigation > a:nth-of-type(1) {
+	font-weight: bold;
+}
+
+#content{
+	width:100%;
+	background-color: #ffffff;
+}
+
+#vocabulary-list {
+	padding : 10px;
+}
