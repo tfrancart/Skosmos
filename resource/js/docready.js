@@ -1,6 +1,5 @@
-
 $(function() { // DOCUMENT READY
- 
+
   var spinner = '<div class="loading-spinner"><span class="spinner-text">'+ loading_text + '</span><span class="spinner" /></div>';
   var searchString = ''; // stores the search field's value before autocomplete selection changes it
   var selectedVocabs = [];
@@ -281,17 +280,10 @@ $(function() { // DOCUMENT READY
               updateTitle(data);
               updateTopbarLang(data);
               makeCallbacks(data);
-              var uri = $('.uri-input-box').html();
-              getConceptVersions(uri,lang);
               // take the content language buttons from the response
               $('.header-float .dropdown-menu').empty().append($('.header-float .dropdown-menu', data).html());
-
             }
-
         });
-         
-         
-
         return false;
       }
   );
@@ -371,7 +363,6 @@ $(function() { // DOCUMENT READY
       var uri = $('.uri-input-box').html();
       var redirectUrl = vocab + '/' + lang + '/page/?uri=' + uri;
       window.location.replace(encodeURI(redirectUrl));
-
       return false;
     }
   );

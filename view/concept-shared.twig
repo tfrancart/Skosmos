@@ -143,7 +143,6 @@
       {% endif %}
       {% if concept.foreignLabels %}
       <div class="row">
-        
         <div class="property-label"><span class="versal property-click" title="{% trans "foreign prefLabel help" %}" >{{ 'foreign prefLabels'|trans|upper }}</span></div>
         <div class="property-value-column"><div class="property-value-wrapper">
           {% set prevlang = '' %}{# Only displaying the language when it appears for the very first time #}
@@ -172,19 +171,30 @@
           <a href="rest/v1/{% if concept.vocab %}{{ concept.vocab.id }}{% else %}{{ vocab.id }}{% endif %}/data?uri={{ concept.uri|url_encode }}&amp;format=application/ld%2Bjson">JSON-LD</a>
         </span>{% if concept.date %}<span class="versal date-info">{{ concept.date }}</span>{% endif %}
             </div>
-          
-        <div class="col-md-12">
-          <p class="history-spinner center-block"><span class="spinner" /></p>
-          <div class="page-header">
-             
-          </div>
-          <div style="display:inline-block;width:100%;overflow-y:auto;">
-          <ul class="timeline timeline-horizontal" id="history">
-            
-          </ul>
-          </div>
-          </div>
         </div>
+        {% set history = concept.history %}
+        {% if history %}
+            <div class="row">
+                <div id="timeline-container">
+                  <div class="property-label"><span class="versal">History:</span></div>
+                  <div style="overflow-y:auto;">
+                    <ul class="timeline timeline-horizontal" id="history">
+                    {% for anEntry in history %}
+                      <li class="timeline-item">
+                        <div class="timeline-badge {% if anEntry.vocab.id == concept.vocab.id %}primary{% endif %}"><a href="{{ anEntry.conceptUri | link_url(anEntry.vocab,request.lang,'page',request.contentLang) }}"><i class="glyphicon glyphicon-record"></i></a></div>
+                          <div class="timeline-panel">
+                            <div class="timeline-heading">
+                              <h4 class="timeline-title">{{ anEntry.version }}</h4>
+                              <p style="text-align:center;"><small class="text-muted"  style="text-align:center;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{ anEntry.versionDateAsString }}</small></p>
+                            </div>
+                          </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+            </div>
+        {% endif %}
       </div>
       {% set appendixProperties = concept.mappingProperties %}
       {% if appendixProperties %}

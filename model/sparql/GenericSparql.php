@@ -629,7 +629,7 @@ EOQ;
      * @return array
      */
     private function transformQueryConceptSchemesResults($result) {
-        $ret = array();  
+        $ret = array();
         foreach ($result as $row) {
             $conceptscheme = array();
             if (isset($row->label)) {
@@ -1772,8 +1772,7 @@ WHERE {
       ?broad skos:prefLabel ?lab .
       FILTER (langMatches(lang(?lab), "$fallback"))
     }
-    OPTIONAL { 
-        # fallback - other language case#
+    OPTIONAL { # fallback - other language case
       ?broad skos:prefLabel ?lab .
     }
     OPTIONAL { ?broad skos:notation ?nota . }
@@ -1787,8 +1786,7 @@ WHERE {
         ?children skos:prefLabel ?childlab .
         FILTER (langMatches(lang(?childlab), "$fallback"))
       }
-      OPTIONAL { 
-        # fallback - other language case#
+      OPTIONAL { # fallback - other language case
         ?children skos:prefLabel ?childlab .
       }
       OPTIONAL {

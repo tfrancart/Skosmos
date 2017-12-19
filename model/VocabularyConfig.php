@@ -126,7 +126,7 @@ class VocabularyConfig extends DataObject
 	 * Returns the version number of this vocabulary, if any
      * @return string the version number associated to the vocabulary
      **/
-    public function version($lang = null)
+    public function getVersion()
     {
         return $this->getLiteral('pav:hasVersion');
     }
@@ -135,7 +135,7 @@ class VocabularyConfig extends DataObject
      * Returns the date of creation of the vocabulary
      * @return string the date of the version of the vocabulary
      **/
-    public function versionDate($lang = null)
+    public function getVersionDate()
     {
         return $this->getLiteral('pav:createdOn');
     }
