@@ -595,13 +595,23 @@ EOQ;
     private function generateQueryConceptSchemesQuery($lang) {
         $fcl = $this->generateFromClause();
         $query = <<<EOQ
+<<<<<<< HEAD
 SELECT ?cs ?label ?preflabel ?title ?domaine ?domaineLabel $fcl
+=======
+SELECT ?cs ?label ?preflabel ?title ?domain ?domainLabel $fcl
+>>>>>>> refs/remotes/upstream/master
 WHERE {
  ?cs a skos:ConceptScheme .
  OPTIONAL{
+<<<<<<< HEAD
     ?cs dcterms:subject ?domaine.
     ?domaine skos:prefLabel ?domaineLabel.
     FILTER(langMatches(lang(?domaineLabel), '$lang'))
+=======
+    ?cs dcterms:subject ?domain.
+    ?domain skos:prefLabel ?domainLabel.
+    FILTER(langMatches(lang(?domainLabel), '$lang'))
+>>>>>>> refs/remotes/upstream/master
 }
  OPTIONAL {
    ?cs rdfs:label ?label .
@@ -645,10 +655,10 @@ EOQ;
             if (isset($row->title)) {
                 $conceptscheme['title'] = $row->title->getValue();
             }
-            //ajout des dcterms:subject et leurs libellés dans le retour json
-            if(isset($row->domaine)&&isset($row->domaineLabel)){
-                $conceptscheme['subject']['uri']=$row->domaine->getURI();
-                $conceptscheme['subject']['prefLabel']=$row->domaineLabel->getValue();
+            // add dct:subject and their labels in the result
+            if(isset($row->domain) && isset($row->domainLabel)){
+                $conceptscheme['subject']['uri']=$row->domain->getURI();
+                $conceptscheme['subject']['prefLabel']=$row->domainLabel->getValue();
             }
 
             $ret[$row->cs->getURI()] = $conceptscheme;
@@ -1750,6 +1760,7 @@ EOQ;
 
     /**
      * Generates a sparql query for finding the hierarchy for a concept.
+	 * A concept may be a top concept in multiple schemes, returned as a single whitespace-separated literal.
      * @param string $uri concept uri.
      * @param string $lang
      * @param string $fallback language to use if label is not available in the preferred language
@@ -1760,7 +1771,11 @@ EOQ;
         $propertyClause = implode('|', $props);
         $query = <<<EOQ
 SELECT ?broad ?parent ?member ?children ?grandchildren
+<<<<<<< HEAD
 (SAMPLE(?lab) as ?label) (SAMPLE(?childlab) as ?childlabel) (GROUP_CONCAT(?topcs; separator=" ") as ?top) 
+=======
+(SAMPLE(?lab) as ?label) (SAMPLE(?childlab) as ?childlabel) (GROUP_CONCAT(?topcs; separator=" ") as ?tops) 
+>>>>>>> refs/remotes/upstream/master
 (SAMPLE(?nota) as ?notation) (SAMPLE(?childnota) as ?childnotation) $fcl
 WHERE {
   <$uri> a skos:Concept .
@@ -1827,9 +1842,12 @@ EOQ;
             if (isset($row->exact)) {
                 $ret[$uri]['exact'] = $row->exact->getUri();
             }
-            if (isset($row->top)) {
-                //$ret[$uri]['top']=$row->top->getValue();
-               $ret[$uri]['top'] = explode(" ", $row->top->getValue());
+            if (isset($row->tops)) {
+               $topConceptsList=array();
+               $topConceptsList=explode(" ", $row->tops->getValue());
+               // sort to garantee an alphabetical ordering of the URI
+               sort($topConceptsList);
+               $ret[$uri]['tops'] = $topConceptsList;
             }
             if (isset($row->children)) {
                 if (!isset($ret[$uri]['narrower'])) {
