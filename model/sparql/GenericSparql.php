@@ -6,7 +6,7 @@
 class GenericSparql {
     /**
      * A SPARQL Client eg. an EasyRDF instance.
-     * @property EasyRdf_Sparql_Client $client
+     * @property EasyRdf\Sparql\Client $client
      */
     protected $client;
     /**
@@ -43,7 +43,7 @@ class GenericSparql {
 
         // create the EasyRDF SPARQL client instance to use
         $this->initializeHttpClient();
-        $this->client = new EasyRdf_Sparql_Client($endpoint);
+        $this->client = new EasyRdf\Sparql\Client($endpoint);
 
         // set graphClause so that it can be used by all queries
         if ($this->isDefaultEndpoint()) // default endpoint; query any graph (and catch it in a variable)
@@ -107,8 +107,8 @@ class GenericSparql {
     }
 
     protected function initializeHttpClient() {
-        // configure the HTTP client used by EasyRdf_Sparql_Client
-        $httpclient = EasyRdf_Http::getDefaultHttpClient();
+        // configure the HTTP client used by EasyRdf\Sparql\Client
+        $httpclient = EasyRdf\Http::getDefaultHttpClient();
         $httpclient->setConfig(array('timeout' => $this->model->getConfig()->getSparqlTimeout()));
 
         // if special cache control (typically no-cache) was requested by the
@@ -123,7 +123,7 @@ class GenericSparql {
         }
         // @codeCoverageIgnoreEnd
 
-        EasyRdf_Http::setDefaultHttpClient($httpclient); // actually redundant..
+        EasyRdf\Http::setDefaultHttpClient($httpclient); // actually redundant..
     }
 
     /**
@@ -150,7 +150,7 @@ class GenericSparql {
      */
     private function shortenUri($uri) {
         if (!array_key_exists($uri, $this->qnamecache)) {
-            $res = new EasyRdf_Resource($uri);
+            $res = new EasyRdf\Resource($uri);
             $qname = $res->shorten(); // returns null on failure
             $this->qnamecache[$uri] = ($qname !== null) ? $qname : $uri;
         }
@@ -179,7 +179,7 @@ EOQ;
 
     /**
      * Used for transforming the concept count query results.
-     * @param EasyRdf_Sparql_Result $result query results to be transformed
+     * @param EasyRdf\Sparql\Result $result query results to be transformed
      * @param string $lang language of labels
      * @return Array containing the label counts
      */
@@ -243,7 +243,7 @@ EOQ;
 
     /**
      * Transforms the CountLangConcepts results into an array of label counts.
-     * @param EasyRdf_Sparql_Result $result query results to be transformed
+     * @param EasyRdf\Sparql\Result $result query results to be transformed
      * @param array $langs Languages to query for
      * @param string[] $props property names
      */
@@ -433,11 +433,11 @@ EOQ;
 
     /**
      * Transforms ConceptInfo query results into an array of Concept objects
-     * @param EasyRdf_Graph $result query results to be transformed
+     * @param EasyRdf\Graph $result query results to be transformed
      * @param array $uris concept URIs
      * @param \Vocabulary[] $vocabs array of Vocabulary object
      * @param string|null $clang content language
-     * @return mixed query result graph (EasyRdf_Graph), or array of Concept objects
+     * @return mixed query result graph (EasyRdf\Graph), or array of Concept objects
      */
     private function transformConceptInfoResults($result, $uris, $vocabs, $clang) {
         $conceptArray = array();
@@ -473,7 +473,7 @@ EOQ;
      * @param string|null $arrayClass the URI for thesaurus array class, or null if not used
      * @param \Vocabulary[] $vocabs vocabularies to target
      * @param string|null $clang content language
-     * @return EasyRdf_Graph
+     * @return EasyRdf\Graph
      */
     public function queryConceptInfo($uris, $arrayClass = null, $vocabs = array(), $clang = null) {
         // if just a single URI is given, put it in an array regardless
@@ -528,7 +528,7 @@ EOQ;
 
     /**
      * Transforms the results into an array format.
-     * @param EasyRdf_Sparql_Result $result
+     * @param EasyRdf\Sparql\Result $result
      * @return array Array with URIs (string) as key and array of (label, superclassURI) as value
      */
     private function transformQueryTypesResults($result) {
@@ -625,7 +625,7 @@ EOQ;
 
     /**
      * Transforms the queryConceptScheme results into an array format.
-     * @param EasyRdf_Sparql_Result $result
+     * @param EasyRdf\Sparql\Result $result
      * @return array
      */
     private function transformQueryConceptSchemesResults($result) {
@@ -745,7 +745,7 @@ EOQ;
         $typePatterns = array();
         if (!empty($types)) {
             foreach ($types as $type) {
-                $unprefixed = EasyRdf_Namespace::expand($type);
+                $unprefixed = EasyRdf\RdfNamespace::expand($type);
                 $typePatterns[] = "{ ?s a <$unprefixed> }";
             }
         }
@@ -935,10 +935,11 @@ EOQ;
      * Query for concepts using a search term.
      * @param array|null $fields extra fields to include in the result (array of strings). (default: null = none)
      * @param boolean $unique restrict results to unique concepts (default: false)
+     * @param boolean $showDeprecated whether to include deprecated concepts in search results (default: false)
      * @param ConceptSearchParameters $params 
      * @return string sparql query
      */
-    protected function generateConceptSearchQuery($fields, $unique, $params) {
+    protected function generateConceptSearchQuery($fields, $unique, $params, $showDeprecated = false) {
         $vocabs = $params->getVocabs();
         $gcl = $this->graphClause;
         $fcl = empty($vocabs) ? '' : $this->generateFromClause($vocabs);
@@ -948,13 +949,20 @@ EOQ;
         $extrafields = $formattedfields['extrafields'];
         $schemes = $params->getSchemeLimit();
 
+        // limit the search to only requested concept schemes
         $schemecond = '';
         if (!empty($schemes)) {
+            $conditions = array();
             foreach($schemes as $scheme) {
-                $schemecond .= "?s skos:inScheme <$scheme> . ";
+                $conditions[] = "{?s skos:inScheme <$scheme>}";
             }
+            $schemecond = '{'.implode(" UNION ",$conditions).'}';
         }
-
+        $filterDeprecated="";
+        //show or hide deprecated concepts
+        if(!$showDeprecated){
+            $filterDeprecated="FILTER NOT EXISTS { ?s owl:deprecated true }";
+        }
         // extra conditions for parent and group, if specified
         $parentcond = ($params->getParentLimit()) ? "?s skos:broader+ <" . $params->getParentLimit() . "> ." : "";
         $groupcond = ($params->getGroupLimit()) ? "<" . $params->getGroupLimit() . "> skos:member ?s ." : "";
@@ -989,7 +997,7 @@ EOQ;
           $labelpriority = ''; 
         }
         $query = <<<EOQ
-SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel ?graph ?notation (GROUP_CONCAT(DISTINCT ?type) as ?types) $extravars 
+SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel ?graph ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) $extravars 
 $fcl
 WHERE {
  $gcl {
@@ -1002,7 +1010,7 @@ WHERE {
    ?s a ?type .
    $extrafields $schemecond
   }
-  FILTER NOT EXISTS { ?s owl:deprecated true }
+  $filterDeprecated
  }
  $filterGraph
 }
@@ -1098,7 +1106,7 @@ EOQ;
 
     /**
      * Transform the concept search query results into the skosmos desired return format.
-     * @param EasyRdf_Sparql_Result $results
+     * @param EasyRdf\Sparql\Result $results
      * @param array $vocabs array of Vocabulary objects to search; empty for global search
      * @return array query result object
      */
@@ -1120,11 +1128,12 @@ EOQ;
      * @param array $vocabs array of Vocabulary objects to search; empty for global search
      * @param array $fields extra fields to include in the result (array of strings). (default: null = none)
      * @param boolean $unique restrict results to unique concepts (default: false)
+     * @param boolean $showDeprecated whether to include deprecated concepts in the result (default: false)
      * @param ConceptSearchParameters $params 
      * @return array query result object
      */
-    public function queryConcepts($vocabs, $fields = null, $unique = false, $params) {
-        $query = $this->generateConceptSearchQuery($fields, $unique, $params);
+    public function queryConcepts($vocabs, $fields = null, $unique = false, $params, $showDeprecated = false) {
+        $query = $this->generateConceptSearchQuery($fields, $unique, $params,$showDeprecated);
         $results = $this->query($query);
         return $this->transformConceptSearchResults($results, $vocabs, $fields);
     }
@@ -1167,9 +1176,10 @@ EOQ;
      * @param integer $limit limits the amount of results
      * @param integer $offset offsets the result set
      * @param array|null $classes
+     * @param boolean $showDeprecated whether to include deprecated concepts in the result (default: false)
      * @return string sparql query
      */
-    protected function generateAlphabeticalListQuery($letter, $lang, $limit, $offset, $classes) {
+    protected function generateAlphabeticalListQuery($letter, $lang, $limit, $offset, $classes, $showDeprecated = false) {
         $fcl = $this->generateFromClause();
         $classes = ($classes) ? $classes : array('http://www.w3.org/2004/02/skos/core#Concept');
         $values = $this->formatValues('?type', $classes, 'uri');
@@ -1177,7 +1187,10 @@ EOQ;
         $conditions = $this->formatFilterConditions($letter, $lang);
         $filtercondLabel = $conditions['filterpref'];
         $filtercondALabel = $conditions['filteralt'];
-
+        $filterDeprecated="";
+        if(!$showDeprecated){
+            $filterDeprecated="FILTER NOT EXISTS { ?s owl:deprecated true }";
+        }
         $query = <<<EOQ
 SELECT DISTINCT ?s ?label ?alabel $fcl
 WHERE {
@@ -1201,17 +1214,17 @@ WHERE {
     }
   }
   ?s a ?type .
-  FILTER NOT EXISTS { ?s owl:deprecated true }
+  $filterDeprecated
   $values
 }
-ORDER BY LCASE(IF(BOUND(?alabel), STR(?alabel), STR(?label))) $limitandoffset
+ORDER BY STR(LCASE(COALESCE(?alabel, ?label))) $limitandoffset
 EOQ;
         return $query;
     }
 
     /**
      * Transforms the alphabetical list query results into an array format.
-     * @param EasyRdf_Sparql_Result $results
+     * @param EasyRdf\Sparql\Result $results
      * @return array
      */
     private function transformAlphabeticalListResults($results) {
@@ -1250,15 +1263,17 @@ EOQ;
      * @param integer $limit limits the amount of results
      * @param integer $offset offsets the result set
      * @param array $classes
+     * @param boolean $showDeprecated whether to include deprecated concepts in the result (default: false)
      */
-    public function queryConceptsAlphabetical($letter, $lang, $limit = null, $offset = null, $classes = null) {
-        $query = $this->generateAlphabeticalListQuery($letter, $lang, $limit, $offset, $classes);
+    public function queryConceptsAlphabetical($letter, $lang, $limit = null, $offset = null, $classes = null,$showDeprecated = false) {
+        $query = $this->generateAlphabeticalListQuery($letter, $lang, $limit, $offset, $classes,$showDeprecated);
         $results = $this->query($query);
         return $this->transformAlphabeticalListResults($results);
     }
 
     /**
      * Creates the query used for finding out which letters should be displayed in the alphabetical index.
+     * Note that we force the datatype of the result variable otherwise Virtuoso does not properly interpret the DISTINCT and we have duplicated results
      * @param string $lang language
      * @return string sparql query
      */
@@ -1267,7 +1282,7 @@ EOQ;
         $classes = (sizeof($classes) > 0) ? $classes : array('http://www.w3.org/2004/02/skos/core#Concept');
         $values = $this->formatValues('?type', $classes, 'uri');
         $query = <<<EOQ
-SELECT DISTINCT (substr(ucase(str(?label)), 1, 1) as ?l) $fcl WHERE {
+SELECT DISTINCT (ucase(str(substr(?label, 1, 1))) as ?l) $fcl WHERE {
   ?c skos:prefLabel ?label .
   ?c a ?type
   FILTER(langMatches(lang(?label), '$lang'))
@@ -1279,7 +1294,7 @@ EOQ;
 
     /**
      * Transforms the first characters query results into an array format.
-     * @param EasyRdf_Sparql_Result $result
+     * @param EasyRdf\Sparql\Result $result
      * @return array
      */
     private function transformFirstCharactersResults($result) {
@@ -1430,7 +1445,7 @@ EOQ;
 
     /**
      * Transforms the sparql query result into an array or null if the concept doesn't exist.
-     * @param EasyRdf_Sparql_Result $result
+     * @param EasyRdf\Sparql\Result $result
      * @param string $lang
      * @return array array of property values (key: URI, val: label), or null if concept doesn't exist
      */
@@ -1494,7 +1509,7 @@ EOQ;
         $query = <<<EOQ
 SELECT * $fcl
 WHERE {
-  SELECT ?object ?label (GROUP_CONCAT(?dir) as ?direct)
+  SELECT ?object ?label (GROUP_CONCAT(STR(?dir);separator=' ') as ?direct)
   WHERE {
     <$uri> a skos:Concept .
     OPTIONAL {
@@ -1518,7 +1533,7 @@ EOQ;
 
     /**
      * Transforms the sparql query result object into an array.
-     * @param EasyRdf_Sparql_Result $result
+     * @param EasyRdf\Sparql\Result $result
      * @param string $lang
      * @param string $fallbacklang language to use if label is not available in the preferred language
      * @return array of property values (key: URI, val: label), or null if concept doesn't exist
@@ -1625,7 +1640,7 @@ EOQ;
 
     /**
      * Transforms the sparql result object into an array.
-     * @param EasyRdf_Sparql_Result $result
+     * @param EasyRdf\Sparql\Result $result
      * @param string $lang
      * @return array array of arrays describing each child concept, or null if concept doesn't exist
      */
@@ -1793,7 +1808,7 @@ EOQ;
 
     /**
      * Transforms the result into an array.
-     * @param EasyRdf_Sparql_Result
+     * @param EasyRdf\Sparql\Result
      * @param string $lang
      * @return an array for the REST controller to encode.
      */
@@ -1895,7 +1910,7 @@ EOQ;
     private function generateConceptGroupsQuery($groupClass, $lang) {
         $fcl = $this->generateFromClause();
         $query = <<<EOQ
-SELECT ?group (GROUP_CONCAT(DISTINCT STR(?child)) as ?children) ?label ?members ?notation $fcl
+SELECT ?group (GROUP_CONCAT(DISTINCT STR(?child);separator=' ') as ?children) ?label ?members ?notation $fcl
 WHERE {
   ?group a <$groupClass> .
   OPTIONAL { ?group skos:member|isothes:subGroup ?child .
@@ -1914,7 +1929,7 @@ EOQ;
 
     /**
      * Transforms the sparql query result into an array.
-     * @param EasyRdf_Sparql_Result $result
+     * @param EasyRdf\Sparql\Result $result
      * @return array
      */
     private function transformConceptGroupsResults($result) {
@@ -1963,16 +1978,21 @@ EOQ;
      * @param string $groupClass URI of concept group class
      * @param string $group URI of the concept group instance
      * @param string $lang language of labels to return
+     * @param boolean $showDeprecated whether to include deprecated in the result
      * @return string sparql query
      */
-    private function generateConceptGroupContentsQuery($groupClass, $group, $lang) {
+    private function generateConceptGroupContentsQuery($groupClass, $group, $lang, $showDeprecated = false) {
         $fcl = $this->generateFromClause();
+        $filterDeprecated="";
+        if(!$showDeprecated){
+            $filterDeprecated="  FILTER NOT EXISTS { ?conc owl:deprecated true }";
+        }
         $query = <<<EOQ
 SELECT ?conc ?super ?label ?members ?type ?notation $fcl
 WHERE {
  <$group> a <$groupClass> .
  { <$group> skos:member ?conc . } UNION { ?conc isothes:superGroup <$group> }
- FILTER NOT EXISTS { ?conc owl:deprecated true }
+$filterDeprecated
  ?conc a ?type .
  OPTIONAL { ?conc skos:prefLabel ?label .
   FILTER (langMatches(lang(?label), '$lang'))
@@ -1988,7 +2008,7 @@ EOQ;
 
     /**
      * Transforms the sparql query result into an array.
-     * @param EasyRdf_Sparql_Result $result
+     * @param EasyRdf\Sparql\Result $result
      * @param string $lang language of labels to return
      * @return array
      */
@@ -2032,10 +2052,11 @@ EOQ;
      * @param string $groupClass URI of concept group class
      * @param string $group URI of the concept group instance
      * @param string $lang language of labels to return
+     * @param boolean $showDeprecated whether to include deprecated concepts in search results
      * @return array Result array with concept URI as key and concept label as value
      */
-    public function listConceptGroupContents($groupClass, $group, $lang) {
-        $query = $this->generateConceptGroupContentsQuery($groupClass, $group, $lang);
+    public function listConceptGroupContents($groupClass, $group, $lang,$showDeprecated = false) {
+        $query = $this->generateConceptGroupContentsQuery($groupClass, $group, $lang,$showDeprecated);
         $result = $this->query($query);
         return $this->transformConceptGroupContentsResults($result, $lang);
     }
@@ -2066,7 +2087,7 @@ EOQ;
 
     /**
      * Transforms the sparql query result into an array.
-     * @param EasyRdf_Sparql_Result $result
+     * @param EasyRdf\Sparql\Result $result
      * @return array
      */
     private function transformChangeListResults($result) {

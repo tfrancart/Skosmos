@@ -6,11 +6,10 @@ class VocabularyCategoryTest extends PHPUnit_Framework_TestCase
   private $mockres;
 
   protected function setUp() {
-    require_once 'testconfig.inc';
     putenv("LC_ALL=en_GB.utf8");
     setlocale(LC_ALL, 'en_GB.utf8');
     $this->model = new Model(new GlobalConfig('/../tests/testconfig.inc'));
-    $this->mockres = $this->getMockBuilder('EasyRdf_Resource')->disableOriginalConstructor()->getMock();
+    $this->mockres = $this->getMockBuilder('EasyRdf\Resource')->disableOriginalConstructor()->getMock();
     $this->mockres->method('localName')->will($this->returnValue('local name'));
   }
   

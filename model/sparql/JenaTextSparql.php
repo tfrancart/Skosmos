@@ -1,7 +1,8 @@
 <?php
 
 /* Register text: namespace needed for jena-text queries */
-EasyRdf_Namespace::set('text', 'http://jena.apache.org/text#'); // @codeCoverageIgnore
+EasyRdf\RdfNamespace::set('text', 'http://jena.apache.org/text#'); // @codeCoverageIgnore
+EasyRdf\RdfNamespace::set('arq', 'http://jena.apache.org/ARQ/function#'); // @codeCoverageIgnore
 
 /**
  * Provides functions tailored to the JenaTextSparql extensions for the Fuseki SPARQL index.
@@ -74,16 +75,32 @@ class JenaTextSparql extends GenericSparql
     }
 
     /**
+     * Generates sparql query clauses used for ordering by an expression. Uses a special collation function
+     * if configuration for it is enabled.
+     * @param string $expression the expression used for ordering the results
+     * @param string $lang language
+     * @return string sparql order by clause
+     */
+    private function formatOrderBy($expression, $lang) {
+        if(!$this->model->getConfig()->getCollationEnabled()) {
+            return $expression;
+        }
+        $orderby = sprintf('arq:collation(\'%2$s\', %1$s)', $expression, $lang);
+        return $orderby;
+    }
+
+    /**
      * Generates the jena-text-specific sparql query used for rendering the alphabetical index.
      * @param string $letter the letter (or special class) to search for
      * @param string $lang language of labels
      * @param integer $limit limits the amount of results
      * @param integer $offset offsets the result set
      * @param array|null $classes
+     * @param boolean $showDeprecated whether to include deprecated concepts in the result (default: false)
      * @return string sparql query
      */
 
-    public function generateAlphabeticalListQuery($letter, $lang, $limit = null, $offset = null, $classes = null)
+    public function generateAlphabeticalListQuery($letter, $lang, $limit = null, $offset = null, $classes = null, $showDeprecated = false)
     {
         if ($letter == '*' || $letter == '0-9' || $letter == '!*') {
             // text index cannot support special character queries, use the generic implementation for these
@@ -99,7 +116,13 @@ class JenaTextSparql extends GenericSparql
         $lcletter = mb_strtolower($letter, 'UTF-8'); // convert to lower case, UTF-8 safe
         $textcondPref = $this->createTextQueryCondition($letter . '*', 'skos:prefLabel', $lang);
         $textcondAlt = $this->createTextQueryCondition($letter . '*', 'skos:altLabel', $lang);
+        $orderbyclause = $this->formatOrderBy("LCASE(?match)", $lang);
 
+        $filterDeprecated="";
+        if(!$showDeprecated){
+            $filterDeprecated="FILTER NOT EXISTS { ?s owl:deprecated true }";
+        }
+        
         $query = <<<EOQ
 SELECT DISTINCT ?s ?label ?alabel
 WHERE {
@@ -122,10 +145,10 @@ WHERE {
       }
     }
     ?s a ?type .
-    FILTER NOT EXISTS { ?s owl:deprecated true }
+    $filterDeprecated
   } $values
 }
-ORDER BY LCASE(?match) $limitandoffset
+ORDER BY $orderbyclause $limitandoffset
 EOQ;
         return $query;
     }

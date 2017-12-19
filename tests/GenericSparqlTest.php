@@ -333,7 +333,7 @@ class GenericSparqlTest extends PHPUnit_Framework_TestCase
   public function testQueryConceptScheme()
   {
     $actual = $this->sparql->queryConceptScheme('http://www.skosmos.skos/test/conceptscheme');
-    $this->assertInstanceOf('EasyRdf_Graph', $actual);
+    $this->assertInstanceOf('EasyRdf\Graph', $actual);
     $this->assertEquals('http://localhost:3030/ds/sparql', $actual->getUri());
   }
 
@@ -374,6 +374,30 @@ class GenericSparqlTest extends PHPUnit_Framework_TestCase
     $this->assertEquals('http://www.skosmos.skos/test/ta112', $actual[1]['uri']);
   }
 
+  /**
+   * @covers GenericSparql::queryConcepts
+   * @covers GenericSparql::generateConceptSearchQueryCondition
+   * @covers GenericSparql::generateConceptSearchQueryInner
+   * @covers GenericSparql::generateConceptSearchQuery
+   * @covers GenericSparql::formatFilterGraph
+   * @covers GenericSparql::transformConceptSearchResults
+   * @covers GenericSparql::transformConceptSearchResult
+   * @covers GenericSparql::shortenUri
+   */
+  public function testQueryConceptsMultipleSchemes()
+  {
+      $voc = $this->model->getVocabulary('multiple-schemes');
+      // returns 3 concepts without the scheme limit, and only 2 with the scheme limit below
+      $this->params->method('getSearchTerm')->will($this->returnValue('concept*'));
+      $this->params->method('getSchemeLimit')->will($this->returnValue(array('http://www.skosmos.skos/multiple-schemes/cs1', 'http://www.skosmos.skos/multiple-schemes/cs2')));
+      $sparql = new GenericSparql('http://localhost:3030/ds/sparql', 'http://www.skosmos.skos/multiple-schemes/', $this->model);
+      $actual = $sparql->queryConcepts(array($voc), null, null, $this->params);
+      $this->assertEquals(2, sizeof($actual));
+      $this->assertEquals('http://www.skosmos.skos/multiple-schemes/c1-in-cs1', $actual[0]['uri']);
+      $this->assertEquals('http://www.skosmos.skos/multiple-schemes/c2-in-cs2', $actual[1]['uri']);
+  }
+  
+  
   /**
    * @covers GenericSparql::queryConcepts
    * @covers GenericSparql::generateConceptSearchQueryCondition
@@ -820,7 +844,7 @@ class GenericSparqlTest extends PHPUnit_Framework_TestCase
    * @covers GenericSparql::generateConceptGroupContentsQuery
    * @covers GenericSparql::transformConceptGroupContentsResults
    */
-  public function testListConceptGroupContentsIncludingDeprecatedConcept()
+  public function testListConceptGroupContentsExcludingDeprecatedConcept()
   {
     $voc = $this->model->getVocabulary('groups');
     $graph = $voc->getGraph();
@@ -828,6 +852,37 @@ class GenericSparqlTest extends PHPUnit_Framework_TestCase
     $actual = $sparql->ListConceptGroupContents('http://www.w3.org/2004/02/skos/core#Collection', 'http://www.skosmos.skos/groups/salt', 'en');
     $this->assertEquals('http://www.skosmos.skos/groups/ta113', $actual[0]['uri']);
     $this->assertEquals(1, sizeof($actual));
+  }
+  
+  /**
+   * @covers GenericSparql::listConceptGroupContents
+   * @covers GenericSparql::generateConceptGroupContentsQuery
+   * @covers GenericSparql::transformConceptGroupContentsResults
+   */
+  public function testListConceptGroupContentsIncludingDeprecatedConcept()
+  {
+      $voc = $this->model->getVocabulary('showDeprecated');
+      $graph = $voc->getGraph();
+      $sparql = new GenericSparql('http://localhost:3030/ds/sparql', $graph, $this->model);
+      $actual = $sparql->ListConceptGroupContents('http://www.w3.org/2004/02/skos/core#Collection', 'http://www.skosmos.skos/groups/salt', 'en', $voc->getConfig()->getShowDeprecated());
+      $expected = array (
+          0 => array (
+              'uri' => 'http://www.skosmos.skos/groups/ta113',
+              'isSuper' => false,
+              'hasMembers' => false,
+              'type' => array('skos:Concept'),
+              'prefLabel' => 'Flatfish'
+          ),
+          1 => array (
+              'uri' => 'http://www.skosmos.skos/groups/ta111',
+              'isSuper' => false,
+              'hasMembers' => false,
+              'type' => array('skos:Concept'),
+              'prefLabel' => 'Tuna'
+          )
+      );
+      $this->assertEquals($expected, $actual);
+      $this->assertEquals(2, sizeof($actual));
   }
 
   /**
