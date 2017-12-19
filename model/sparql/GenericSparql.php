@@ -595,23 +595,13 @@ EOQ;
     private function generateQueryConceptSchemesQuery($lang) {
         $fcl = $this->generateFromClause();
         $query = <<<EOQ
-<<<<<<< HEAD
-SELECT ?cs ?label ?preflabel ?title ?domaine ?domaineLabel $fcl
-=======
 SELECT ?cs ?label ?preflabel ?title ?domain ?domainLabel $fcl
->>>>>>> refs/remotes/upstream/master
 WHERE {
  ?cs a skos:ConceptScheme .
  OPTIONAL{
-<<<<<<< HEAD
-    ?cs dcterms:subject ?domaine.
-    ?domaine skos:prefLabel ?domaineLabel.
-    FILTER(langMatches(lang(?domaineLabel), '$lang'))
-=======
     ?cs dcterms:subject ?domain.
     ?domain skos:prefLabel ?domainLabel.
     FILTER(langMatches(lang(?domainLabel), '$lang'))
->>>>>>> refs/remotes/upstream/master
 }
  OPTIONAL {
    ?cs rdfs:label ?label .
@@ -639,10 +629,8 @@ EOQ;
      * @return array
      */
     private function transformQueryConceptSchemesResults($result) {
-        $ret = array();
-    
+        $ret = array();  
         foreach ($result as $row) {
-
             $conceptscheme = array();
             if (isset($row->label)) {
                 $conceptscheme['label'] = $row->label->getValue();
@@ -1091,7 +1079,6 @@ EOQ;
         if (isset($row->label)) {
             $hit['prefLabel'] = $row->label->getValue();
         }
-
 
         if (isset($row->label)) {
             $hit['lang'] = $row->label->getLang();
@@ -1771,11 +1758,7 @@ EOQ;
         $propertyClause = implode('|', $props);
         $query = <<<EOQ
 SELECT ?broad ?parent ?member ?children ?grandchildren
-<<<<<<< HEAD
-(SAMPLE(?lab) as ?label) (SAMPLE(?childlab) as ?childlabel) (GROUP_CONCAT(?topcs; separator=" ") as ?top) 
-=======
 (SAMPLE(?lab) as ?label) (SAMPLE(?childlab) as ?childlabel) (GROUP_CONCAT(?topcs; separator=" ") as ?tops) 
->>>>>>> refs/remotes/upstream/master
 (SAMPLE(?nota) as ?notation) (SAMPLE(?childnota) as ?childnotation) $fcl
 WHERE {
   <$uri> a skos:Concept .

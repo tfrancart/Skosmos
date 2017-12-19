@@ -176,9 +176,6 @@ class Vocabulary extends DataObject
         if (isset($ret['owl:versionInfo'])) { // if version info availible for vocabulary convert it to a more readable format
             $ret['owl:versionInfo'][0] = $this->parseVersionInfo($ret['owl:versionInfo'][0]);
         }
-
-       
-
         // remove duplicate values
         foreach (array_keys($ret) as $prop) {
             $ret[$prop] = array_unique($ret[$prop]);
