@@ -1,3 +1,5 @@
+<?php
+
 /**
  * GlobalConfig provides access to the Skosmos configuration in config.inc.
  */
