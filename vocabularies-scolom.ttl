@@ -25,6 +25,7 @@
         skosmos:defaultLanguage "fr";
         # skosmos:showTopConcepts "true";
         skosmos:showStatistics "false" ;
+        skosmos:showDeprecated "true" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
         void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
         skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/2.0> .
@@ -40,6 +41,7 @@
         skosmos:defaultLanguage "fr";
         # skosmos:showTopConcepts "true";
         skosmos:showStatistics "false" ;
+        skosmos:showDeprecated "true" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
         void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
         skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/2.1> .
@@ -55,6 +57,7 @@
         skosmos:defaultLanguage "fr";
         # skosmos:showTopConcepts "true";
         skosmos:showStatistics "false" ;
+        skosmos:showDeprecated "true" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
         void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
         skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/3.0> .
@@ -70,6 +73,7 @@
         skosmos:defaultLanguage "fr";
         # skosmos:showTopConcepts "true";
         skosmos:showStatistics "false" ;
+        skosmos:showDeprecated "true" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
         void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
         skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/3.1> .
@@ -85,6 +89,7 @@
         skosmos:defaultLanguage "fr";
         # skosmos:showTopConcepts "true";
         skosmos:showStatistics "false" ;
+        skosmos:showDeprecated "true" ;
         void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
         skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/3.2> .
