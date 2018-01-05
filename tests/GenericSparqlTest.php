@@ -427,6 +427,30 @@ class GenericSparqlTest extends PHPUnit_Framework_TestCase
    * @covers GenericSparql::transformConceptSearchResult
    * @covers GenericSparql::shortenUri
    */
+  public function testQueryConceptsMultipleSchemes()
+  {
+      $voc = $this->model->getVocabulary('multiple-schemes');
+      // returns 3 concepts without the scheme limit, and only 2 with the scheme limit below
+      $this->params->method('getSearchTerm')->will($this->returnValue('concept*'));
+      $this->params->method('getSchemeLimit')->will($this->returnValue(array('http://www.skosmos.skos/multiple-schemes/cs1', 'http://www.skosmos.skos/multiple-schemes/cs2')));
+      $sparql = new GenericSparql('http://localhost:3030/ds/sparql', 'http://www.skosmos.skos/multiple-schemes/', $this->model);
+      $actual = $sparql->queryConcepts(array($voc), null, null, $this->params);
+      $this->assertEquals(2, sizeof($actual));
+      $this->assertEquals('http://www.skosmos.skos/multiple-schemes/c1-in-cs1', $actual[0]['uri']);
+      $this->assertEquals('http://www.skosmos.skos/multiple-schemes/c2-in-cs2', $actual[1]['uri']);
+  }
+  
+  
+  /**
+   * @covers GenericSparql::queryConcepts
+   * @covers GenericSparql::generateConceptSearchQueryCondition
+   * @covers GenericSparql::generateConceptSearchQueryInner
+   * @covers GenericSparql::generateConceptSearchQuery
+   * @covers GenericSparql::formatFilterGraph
+   * @covers GenericSparql::transformConceptSearchResults
+   * @covers GenericSparql::transformConceptSearchResult
+   * @covers GenericSparql::shortenUri
+   */
   public function testQueryConcepts()
   {
     $voc = $this->model->getVocabulary('test');
@@ -964,5 +988,17 @@ class GenericSparqlTest extends PHPUnit_Framework_TestCase
 );
     $this->assertEquals(array('en' => 'Bass'), $actual[0]['prefLabels']);
     $this->assertEquals(array(0 => array('uri' => 'http://www.skosmos.skos/test/ta1')), $actual[0]['skos:broader']);
+  }
+  
+  /**
+   * @covers GenericSparql::querySuperProperties
+   */
+  public function testQuerySuperProperties()
+  {
+      $this->sparql = new GenericSparql('http://localhost:3030/ds/sparql', '?graph', $this->model);
+      $actual = $this->sparql->querySuperProperties('http://example.com/myns#property');
+      $this->assertEquals(1, sizeof($actual));
+      $expected = array('http://example.com/myns#superProperty');
+      $this->assertEquals($actual, $expected);
   }
 }

@@ -648,7 +648,7 @@ EOQ;
             if (isset($row->title)) {
                 $conceptscheme['title'] = $row->title->getValue();
             }
-            // add dcterms:subject and their labels in the result
+            // add dct:subject and their labels in the result
             if(isset($row->domain) && isset($row->domainLabel)){
                 $conceptscheme['subject']['uri']=$row->domain->getURI();
                 $conceptscheme['subject']['prefLabel']=$row->domainLabel->getValue();
@@ -952,11 +952,14 @@ EOQ;
         $extrafields = $formattedfields['extrafields'];
         $schemes = $params->getSchemeLimit();
 
+        // limit the search to only requested concept schemes
         $schemecond = '';
         if (!empty($schemes)) {
+            $conditions = array();
             foreach($schemes as $scheme) {
-                $schemecond .= "?s skos:inScheme <$scheme> . ";
+                $conditions[] = "{?s skos:inScheme <$scheme>}";
             }
+            $schemecond = '{'.implode(" UNION ",$conditions).'}';
         }
         $filterDeprecated="";
         //show or hide deprecated concepts
@@ -1375,6 +1378,48 @@ EOQ;
             return null;
         }
     }
+    
+    /**
+     * Generates a SPARQL query to retrieve the super properties of a given property URI.
+     * Note this must be executed in the graph where this information is available.
+     * @param string $uri
+     * @return string sparql query string
+     */
+    private function generateSubPropertyOfQuery($uri) {
+        $fcl = $this->generateFromClause();
+        $query = <<<EOQ
+SELECT ?superProperty $fcl
+WHERE {
+  <$uri> rdfs:subPropertyOf ?superProperty
+}
+EOQ;
+        return $query;
+    }
+    
+    /**
+     * Query the super properties of a provided property URI.
+     * @param string $uri URI of a propertyes
+     * @return array array super properties, or null if none exist
+     */
+    public function querySuperProperties($uri) {
+        $query = $this->generateSubPropertyOfQuery($uri);
+        $result = $this->query($query);
+        $ret = array();
+        foreach ($result as $row) {
+            if (isset($row->superProperty)) {
+                $ret[] = $row->superProperty->getUri();
+            }
+            
+        }
+        
+        if (sizeof($ret) > 0) {
+            // return result
+            return $ret;
+        } else {
+            // no result, return null
+            return null;
+        }
+    }
 
 
     /**
@@ -1750,6 +1795,7 @@ EOQ;
 
     /**
      * Generates a sparql query for finding the hierarchy for a concept.
+	 * A concept may be a top concept in multiple schemes, returned as a single whitespace-separated literal.
      * @param string $uri concept uri.
      * @param string $lang
      * @param string $fallback language to use if label is not available in the preferred language
@@ -1759,7 +1805,11 @@ EOQ;
         $fcl = $this->generateFromClause();
         $propertyClause = implode('|', $props);
         $query = <<<EOQ
+<<<<<<< HEAD
 SELECT ?broad ?parent ?member ?children ?grandchildren
+=======
+SELECT ?broad ?parent ?children ?grandchildren
+>>>>>>> upstream/master
 (SAMPLE(?lab) as ?label) (SAMPLE(?childlab) as ?childlabel) (GROUP_CONCAT(?topcs; separator=" ") as ?tops) 
 (SAMPLE(?nota) as ?notation) (SAMPLE(?childnota) as ?childnotation) $fcl
 WHERE {
@@ -1829,9 +1879,11 @@ EOQ;
                 $ret[$uri]['exact'] = $row->exact->getUri();
             }
             if (isset($row->tops)) {
+               $topConceptsList=array();
                $topConceptsList=explode(" ", $row->tops->getValue());
+               // sort to garantee an alphabetical ordering of the URI
                sort($topConceptsList);
-               $ret[$uri]['tops'] =$topConceptsList;
+               $ret[$uri]['tops'] = $topConceptsList;
             }
             if (isset($row->children)) {
                 if (!isset($ret[$uri]['narrower'])) {

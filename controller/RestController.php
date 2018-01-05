@@ -738,15 +738,16 @@ class RestController extends Controller
         if (empty($results)) {
             return $this->returnError('404', 'Not Found', "Could not find concept <{$request->getUri()}>");
         }
-      
+ 
+        
         // set the "top" key from the "tops" key
         foreach ($results as $value) {
             $uri = $value['uri'];
             if (isset($value['tops'])) {                
-                if ($request->getVocab()->getMainConceptScheme() != null) {
+                if ($request->getVocab()->getConfig()->getMainConceptSchemeURI() != null) {
                     foreach ($results[$uri]['tops'] as $top) {
-                        // if a value in 'tops' matches the main concept scheme, take it
-                        if ($top == $request->getVocab()->getMainConceptScheme()) {
+                        // if a value in 'tops' matches the main concept scheme of the vocabulary, take it
+                        if ($top == $request->getVocab()->getConfig()->getMainConceptSchemeURI()) {
                             $results[$uri]['top'] = $top;
                             break;
                         }
@@ -786,7 +787,19 @@ class RestController extends Controller
         }
 
         $ret = array_merge_recursive($this->context, array(
-            '@context' => array('onki' => 'http://schema.onki.fi/onki#', 'prefLabel' => 'skos:prefLabel', 'notation' => 'skos:notation', 'narrower' => array('@id' => 'skos:narrower', '@type' => '@id'), 'broader' => array('@id' => 'skos:broader', '@type' => '@id'), 'broaderTransitive' => array('@id' => 'skos:broaderTransitive', '@container' => '@index'), 'top' => array('@id' => 'skos:topConceptOf', '@type' => '@id'), 'hasChildren' => 'onki:hasChildren', '@language' => $request->getLang()),
+            '@context' => array(
+                'onki' => 'http://schema.onki.fi/onki#',
+                'prefLabel' => 'skos:prefLabel',
+                'notation' => 'skos:notation',
+                'narrower' => array('@id' => 'skos:narrower', '@type' => '@id'),
+                'broader' => array('@id' => 'skos:broader', '@type' => '@id'),
+                'broaderTransitive' => array('@id' => 'skos:broaderTransitive', '@container' => '@index'),
+                'top' => array('@id' => 'skos:topConceptOf', '@type' => '@id'),
+                // the tops key will contain all the concept scheme values, while top (singular) contains a single value
+                'tops' => array('@id' => 'skos:topConceptOf', '@type' => '@id'),
+                'hasChildren' => 'onki:hasChildren',
+                '@language' => $request->getLang()
+            ),
             'uri' => $request->getUri(),
             'broaderTransitive' => $results)
         );
