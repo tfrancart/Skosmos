@@ -27,7 +27,7 @@
         skosmos:showStatistics "false" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
         void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
-        skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/scolomfr-voc-000-2.0> .
+        skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/2.0> .
 
 :scolomfr-voc-000-2-1 a skosmos:Vocabulary, void:Dataset ;
         dc:title "ScolomFr 2.1"@fr ;
@@ -42,7 +42,7 @@
         skosmos:showStatistics "false" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
         void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
-        skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/scolomfr-voc-000-2.1> .
+        skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/2.1> .
 
 :scolomfr-voc-000-3-0 a skosmos:Vocabulary, void:Dataset ;
         dc:title "ScolomFr 3.0"@fr ;
@@ -57,7 +57,7 @@
         skosmos:showStatistics "false" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
         void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
-        skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/scolomfr-voc-000-3.0> .
+        skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/3.0> .
 
 :scolomfr-voc-000-3-1 a skosmos:Vocabulary, void:Dataset ;
         dc:title "ScolomFr 3.1"@fr ;
@@ -72,7 +72,7 @@
         skosmos:showStatistics "false" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
         void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
-        skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/scolomfr-voc-000-3.1> .
+        skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/3.1> .
 
 :scolomfr-voc-000-3-2 a skosmos:Vocabulary, void:Dataset ;
         dc:title "ScolomFr 3.2"@fr ;
@@ -87,7 +87,7 @@
         skosmos:showStatistics "false" ;
         void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
-        skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/scolomfr-voc-000-3.2> .
+        skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/3.2> .
 
 
 :categories a skos:ConceptScheme;
