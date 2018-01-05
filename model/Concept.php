@@ -637,11 +637,14 @@ class Concept extends VocabularyDataObject
             return $result;
         }
         
+        // TODO : sort vocabs on versionDate
+        
         foreach ($vocabsWithVersion as $voc) {
-            if($voc->getConceptInfo($this->getUri(), null)!=null){
-                $anEntry = new HistoryEntry($voc, $this->getUri());
-                array_push($result, $anEntry);
-            }
+            $conceptFromHistory = $voc->getConceptInfo($this->getUri(), null)[0];
+            
+            $anEntry = new HistoryEntry($voc, $conceptFromHistory);
+            array_push($result, $anEntry);
+            
         }
         
         return $result;
