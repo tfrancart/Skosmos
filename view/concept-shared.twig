@@ -186,15 +186,14 @@
                                 {% if anEntry.concept.deprecated %}
                                 	warning
                                 {% elseif anEntry.vocab.id == concept.vocab.id %}
-                                	success
-                                {% else %}
                                 	primary
+                                {% else %}
+                                	info
                                 {% endif %}
                         	{% endif %}
                         ">
                             	{% if anEntry.concept %}
-                            		<a href="{{ anEntry.concept.uri | link_url(anEntry.vocab,request.lang,'page',request.contentLang) }}"><i class="glyphicon glyphicon-record"></i></a>
-
+                            		<a href="{{ anEntry.concept.uri | link_url(anEntry.vocab,request.lang,'page',request.contentLang) }}"><i class="glyphicon glyphicon-record"></i></a>                          		
                             	{% endif %}
                         </div>
                           <div class="timeline-panel">
