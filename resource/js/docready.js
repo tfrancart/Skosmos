@@ -70,6 +70,17 @@ $(function() { // DOCUMENT READY
     if (settings.url.indexOf('search') !== -1 && $autocomplete.length > 0 && $autocomplete[0].offsetHeight === 302) {
       $(".tt-dropdown-menu").mCustomScrollbar({ alwaysShowScrollbar: 1, scrollInertia: 0 });
     }
+
+    $('.reified-property-value').each(function() {
+      $(this).qtip({
+        content: $(this).next('.reified-tooltip'),
+        position: { my: 'top left', at: 'top left' },
+        style: { classes: 'qtip-skosmos' },
+        show: { delay: 100 },
+        hide: { fixed: true, delay: 400 }
+      });
+    });
+
     countAndSetOffset();
 
     hideCrumbs();
@@ -361,8 +372,7 @@ $(function() { // DOCUMENT READY
         return false;
       }
       var uri = $('.uri-input-box').html();
-      var base_href = $('base').attr('href'); // see #315, #633
-      var redirectUrl = base_href + vocab + '/' + lang + '/page/?uri=' + uri;
+      var redirectUrl = vocab + '/' + lang + '/page/?uri=' + uri;
       window.location.replace(encodeURI(redirectUrl));
       return false;
     }

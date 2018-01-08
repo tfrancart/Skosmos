@@ -121,6 +121,24 @@ class VocabularyConfig extends DataObject
     {
         return $this->getLiteral('dc:title', $lang);
     }
+    
+    /**
+	 * Returns the version number of this vocabulary, if any
+     * @return string the version number associated to the vocabulary
+     **/
+    public function getVersion()
+    {
+        return $this->getLiteral('pav:hasVersion');
+    }
+    
+    /**
+     * Returns the date of creation of the vocabulary
+     * @return string the date of the version of the vocabulary
+     **/
+    public function getVersionDate()
+    {
+        return $this->getLiteral('pav:createdOn');
+    }
 
     /**
      * Returns a boolean value set in the vocabularies.ttl config.
@@ -172,6 +190,24 @@ class VocabularyConfig extends DataObject
         return $ret;
     }
 
+    /**
+     * Returns the main Concept Scheme URI of that Vocabulary,
+     * or null if not set.
+     * @return string concept scheme URI or null
+     */
+    
+    public function getMainConceptSchemeURI()
+    {
+        $val = $this->resource->getResource("skosmos:mainConceptScheme");
+        if ($val) {
+            return $val->getURI();
+        }
+        
+        return null;
+    }
+    
+    
+    
     /**
      * Returns the class URI used for concept groups in this vocabulary,
      * or null if not set.

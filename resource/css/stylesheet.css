@@ -125,3 +125,20 @@ html, body {
 #vocabulary-list {
 	padding : 10px;
 }
+
+/* Timeline */
+.timeline-badge {
+    background-color: #e6e9eb !important;
+}
+.timeline-badge.info {
+    background-color: #f7e9f0 !important;
+}
+
+.timeline-badge.primary {
+    background-color: #921c56 !important;
+}
+
+.timeline-badge.warning {
+    background-color: #fcfba5 !important;
+}
+
