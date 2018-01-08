@@ -637,4 +637,37 @@ class Concept extends VocabularyDataObject
         ksort($labels);
         return $labels;
     }
+    
+    /**
+     * Gets the history entries of this concept.
+     * @return array an ordered array of HistoryEntry, or an empty array if no vocabularies version are found
+     */
+    public function getHistory()
+    {
+        $result=array();
+        $vocabsWithVersion=array();
+        foreach ($this->model->getVocabularies() as $voc) {
+            if($voc->getConfig()->getVersion()) {
+                array_push($vocabsWithVersion, $voc);
+            }
+        }
+        
+        // if no vocabularies were found with a version information, return an empty array
+        if(empty($vocabsWithVersion)) {
+            return $result;
+        }
+        
+        // sort vocabulary versions based on versionDate
+        usort($vocabsWithVersion, function($voc1, $voc2) {
+            return ($voc1->getConfig()->getVersionDate() < $voc2->getConfig()->getVersionDate()) ? -1 : 1;
+        });
+        
+        foreach ($vocabsWithVersion as $voc) {
+            $conceptFromHistory = $voc->getConceptInfo($this->getUri(), null)[0];
+            $anEntry = new HistoryEntry($voc, $conceptFromHistory);
+            array_push($result, $anEntry);            
+        }
+        
+        return $result;
+    }
 }

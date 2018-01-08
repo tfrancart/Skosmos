@@ -170,6 +170,44 @@
         </span>{% if concept.date %}<span class="versal date-info">{{ concept.date }}</span>{% endif %}
             </div>
         </div>
+        {% set history = concept.history %}
+        {% if history %}
+            <div class="row">
+                <div id="timeline-container">
+                  <div class="property-label"><span class="versal">Historique des versions:</span></div>
+                  <div style="overflow-y:auto;">
+                    <ul class="timeline timeline-horizontal" id="history">
+                    {% for anEntry in history %}
+                      <li class="timeline-item">
+                        <div class="timeline-badge 
+                        	{% if anEntry.concept %}
+                                {% if anEntry.concept.deprecated %}
+                                	warning
+                                {% elseif anEntry.vocab.id == concept.vocab.id %}
+                                	primary
+                                {% else %}
+                                	info
+                                {% endif %}
+                        	{% endif %}
+                        ">
+                            	{% if anEntry.concept %}
+                            		<a href="{{ anEntry.concept.uri | link_url(anEntry.vocab,request.lang,'page',request.contentLang) }}"><i class="glyphicon glyphicon-record"></i></a>                          		
+                            	{% endif %}
+                        </div>
+                          <div class="timeline-panel">
+                            <div class="timeline-heading">
+                              <h4 class="timeline-title">{{ anEntry.version }}</h4>
+                              <!-- <p style="text-align:center;"><small class="text-muted"  style="text-align:center;"><i class="glyphicon glyphicon-time"></i>&nbsp;{{ anEntry.versionDateAsString }}</small></p>  -->
+                              {% if anEntry.concept and anEntry.concept.deprecated %}<p style="text-align:center;"><small class="text-muted"  style="text-align:center;"><i class="glyphicon glyphicon-warning-sign"></i>&nbsp;Déprécié</small></p>{% endif %}
+                            </div>
+                          </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+            </div>
+        {% endif %}
       </div>
       {% set appendixProperties = concept.mappingProperties %}
       {% if appendixProperties %}
