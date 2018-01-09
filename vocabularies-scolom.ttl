@@ -19,7 +19,7 @@
         dc:title "ScolomFr 2.0"@fr ;
         dc:subject :cat_20 ;
         pav:hasVersion "2.0" ;
-        pav:createdOn "2016-29-02"^^xsd:date;
+        pav:createdOn "2016-02-29"^^xsd:date;
         dc:type mdrtype:THESAURUS ;
         void:uriSpace "http://purl.org/NET/mediatypes/";
         # skosmos:groupClass isothes:ConceptGroup;
