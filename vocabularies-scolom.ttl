@@ -19,7 +19,7 @@
         dc:title "ScolomFr 2.0"@fr ;
         dc:subject :cat_20 ;
         pav:hasVersion "2.0" ;
-        pav:createdOn "2015-01-01"^^xsd:date;
+        pav:createdOn "2016-29-02"^^xsd:date;
         dc:type mdrtype:THESAURUS ;
         void:uriSpace "http://purl.org/NET/mediatypes/";
         # skosmos:groupClass isothes:ConceptGroup;
@@ -37,7 +37,7 @@
         dc:title "ScolomFr 2.1"@fr ;
         dc:subject :cat_21 ;
         pav:hasVersion "2.1" ;
-        pav:createdOn "2015-07-01"^^xsd:date;
+        pav:createdOn "2016-04-01"^^xsd:date;
         dc:type mdrtype:THESAURUS ;
         void:uriSpace "http://data.education.fr/voc.scolomfr/concept/";
         # skosmos:groupClass isothes:ConceptGroup;
@@ -55,7 +55,7 @@
         dc:title "ScolomFr 3.0"@fr ;
         dc:subject :cat_30 ;
         pav:hasVersion "3.0" ;
-        pav:createdOn "2016-01-01"^^xsd:date;
+        pav:createdOn "2016-07-13"^^xsd:date;
         dc:type mdrtype:THESAURUS ;
         void:uriSpace "http://data.education.fr/voc/scolomfr/concept/";
         # skosmos:groupClass isothes:ConceptGroup;
@@ -73,7 +73,7 @@
         dc:title "ScolomFr 3.1"@fr ;
         dc:subject :cat_31 ;
         pav:hasVersion "3.1" ;
-        pav:createdOn "2016-07-01"^^xsd:date;
+        pav:createdOn "2016-12-21"^^xsd:date;
         dc:type mdrtype:THESAURUS ;
         void:uriSpace "http://data.education.fr/voc/scolomfr/concept/";
         # skosmos:groupClass isothes:ConceptGroup;
@@ -91,7 +91,7 @@
         dc:title "ScolomFr 3.2"@fr ;
         dc:subject :cat_32 ;
         pav:hasVersion "3.2" ;
-        pav:createdOn "2017-01-01"^^xsd:date;
+        pav:createdOn "2017-05-24"^^xsd:date;
         dc:type mdrtype:THESAURUS ;
         void:uriSpace "http://data.education.fr/voc/scolomfr/concept/";
         # skosmos:groupClass isothes:ConceptGroup;
