@@ -18,6 +18,80 @@ class VirtuosoSparql extends GenericSparql
      */
     const LUCENE_ESCAPE_CHARS = ' +-&|!(){}[]^"~?:\\/';
 
+    protected function generateAlphabeticalListQuery($letter, $lang, $limit, $offset, $classes, $showDeprecated = false) {
+        $fcl = $this->generateFromClause();
+        $classes = ($classes) ? $classes : array('http://www.w3.org/2004/02/skos/core#Concept');
+        $values = $this->formatValues('?type', $classes, 'uri');
+        $limitandoffset = $this->formatLimitAndOffset($limit, $offset);
+        $conditions = $this->formatFilterConditions($letter, $lang);
+        $filtercondLabel = $conditions['filterpref'];
+        $filtercondALabel = $conditions['filteralt'];
+        $filterDeprecated="";
+        if(!$showDeprecated){
+            $filterDeprecated="FILTER NOT EXISTS { ?s owl:deprecated true }";
+        }
+        $query = <<<EOQ
+SELECT DISTINCT ?s ?label ?alabel $fcl
+WHERE {
+  {
+    ?s skos:prefLabel ?label .
+    FILTER (
+      $filtercondLabel
+    )
+  }
+  UNION
+  {
+    {
+      ?s skos:altLabel ?alabel .
+      FILTER (
+        $filtercondALabel
+      )
+    }
+    {
+      ?s skos:prefLabel ?label .
+      FILTER (langMatches(lang(?label), '$lang'))
+    }
+  }
+  ?s a ?type .
+  $filterDeprecated
+  $values
+}
+ORDER BY asc(bif:rdf_collation_order_string('DB.DBA.BASECHAR_UCASE', LCASE(COALESCE(?alabel, ?label)))) $limitandoffset
+EOQ;
+        return $query;
+    }
+
+    /**
+     * Generates sparql query clauses used for creating the alphabetical index.
+     * @param string $letter the letter (or special class) to search for
+     * @return array of sparql query clause strings
+     */
+    private function formatFilterConditions($letter, $lang) {
+        $useRegex = false;
+
+        if ($letter == '*') {
+            $letter = '.*';
+            $useRegex = true;
+        } elseif ($letter == '0-9') {
+            $letter = '[0-9].*';
+            $useRegex = true;
+        } elseif ($letter == '!*') {
+            $letter = '[^\\\\p{L}\\\\p{N}].*';
+            $useRegex = true;
+        }
+
+        # make text query clause
+        $lcletter = mb_strtolower($letter, 'UTF-8'); // convert to lower case, UTF-8 safe
+        if ($useRegex) {
+            $filtercondLabel = $lang ? "regex(str(?label), '^$letter$', 'i') && langMatches(lang(?label), '$lang')" : "regex(str(?label), '^$letter$', 'i')";
+            $filtercondALabel = $lang ? "regex(str(?alabel), '^$letter$', 'i') && langMatches(lang(?alabel), '$lang')" : "regex(str(?alabel), '^$letter$', 'i')";
+        } else {
+            $filtercondLabel = $lang ? "strstarts(lcase(str(?label)), '$lcletter') && langMatches(lang(?label), '$lang')" : "strstarts(lcase(str(?label)), '$lcletter')";
+            $filtercondALabel = $lang ? "strstarts(lcase(str(?alabel)), '$lcletter') && langMatches(lang(?alabel), '$lang')" : "strstarts(lcase(str(?alabel)), '$lcletter')";
+        }
+        return array('filterpref' => $filtercondLabel, 'filteralt' => $filtercondALabel);
+    }
+
     /*
      * note: don't include * because we want wildcard expansion
      *

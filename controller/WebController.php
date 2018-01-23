@@ -69,6 +69,13 @@ class WebController extends Controller
         });
         $this->twig->addFilter($langFilter);
 
+        // register a Twig filter to sort without taking the accents into account
+        $removeAccentFilter = new Twig_SimpleFilter('remove_accent', 
+            function ($string) {
+                return iconv('UTF-8', 'US-ASCII//TRANSLIT', $string);
+            });
+        $this->twig->addFilter($removeAccentFilter);
+
         // create the honeypot
         $this->honeypot = new \Honeypot();
         if (!$this->model->getConfig()->getHoneypotEnabled()) {
