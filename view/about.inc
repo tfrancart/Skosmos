@@ -2,7 +2,17 @@
 <p>Les systèmes de diffusion de la loi luxembourgeoise, <a href='http://legilux.public.lu'>Legilux</a> pour la recherche et la navigation dans les textes de lois, et <a href='http://data.legilux.public.lu'>Casemates</a> pour l’accès aux données et aux fichiers bruts réutilisables, sont basés sur les technologies du web sémantique. Cette approche permet des descriptions riches et détaillées des textes de loi, qui s’appuient sur des référentiels pour tous les aspects de description d&#39;une loi : ses thématiques, le type d&#39;acte, son ministère d’origine, ses formats de fichier, etc.</p>
 <p>Tous ces vocabulaires contrôlés sont mis à disposition dans cette interface, permettant la compréhension, la navigation et la réutilisation de ces listes et de ses hiérarchies.</p>
 <h2>Vocabulaires disponibles</h2>
-<p><em>A compléter ou on recopie le tableau de la doc de Legilux ?</em></p>
+<p>
+Les vocabulaires publiés comprennent :
+<ul>
+  <li>Des <strong>vocabulaires thématiques</strong> : <a href="legal-subject-theme">Thèmes</a>, <a href="treaty-subject-theme">Thématiques des traités internationaux</a>, <a href="legal-subject-organisation">Organisations</a> (pour un classement thématique) et <a href="legal-subject-place">Lieux</a> (pour un classement thématique).</li>
+  <li>Des <strong>organisations et personnes</strong> : Les <a href="legal-institution">acteurs/institutions</a>, <a href="committee">commissions</a> ou <a href="person">personnes</a> impliqués dans le processus législatif, les <a href="international-actor">acteurs internationaux</a> et un <a href="legal-institution-historique">historique des ministères</a> du Luxembourg.</li>
+  <li>Des <strong>types de ressources</strong> : <a href="resource-type">types d'actes législatifs</a>, <a href="treaty-type">types de traités</a> et <a href="type-projet">types de projets et événements</a>.</li>
+  <li>Un certain nombre de <strong>vocabulaires techniques</strong> comme les <a href="user-format">formats de publication des actes</a>, les <a href="statut-transposition">statuts de transposition des directives européennes</a>, etc.</li>
+  <li>Des vocabulaires provenant d'autres institutions (voir ci-dessous).</li>
+</ul>
+</p>
+<p>On peut récupérer la liste brute des vocabulaires par <a href="http://data.legilux.public.lu/sparql?default-graph-uri=&query=%0D%0ASELECT+DISTINCT+%3Fscheme+%3Flabel+%28COUNT%28%3Fconcept%29+AS+%3FnombreConcepts%29%0D%0AWHERE+%7B%0D%0A++%3Fscheme+a+skos%3AConceptScheme+.%0D%0A++%3Fscheme+skos%3AprefLabel+%3Flabel+.%0D%0A++%3Fconcept+skos%3AinScheme+%3Fscheme+.%0D%0A%7D%0D%0AGROUP+BY+%3Fscheme+%3Flabel%0D%0AORDER+BY+%3Flabel%0D%0A%0D%0A&format=text%2Fhtml&timeout=0&debug=on">cette requête SPARQL dans Casemates</a>.</p>
 <h2>License d&#39;utilisation des vocabulaires</h2>
 <p>Les vocabulaires sont mis à disposition selon la licence d’utilisation <a href='http://creativecommons.org/licenses/by/4.0/'>http://creativecommons.org/licenses/by/4.0/</a> qui autorise leur réutilisation pour des utilisations commerciales ou non.</p>
 <h2>Réutilisation de vocabulaires</h2>
