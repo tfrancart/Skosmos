@@ -30,7 +30,7 @@
         skosmos:showStatistics "false" ;
         skosmos:showDeprecated "true" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
-        void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
+        void:sparqlEndpoint <http://localhost:3030/scolomfr-prod/sparql> ;
         skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/2.0> .
 
 :scolomfr-2-1 a skosmos:Vocabulary, void:Dataset ;
@@ -48,7 +48,7 @@
         skosmos:showStatistics "false" ;
         skosmos:showDeprecated "true" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
-        void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
+        void:sparqlEndpoint <http://localhost:3030/scolomfr-prod/sparql> ;
         skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/2.1> .
 
 :scolomfr-3-0 a skosmos:Vocabulary, void:Dataset ;
@@ -66,7 +66,7 @@
         skosmos:showStatistics "false" ;
         skosmos:showDeprecated "true" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
-        void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
+        void:sparqlEndpoint <http://localhost:3030/scolomfr-prod/sparql> ;
         skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/3.0> .
 
 :scolomfr-3-1 a skosmos:Vocabulary, void:Dataset ;
@@ -84,7 +84,7 @@
         skosmos:showStatistics "false" ;
         skosmos:showDeprecated "true" ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
-        void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
+        void:sparqlEndpoint <http://localhost:3030/scolomfr-prod/sparql> ;
         skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/3.1> .
 
 :scolomfr-3-2 a skosmos:Vocabulary, void:Dataset ;
@@ -101,7 +101,7 @@
         # skosmos:showTopConcepts "true";
         skosmos:showStatistics "false" ;
         skosmos:showDeprecated "true" ;
-        void:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
+        void:sparqlEndpoint <http://localhost:3030/scolomfr-prod/sparql> ;
         skosmos:mainConceptScheme <http://data.education.fr/voc/scolomfr> ;
         skosmos:sparqlGraph <http://data.education.fr/voc/scolomfr/3.2> .
 
