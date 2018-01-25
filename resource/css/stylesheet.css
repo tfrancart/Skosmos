@@ -45,9 +45,11 @@ a {
 }
 
 /* bold 'Vocabulaires' menu link */
+/*
 #navigation > a:nth-of-type(1) {
 	font-weight: bold;
 }
+*/
 
 .vocabularies {
   padding: 0 0;
@@ -158,4 +160,29 @@ a {
 /* Lists */
 #about ul {
   list-style: inherit;
+}
+
+
+
+@media (max-width: 700px) {
+
+  input#search-field {
+    border: 1px solid rgb(71, 75, 79);
+  }
+
+  /* Transparent elements on the header bar */
+  .header-float,
+  #header-float.btn-group,
+  #lang-dropdown-toggle,
+  #search-all-button,
+  /* Dropdown 'partout' ouverte ou fermee */
+  .btn-group > .dropdown-toggle.btn-default,
+  .search-vocab-text {
+    color: rgb(71, 75, 79);
+  }
+
+  .header-float > .btn-group > .btn {
+    width: 100%;
+  }
+
 }
