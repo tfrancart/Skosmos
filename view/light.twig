@@ -104,7 +104,6 @@
           <div class="input-group">
             <span class="versal">{% trans "By type" %}</span>
             <select id="type-limit" value="{{ limit-type }}" class="form-control multiselect" multiple="multiple">
-              <option></option>
               {% for uri,type in types %}
                 <option value="{{ uri }}">{% if type.label %}{{ type.label }}{% else %}{{ uri|trans }}{% endif %}</option>
               {% endfor %}

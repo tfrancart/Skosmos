@@ -11,7 +11,9 @@
 {% else %}
 <div class="header-left">
   <h1>
-  <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+  <a href="{{ request.lang }}/{% if request.contentLang and request.contentLang != request.lang %}?clang={{ request.contentLang }}{% endif %}{% if request.queryParam('anylang') == 'on' %}{% if request.contentLang == request.lang %}?{% else %}&{% endif %}anylang=on{% endif %}">
+    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+  </a>
   </h1>
 </div>
 {% endif %}
