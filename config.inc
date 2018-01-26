@@ -36,7 +36,7 @@ define("FEEDBACK_ADDRESS", "info@legilux.public.lu");
 define("FEEDBACK_ENVELOPE_SENDER", "skosmos@legilux.public.lu");
 
 // whether or not to log caught exceptions
-define ("LOG_CAUGHT_EXCEPTIONS", FALSE);
+define ("LOG_CAUGHT_EXCEPTIONS", TRUE);
 
 // set to TRUE to enable logging into browser console
 define ("LOG_BROWSER_CONSOLE", FALSE);
