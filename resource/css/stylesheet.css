@@ -95,10 +95,19 @@ a {
   opacity: 0.99;
   overflow: hidden;
   color:white;
+  font-size: 1.2em;
 }
 /* reset display: block */
 .header-left > h1 > a {
   display: inline;
+}
+/* mouseover */
+.header-left > h1 .hoverable:hover {
+  text-decoration: underline;
+}
+/* */
+#search-all-button {
+  width:30px;
 }
 /* reset margin on front page */
 .frontpage-spacing > .header-left > h1 {
@@ -170,7 +179,7 @@ a {
     border: 1px solid rgb(71, 75, 79);
   }
 
-  /* Transparent elements on the header bar */
+  /* black font and borders of search components */
   .header-float,
   #header-float.btn-group,
   #lang-dropdown-toggle,
