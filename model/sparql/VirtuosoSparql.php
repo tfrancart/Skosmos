@@ -120,6 +120,14 @@ EOQ;
         
         $langClause = empty($lang) ? '' : "FILTER (langMatches(lang(?match), \"" + $lang + "\"))";
 
+
+        // Virtuoso specific
+        // If the search term has only 4 characters and ends with '*'
+        // remove the final '*'
+        if(strlen($term) <= 4) {
+            $term = str_replace('*', '', $term);
+        }
+
         // This is where Virtuoso bif:contains is inserted
         $sparqlRequest = <<<EOQ
               ?match bif:contains '"$term"' option (score ?sc).  
