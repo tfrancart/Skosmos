@@ -119,7 +119,7 @@ class GlobalConfig {
      */
     public function getTemplateCache() 
     {
-        return $this->getConstant('TEMPLATE_CACHE', 'tmp/cache/skosmos-template-cache');
+        return $this->getConstant('TEMPLATE_CACHE', '/tmp/skosmos-template-cache');
     }
     
     /**
@@ -173,7 +173,7 @@ class GlobalConfig {
      */
     public function getServiceName() 
     {
-        return $this->getConstant('SERVICE_NAME', '');
+        return $this->getConstant('SERVICE_NAME', 'Skosmos');
     }
     
     /**
@@ -239,5 +239,12 @@ class GlobalConfig {
     {
         return $this->getConstant('UI_HONEYPOT_TIME', 5);
     }
-    
+
+    /**
+     * @return boolean
+     */
+    public function getCollationEnabled()
+    {
+        return $this->getConstant('SPARQL_COLLATION_ENABLED', FALSE);
+    }
 }
