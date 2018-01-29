@@ -148,11 +148,8 @@ EOQ;
     {
         // make text query clauses
         $textcond = $this->createTextQueryCondition($term, '?prop', $searchLang);
-        
-        if ($this->isDefaultEndpoint()) {
-            // if doing a global search, we should target the union graph instead of a specific graph
-            $textcond = "GRAPH <urn:x-arq:UnionGraph> { $textcond }";
-        }
+     
+        // note : unlike Jena, there is Union-graph specific clause to insert here
         
         return $textcond;
     }
@@ -229,7 +226,7 @@ EOQ;
             $labelpriority = '';
         }
         $query = <<<EOQ
-        SELECT DISTINCT ?s ?label ?plabel ?alabel ?hlabel  ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) $extravars
+        SELECT DISTINCT ?s ?match ?label ?plabel ?alabel ?hlabel ?graph ?notation (GROUP_CONCAT(DISTINCT STR(?type);separator=' ') as ?types) $extravars
         $fcl
         WHERE {
          $gcl {
@@ -246,7 +243,7 @@ EOQ;
          }
          $filterGraph
         }
-        GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation 
+        GROUP BY ?s ?match ?label ?plabel ?alabel ?hlabel ?notation ?graph
         ORDER BY LCASE(STR(?match)) LANG(?match) $orderextra
 EOQ;
         return $query;
