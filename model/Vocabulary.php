@@ -143,8 +143,21 @@ class Vocabulary extends DataObject
         $result = $sparql->queryConceptScheme($defaultcs);
         $conceptscheme = $result->resource($defaultcs);
         $this->order = array("dc:title", "dc11:title", "skos:prefLabel", "rdfs:label", "dc:subject", "dc11:subject", "dc:description", "dc11:description", "dc:publisher", "dc11:publisher", "dc:creator", "dc11:creator", "dc:contributor", "dc:language", "dc11:language", "owl:versionInfo", "dc:source", "dc11:source");
-
-        foreach ($conceptscheme->properties() as $prop) {
+        
+        
+        $longUris = $conceptscheme->propertyUris();
+        
+        foreach ($longUris as &$prop) {
+            // storing full URI without brackets in a separate variable
+            $longUri = $prop;
+            if (EasyRdf\RdfNamespace::shorten($prop) !== null) {
+                // shortening property labels if possible
+                $prop = $sprop = EasyRdf\RdfNamespace::shorten($prop);
+            } else {
+                // EasyRdf requires full URIs to be in angle brackets
+                $prop = "<$prop>";
+            }
+                        
             foreach ($conceptscheme->allLiterals($prop, $lang) as $val) {
                 $prop = (substr($prop, 0, 5) == 'dc11:') ? str_replace('dc11:', 'dc:', $prop) : $prop;
                 $ret[$prop][$val->getValue()] = $val;
@@ -172,9 +185,15 @@ class Vocabulary extends DataObject
             if (isset($ret[$prop])) {
                 ksort($ret[$prop]);
             }
+            
         }
+        
         if (isset($ret['owl:versionInfo'])) { // if version info availible for vocabulary convert it to a more readable format
             $ret['owl:versionInfo'][0] = $this->parseVersionInfo($ret['owl:versionInfo'][0]);
+        }
+        if (isset($ret['<http://data.legilux.public.lu/resource/ontology/jolux#landingPage>'])) { // if version info availible for vocabulary convert it to a more readable format
+            $ret['page d\'accueil pour le téléchargement'] = $ret['<http://data.legilux.public.lu/resource/ontology/jolux#landingPage>'];
+            unset($ret['<http://data.legilux.public.lu/resource/ontology/jolux#landingPage>']);
         }
         // remove duplicate values
         foreach (array_keys($ret) as $prop) {
@@ -191,7 +210,7 @@ class Vocabulary extends DataObject
         } else if (isset($ret['skos:prefLabel'])) {
             unset($ret['rdfs:label']);
         }
-
+        
         return $ret;
     }
 
