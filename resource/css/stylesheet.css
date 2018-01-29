@@ -145,10 +145,10 @@ a {
 
 /* Couleur des liens de rebonds */
 .jumplink, .jumplink:hover {
-  color: rgb(230, 29, 52);
+  /*color: rgb(230, 29, 52);*/
 }
 .jumplink:hover {
-  color: rgb(180, 19, 32);
+  /*color: rgb(180, 19, 32);*/
 }
 
 /*** About page ***/
