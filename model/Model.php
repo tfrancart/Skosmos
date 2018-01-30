@@ -580,6 +580,21 @@ class Model
                 return $this->disambiguateVocabulary($vocabs, $uri);
             }
         }
+        
+        // didn't work, try to find without the final "/" or "#" of the URI space
+        // in order to match ConceptSchemes URI that don't have the final '/' or '#'
+        foreach ($this->vocabsByUriSpace as $urispace => $vocabs) {
+            if (
+                ($urispace{strlen($urispace)-1} == '/' || $urispace{strlen($urispace)-1} == '#')
+                &&
+                strpos($uri, substr($urispace, 0, strlen($urispace)-1)) === 0
+                &&
+                // to avoid potential false match
+                strlen($uri) == strlen($urispace)-1
+            ) {
+                return $this->disambiguateVocabulary($vocabs, $uri);
+            }
+        }
 
         // not found
         return null;

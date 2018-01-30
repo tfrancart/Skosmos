@@ -25,7 +25,10 @@ class EntityController extends Controller
         $baseurl = $this->getBaseHref();
         $vocid = $vocab->getId();
         $localname = $vocab->getLocalName($uri);
-        if ($localname !== $uri && $localname === urlencode($localname)) {
+        // if the provided URI is actually the main concept scheme URI, display the home page of the vocabulary
+        if($uri == $vocab->getDefaultConceptScheme()) {
+            $url = $baseurl . "$vocid";
+        } else if ($localname !== $uri && $localname === urlencode($localname)) {
             // the URI can be shortened
             $url = $baseurl . "$vocid/page/$localname";
         } else {
