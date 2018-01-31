@@ -372,7 +372,7 @@ class Model
             $arrayClass = null;
             $sparql = $this->getDefaultSparql();
         }
-        if(sizeof($uris) > 1) {
+        if(sizeof($uris) > 0) {
             $ret = $sparql->queryConceptInfo($uris, $arrayClass, $vocabs, $params->getSearchLang());
         }
 
