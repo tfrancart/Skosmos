@@ -197,7 +197,9 @@ class Model
         if (!$categories) {
             uksort($ret, 'strcoll');
         }
-
+        
+        // Canope-specific : reverse the vocabularies order
+        $ret = array_reverse($ret);
         return $ret;
     }
 

@@ -53,10 +53,20 @@ html, body {
 
 /* logo de la top bar */
 .topbar {
+  /*
   background: url('../pics/logo-scolomfr.png'); 
   background-repeat: no-repeat;
   background-position: 10px 10px;
   background-size: auto 80%;
+  */
+}
+
+#logo {
+  margin-bottom:20px;
+  margin-left:10px;
+  margin-top:10px;
+  width:140px;
+  height:auto;
 }
 
 /* bandeau de la frontpage : ne pas mettre 100% width; */
@@ -93,6 +103,11 @@ html, body {
 /* couleur de la barre de recherche */
 .headerbar-coloured, .header-left > h1, #lang-dropdown-toggle, #search-all-button, .search-vocab-text, .multiselect {
 	background-color: #311625;
+}
+
+/* élargir pour mettre l'icône et le libellé "Rechercher" */
+#search-all-button {
+  width:110px;
 }
 
 
