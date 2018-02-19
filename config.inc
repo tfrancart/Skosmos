@@ -33,7 +33,7 @@ define("DEFAULT_SPARQL_DIALECT", "Virtuoso");
 define("FEEDBACK_ADDRESS", "info@legilux.public.lu");
 
 // email address to set as the envelope sender for feedback messages
-define("FEEDBACK_ENVELOPE_SENDER", "vocabulaires-noreply@legilux.public.lu");
+define("FEEDBACK_ENVELOPE_SENDER", "vocabulaires-noreply@scl.etat.lu");
 
 // whether or not to log caught exceptions
 define ("LOG_CAUGHT_EXCEPTIONS", TRUE);
