@@ -30,10 +30,10 @@ define("TEMPLATE_CACHE", "/tmp/skosmos-template-cache-legilux");
 define("DEFAULT_SPARQL_DIALECT", "Virtuoso");
 
 // default email address to send the feedback
-define("FEEDBACK_ADDRESS", "info@legilux.public.lu");
+define("FEEDBACK_ADDRESS", "vocabulaires@scl.etat.lu");
 
 // email address to set as the envelope sender for feedback messages
-define("FEEDBACK_ENVELOPE_SENDER", "vocabulaires-noreply@legilux.public.lu");
+define("FEEDBACK_ENVELOPE_SENDER", "vocabulaires-noreply@scl.etat.lu");
 
 // whether or not to log caught exceptions
 define ("LOG_CAUGHT_EXCEPTIONS", TRUE);
