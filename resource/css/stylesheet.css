@@ -186,3 +186,22 @@ html, body {
 .concept-info ul[data-property-uri="skos:hasTopConcept"] li {
   list-style: inside;
 }
+
+.scolom-vocab-list {
+	margin-left: 1em;
+	border-left: 1px dotted rgb(71, 75, 79) ;
+}
+
+.scolom-vocab-list ul li {
+	font-size:80%;
+}
+
+.vocab-category > ul {
+	float: none;
+	padding-left: 2em;
+}
+
+.vocabulary-separator {
+	width:100%;
+	margin-left: 0px;
+}

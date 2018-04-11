@@ -10,10 +10,23 @@
   <div class="vocabularies">
     {% for vocabClassName,vocabArray in request.vocabList %}
     <div class="vocab-category">
-      <h2>{{ vocabClassName|upper }}</h2>
       <ul>
       {% for vocab in vocabArray %}
-        <li><a class="navigation-font" href="{{ vocab.id }}/{{ request.lang }}/{% if request.contentLang != request.lang and request.contentLang != '' %}?clang={{ request.contentLang }}{% endif %}">{{ vocab.title }}</a></li>
+        <li>
+        	<a class="navigation-font" href="{{ vocab.id }}/{{ request.lang }}/{% if request.contentLang != request.lang and request.contentLang != '' %}?clang={{ request.contentLang }}{% endif %}">{{ vocab.title }}</a>        	
+       		{% if not vocab.conceptSchemes is empty %}
+       		<div class="scolom-vocab-list">       				
+	       		<ul>
+	       			<li>Vocabulaires de cette version :</li>
+		       		{% for uri, values in vocab.conceptSchemes %}
+		        		{% if(uri != 'http://data.education.fr/voc/scolomfr') %}
+		        			<li><a href="{{ uri | link_url(vocab, request.lang, 'page', request.contentLang) }}">{{ values["prefLabel"] }}</a></li>
+		        		{% endif %}
+		        	{% endfor %}
+	        	</ul>
+        	</div>
+        	{% endif %}
+        </li>
       {% endfor %}
       </ul>
     </div>
