@@ -71,7 +71,7 @@
             {% endfor %}
           {% endfor %}
         {% else %}
-        <ul>
+        <ul data-property-uri="{{property.type}}">
         {% for propval in property.values %} {# loop through ConceptPropertyValue objects #}
             <li>
             {% if propval.uri and propval.type != 'rdf:type' %} {# resources with URI #}

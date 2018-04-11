@@ -173,3 +173,16 @@ html, body {
   margin-bottom: 0.5em;
 }
 
+/* Ajoute des bullets points sur les listes de concepts
+   et change la couleur des bullets comme celle du texte */
+.concept-info ul[data-property-uri="skos:broader"],
+.concept-info ul[data-property-uri="skos:narrower"],
+.concept-info ul[data-property-uri="skos:hasTopConcept"] {
+  color: rgb(71, 75, 79);
+}
+
+.concept-info ul[data-property-uri="skos:broader"] li,
+.concept-info ul[data-property-uri="skos:narrower"] li,
+.concept-info ul[data-property-uri="skos:hasTopConcept"] li {
+  list-style: inside;
+}
