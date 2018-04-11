@@ -541,6 +541,24 @@ class Model
             return $vocabs[0];
         }
         
+        // sort vocabs on version date to match the latest one
+        usort($vocabs, function ($a, $b) {
+            if($a->getConfig()->getVersionDate() == null) {
+                if($b->getConfig()->getVersionDate() == null) {
+                    return strcmp($a->getId(), $b->getId());
+                } else {
+                    return 1;
+                }
+            } else {
+                if($b->getConfig()->getVersionDate() == null) {
+                    return -1;
+                } else {
+                    return strcmp($a->getConfig()->getVersionDate(), $b->getConfig()->getVersionDate());
+                }
+            }
+        });
+        
+        
         // if there are multiple vocabularies and one is the preferred vocabulary, return it
         if($preferredVocabId != null) {
             foreach ($vocabs as $vocab) {
