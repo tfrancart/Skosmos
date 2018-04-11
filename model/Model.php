@@ -540,7 +540,7 @@ class Model
         if (sizeof($vocabs) == 1) {
             return $vocabs[0];
         }
-        
+
         // sort vocabs on version date to match the latest one
         usort($vocabs, function ($a, $b) {
             if($a->getConfig()->getVersionDate() == null) {
@@ -557,7 +557,7 @@ class Model
                 }
             }
         });
-        
+        $vocabs = array_reverse($vocabs);
         
         // if there are multiple vocabularies and one is the preferred vocabulary, return it
         if($preferredVocabId != null) {
