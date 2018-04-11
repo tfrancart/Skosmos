@@ -477,16 +477,33 @@ class Vocabulary extends DataObject
                 $specials = true;
             }
         }
+        
+        // Thomas Canope specific : remove accents in alphabets - see also JenaTextSparql where search
+        // is being re-expanded on accented characters
+        $newLetters = array();
+        foreach ($letters as $letter) {
+            $withoutAccent = $this->stripAccents($letter);
+            if(!in_array($withoutAccent, $newLetters)) {
+                $newLetters[] = $withoutAccent;
+            }
+        }
+        $letters = $newLetters;
+        
         usort($letters, 'strcoll');
         if ($specials) {
             $letters[] = '!*';
         }
+        
 
         if ($digits) {
             $letters[] = '0-9';
         }
 
         return $letters;
+    }
+    
+    function stripAccents($str) {
+        return strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
     }
 
     /**

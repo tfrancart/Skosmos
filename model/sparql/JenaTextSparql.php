@@ -22,7 +22,9 @@ class JenaTextSparql extends GenericSparql
      * Characters that need to be quoted for the Lucene query parser.
      * See http://lucene.apache.org/core/4_10_1/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#Escaping_Special_Characters
      */
-    const LUCENE_ESCAPE_CHARS = ' +-&|!(){}[]^"~?:\\/'; /* note: don't include * because we want wildcard expansion
+    const LUCENE_ESCAPE_CHARS = ' +-&|!(){}[]^"~?:\\/'; /* note: don't include * because we want wildcard expansion */
+    
+    const FRENCH_ACCENTED = array('a' => array('a', 'à', 'á', 'â', 'ã', 'ä'), 'e' => array('e', 'è', 'é', 'ê', 'ë'), 'o' => array('o', 'ò', 'ó', 'ô', 'õ', 'ö'));
 
     /**
      * Make a jena-text query condition that narrows the amount of search
@@ -123,20 +125,30 @@ class JenaTextSparql extends GenericSparql
             $filterDeprecated="FILTER NOT EXISTS { ?s owl:deprecated true }";
         }
         
+        // Thomas Canope specific : expend search on all accented variants of french voyels
+        $filterFirstLetter="";
+        if(!in_array($lcletter, array_keys(self::FRENCH_ACCENTED))) {
+            $filterFirstLetter = "FILTER(STRSTARTS(LCASE(STR(?match)), '$lcletter'))";
+        } else {
+            $filterFirstLetter="FILTER(LCASE(SUBSTR(STR(?match), 1, 1)) IN ( \"";
+            $filterFirstLetter.=implode('","', self::FRENCH_ACCENTED[$lcletter]);
+            $filterFirstLetter.="\" ) )";
+        }
+        
         $query = <<<EOQ
 SELECT DISTINCT ?s ?label ?alabel
 WHERE {
   $gc {
     {
       $textcondPref
-      FILTER(STRSTARTS(LCASE(STR(?match)), '$lcletter'))
+      $filterFirstLetter
       FILTER EXISTS { ?s skos:prefLabel ?match }
       BIND(?match as ?label)
     }
     UNION
     {
       $textcondAlt
-      FILTER(STRSTARTS(LCASE(STR(?match)), '$lcletter'))
+      $filterFirstLetter
       FILTER EXISTS { ?s skos:altLabel ?match }
       BIND(?match as ?alabel)
       {
