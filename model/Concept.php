@@ -27,7 +27,8 @@ class Concept extends VocabularyDataObject
         'rdfs:label', # handled separately by getLabel
 
         'skos:topConceptOf', # because it's too technical, not relevant for users
-        'skos:inScheme', # should be evident in any case
+        # Thomas : Canope specific, we want these to be displayed
+        # 'skos:inScheme', # should be evident in any case
         'skos:member', # this shouldn't be shown on the group page
         'dc:created', # handled separately
         'dc:modified', # handled separately
@@ -397,7 +398,12 @@ class Concept extends VocabularyDataObject
                         continue;
                     }
 
-                    if (isset($ret[$prop])) {
+                    if (
+                        isset($ret[$prop])
+                        // Thomas Canope Specific : hide reference to main concept scheme
+                        &&
+                        ($val->getUri() != 'http://data.education.fr/voc/scolomfr')
+                    ) {
                         // checking if the property value is not in the current vocabulary
                         $exvoc = $this->model->guessVocabularyFromURI($val->getUri());
                         if ($exvoc && $exvoc->getId() !== $this->vocab->getId()) {
