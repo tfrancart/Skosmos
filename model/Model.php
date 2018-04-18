@@ -609,6 +609,32 @@ class Model
                 return $this->disambiguateVocabulary($vocabs, $uri, $preferredVocabId);
             }
         }
+        
+        // look it up in all vocabs
+        // THOMAS : Specific Canope to match vocabularies URI.
+        $vocabs = $this->getVocabularies();
+        
+        usort($vocabs, function ($a, $b) {
+            if($a->getConfig()->getVersionDate() == null) {
+                if($b->getConfig()->getVersionDate() == null) {
+                    return strcmp($a->getId(), $b->getId());
+                } else {
+                    return 1;
+                }
+            } else {
+                if($b->getConfig()->getVersionDate() == null) {
+                    return -1;
+                } else {
+                    return strcmp($a->getConfig()->getVersionDate(), $b->getConfig()->getVersionDate());
+                }
+            }
+        });
+        $vocabs = array_reverse($vocabs);
+        
+        foreach ($vocabs as $vocab) {
+            if ($vocab->getConceptLabel($uri, null) !== null)
+                return $vocab;
+        }
 
         // not found
         return null;
