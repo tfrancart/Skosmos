@@ -39,7 +39,7 @@
         pav:hasVersion "2.1" ;
         pav:createdOn "2016-04-01"^^xsd:date;
         dc:type mdrtype:THESAURUS ;
-        void:uriSpace "http://data.education.fr/voc.scolomfr/concept/";
+        void:uriSpace "http://data.education.fr/voc/scolomfr/concept/";
         # skosmos:groupClass isothes:ConceptGroup;
         skosmos:arrayClass isothes:ThesaurusArray;
         skosmos:language "fr";
