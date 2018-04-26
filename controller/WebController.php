@@ -396,7 +396,7 @@ class WebController extends Controller
                 'search_results' => $searchResults,
                 'rest' => $parameters->getOffset()>0,
                 'global_search' => true,
-                'term' => $request->getQueryParam('q'),
+                'term' => $request->getQueryParamRaw('q'),
                 'lang_list' => $langList,
                 'vocabs' => str_replace(' ', '+', $vocabs),
                 'vocab_list' => $vocabList,
@@ -447,7 +447,7 @@ class WebController extends Controller
                 array(
                     'languages' => $this->languages,
                     'vocab' => $vocab,
-                    'term' => $request->getQueryParam('q'),
+                    'term' => $request->getQueryParamRaw('q'),
                 ));
             return;
         }
@@ -464,7 +464,7 @@ class WebController extends Controller
                 'limit_scheme' =>  $request->getQueryParam('scheme') ? explode('+', $request->getQueryParam('scheme')) : null,
                 'group_index' => $vocab->listConceptGroups($request->getContentLang()),
                 'parameters' => $parameters,
-                'term' => $request->getQueryParam('q'),
+                'term' => $request->getQueryParamRaw('q'),
                 'types' => $vocabTypes,
                 'explicit_langcodes' => $langcodes,
                 'request' => $request,

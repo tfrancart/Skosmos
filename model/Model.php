@@ -562,7 +562,7 @@ class Model
         // if there are multiple vocabularies and one is the preferred vocabulary, return it
         if($preferredVocabId != null) {
             foreach ($vocabs as $vocab) {
-                if($vocab->getId() == $preferredVocabId) {
+		if($vocab->getId() == $preferredVocabId) {
                     return $vocab;
                 }
             }
@@ -570,7 +570,7 @@ class Model
         
         // no preferred vocabulary, or it was not found, search in which vocabulary the concept has a label
         foreach ($vocabs as $vocab) {
-            if ($vocab->getConceptLabel($uri, null) !== null)
+	   if ($vocab->getConceptLabel($uri, null) !== null)
                 return $vocab;
         }
 
