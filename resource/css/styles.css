@@ -532,7 +532,7 @@ ul.dropdown-menu > li:last-child > input {
   min-width: 400px;
 }
 
-.qtip-skosmos * {
+.qtip-skosmos *, .reified-tooltip > p > span {
   color: #fff;
   font-size: 14px;
   font-weight: 400;
@@ -547,10 +547,23 @@ ul.dropdown-menu > li:last-child > input {
   display: none;
   margin-top: 5px;
   width: 100%;
+
+}
+
+.reified-property-value {
+  float: left;
 }
 
 .reified-property-value > img {
   width: 18px;
+}
+
+span.xl-label > img {
+  margin: -2px 2px 0 0;
+}
+
+span.xl-pref-label > img {
+  margin: 10px 2px;
 }
 
 /* front page stuff
@@ -1203,6 +1216,13 @@ tr {
   border-bottom: 0;
 }
 
+.other-languages > .col-xs-6.versal.replaced {
+  padding-right: 0;
+}
+
+.other-languages.first-of-language > .col-xs-6.versal-pref {
+  padding-right: 0;
+}
 
 .search-results-property-table tr.other-languages > td:last-child {
   border-bottom: none;
@@ -1476,6 +1496,28 @@ span.date-info {
 
 .concept-download-links > a {
  margin-right: 1px;
+}
+
+.copy-clipboard {
+  color: #00748F;
+  border-radius: 0;
+  vertical-align: inherit;
+  font-size: 14px;
+  border: 0;
+}
+
+.copy-clipboard:active, .copy-clipboard:focus, .copy-clipboard:active:focus {
+  background-color: #fff;
+  color: #00748F;
+}
+
+.copy-clipboard:hover {
+  background-color: #fff;
+  color: #23527c;
+}
+
+.property-value-column > .copy-clipboard {
+  font-size: 24px;
 }
 
 /* typeahead.js
@@ -1764,7 +1806,17 @@ body, .versal, h1, h2, p, .versal-bold {
 
 }
 
+@media (max-width: 340px) {
+  .vocab-info-literals > table > tbody > tr > th {
+    max-width: 120px;
+  }
+  .vocab-info-literals > table > tbody > tr > td {
+    max-width: 180px;
+  }
+}
+
 @media (max-width: 400px) {
+
   #navi3 {
     display: none;
   }
