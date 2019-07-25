@@ -40,8 +40,7 @@ Note : on pourrait remplacer le nom du répertoire `skosmos` par le répertoire 
 Cette version de Skosmos contient déjà tous les fichiers de configuration nécessaires pour Skosmos, avec les connexion à Casemates et tous les vocabulaires paramétrés.
 
 
-
-## Installer les dépendances
+## Installer les dépendances
 
 Lancer composer pour télécharger les dépendances PHP :
 
@@ -53,8 +52,7 @@ php composer.phar install --no-dev
 ```
 
 
-
-## Configurer Apache
+## Configurer Apache
 
 Skosmos a besoin que :
 
@@ -82,8 +80,7 @@ Une fois les sources récupérées et Apache configuré :
 2. Sélectionner le vocabulaire "Thèmes". On doit voir la fiche du vocabulaire s'afficher, et une liste de concepts affichés sur la gauche;
 3. Cliquer sur un concept sur la gauche; la "fiche" du concept doit s'afficher à droite;
 
-
-## Configurer les redirections Apache
+## Configurer les redirections Apache
 
 * Attention, cette partie de la doc n'a pas été testée, il faudra sans doute l'ajuster. *
 
