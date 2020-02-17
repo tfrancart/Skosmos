@@ -1,0 +1,89 @@
+/** background color **/
+
+html, body {
+    background-color: #ebebeb !important;
+}
+
+/* ***** Tous les liens ***** */
+
+a {
+	color: #0075d1;
+}
+
+/* ***** Titre h1 "description du vocabulaire" ***** */
+
+h1 {
+	color: #0075d1;
+}
+
+
+/* ***** Header logo ***** */
+
+.topbar {
+	background-image: url('../pics/unesco-logo.gif');
+	background-repeat:no-repeat;
+	background-size: contain;
+	height: 50px;
+}
+
+/* ***** Barre de recherche ***** */
+
+.headerbar-coloured {
+	background-color: #004983;
+}
+
+.header-left > h1 {
+	background-color: #004983;
+	color: #FFFFFF;
+}
+
+/* fix margin of header-float because of long label */
+.header-float {
+	margin-right: 30px !important;
+}
+
+#search-all-button {
+    background-color: #0075d1;
+}
+
+.search-vocab-text {
+    background-color: #004983;
+}
+
+#lang-dropdown-toggle, .multiselect {
+    background-color: #0075d1 !important;
+}
+
+/* fix for home page */
+
+.headerbar {
+	background-color: #004983;
+	margin-bottom : 20px;
+	vertical-align: middle;
+}
+
+.headerbar > .header-float {
+	margin-top: 10px;
+}
+
+/* ***** left menu ***** */
+
+.sidebar-grey {
+    background-color: #ffffff;
+}
+
+/* ***** Home page ***** */
+
+/* ***** Home logo and probably also About page ***** */
+
+.welcome-box {
+	width: 25% !important;
+}
+
+.voclist-right #vocabulary-list {
+    float:right;
+    margin-left: 15px;
+    position: relative;
+    width: 73% !important;
+    padding: 10px;
+}
