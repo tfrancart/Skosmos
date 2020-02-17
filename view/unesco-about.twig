@@ -1,0 +1,76 @@
+{% block sidebar %}{% endblock %}
+{% block headernav %}{% endblock %}
+{% block content %}
+
+
+<div class="main-container">
+
+  <div class="welcome-box">
+    <img src="resource/pics/unesco_logo_en.jpg" style="width:85%;" />
+    <br />
+    <div>
+    	<h2>Thesaurus</h2>
+    	<ul>
+    		<li><a href="/">Browse</a></li>
+    		<li><a href="/exports/thesaurus/latest/">Download</a></li>
+    		<li><a href="/sparql-form/">SPARQL endpoint</a></li>
+    		<li><a href="{{ request.lang }}/about#License">License</a></li>
+    	</ul>
+    </div>
+    <div>
+    	<h2>Resources</h2>
+    	<ul>
+    		<li><a href="http://www.unesco.org/new/en/unesco/resources/online-materials/publications/unesdoc-database/">UNESDOC</a></li>
+    		<li><a href="http://www.unesco.org/library/">UNESCO Library</a></li>
+    		<li><a href="http://termweb.unesco.org/">UNESCO Terminology</a></li>
+    		<li><a href="http://research.un.org/en/un-resources/terminology">UN terminology resources</a></li>
+    	</ul>
+    </div>
+    <div>
+    	<h2>Contact Us</h2>
+    	<ul>
+    		<li><a href="/browser/thesaurus/en/feedback">Feedback</a></li>
+    		<li><a href="https://lists.unesco.org/wws/subscribe/thesaurus-users">Mailing list</a></li>
+    	</ul>
+    </div>
+    <div style="text-align:center;margin-top:30px;">
+    	<a href="http://creativecommons.org/licenses/by-sa/3.0/igo/"><img src="resource/pics/CC-BY-SA_icon.png" style="width:100px;" /></a>
+    </div>
+  </div>
+
+  <div id="unesco-about">
+    <div>
+    	<h1>About UNESCO Thesaurus</h1>
+
+    	<p>The UNESCO Thesaurus is a controlled and structured list of concepts used in subject analysis and retrieval of documents and publications in the fields of education, culture, natural sciences, social and human sciences, communication and information. Continuously enriched and updated, its multidisciplinary terminology reflects the evolution of UNESCO's programmes and activities.</p>
+
+  	<p>The first edition of the Thesaurus was released in English in 1977, with French and Spanish translations in 1983 and 1984. The second revised and restructured version was released in 1995. Today the Thesaurus is available in English, French, Russian and Spanish.</p>
+  	
+  	<p>Concepts are grouped into 7 broad subject areas which are broken down into microthesauri. The UNESCO Thesaurus is compliant with the <a href="http://www.niso.org/schemas/iso25964/">ISO 25964 standard</a>. For more information on the structure of the thesaurus and its historical background please consult <a href="http://www.unesco.org/library/PDF/thesaurusintroeng.pdf">the thesaurus introduction</a>.</p>
+
+  	<p>The UNESCO Thesaurus is mainly used for indexing and searching resources in <a href="http://www.unesco.org/new/en/unesco/resources/online-materials/publications/unesdoc-database/">UNESCO’s document repository</a>.</p>
+    </div>
+
+    <div>
+    	<h1>Use, Share, Contribute</h1>
+    	
+    	<p>To enable wider re-use and better interoperability the UNESCO Thesaurus has been published as a SKOS dataset available according to the Linked Open Data principles.</p>
+
+  	<p>The UNESCO Thesaurus can be searched and browsed in an intuitive way. The latest version of the Thesaurus is available for <a href="http://vocabularies.unesco.org/exports/thesaurus/latest/" target="_blank">download</a> and view in various formats. Furthermore, it is accessible through a <a href="http://vocabularies.unesco.org/sparql">SPARQL endpoint</a>. Previous versions are stored and can be made available on request, to allow backward compatibility with applications using earlier versions.</p>
+
+  	<h2 id="License">License</h2>
+
+  	<p>The UNESCO Thesaurus is published under open access. Please use the following attribution text when reusing it: "This [title of dataset or report or article] contains information from <a href="http://vocabularies.unesco.org/">The UNESCO Thesaurus</a> which is made available by UNESCO under the <a href="http://creativecommons.org/licenses/by-sa/3.0/igo/">CC-BY-SA 3.0 IGO</a> license."</p>
+
+  	<h2>Feedback</h2>
+
+  	<p>If you want to contribute to the Thesaurus please send us your suggestions using the <a href="http://vocabularies.unesco.org/browser/thesaurus/en/feedback">feedback form</a>.</p>
+
+  	<h2>Mailing-list</h2>
+
+  	<p>If you wish to be kept informed about new releases, please subscribe to the <a href="https://lists.unesco.org/wws/subscribe/thesaurus-users">mailing list</a>.</p>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
