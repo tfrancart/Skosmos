@@ -87,3 +87,19 @@ h1 {
     width: 73% !important;
     padding: 10px;
 }
+
+/* ***** About Page ***** */
+
+#unesco-about {
+    float:right;
+    margin-left: 15px;
+    position: relative;
+    background-color: #ffffff;
+    width: 73%;
+    padding: 10px;
+}
+
+/* ***** Lien UNESDOC ***** */
+.unesdoc {
+	color: #d15c00 !important;
+}
