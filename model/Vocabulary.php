@@ -154,7 +154,9 @@ class Vocabulary extends DataObject
         $sparql = $this->getSparql();
         $result = $sparql->queryConceptScheme($defaultcs);
         $conceptscheme = $result->resource($defaultcs);
-        $this->order = array("dc:title", "dc11:title", "skos:prefLabel", "rdfs:label", "dc:subject", "dc11:subject", "dc:description", "dc11:description", "dc:publisher", "dc11:publisher", "dc:creator", "dc11:creator", "dc:contributor", "dc:language", "dc11:language", "owl:versionInfo", "dc:source", "dc11:source");
+        // $this->order = array("dc:title", "dc11:title", "skos:prefLabel", "rdfs:label", "dc:subject", "dc11:subject", "dc:description", "dc11:description", "dc:publisher", "dc11:publisher", "dc:creator", "dc11:creator", "dc:contributor", "dc:language", "dc11:language", "owl:versionInfo", "dc:source", "dc11:source");
+        $this->order = array("dc:title", "dc11:title" , "dc:description", "dc11:description", "dc:identifier", "dc:publisher", "dc11:publisher", "dc:rightsHolder", "dc:rights", "dc11:rights", "dc:license", "dc:created", "dc:issued", "dc:modified", "dc11:subject", "dc:subject", "dc:language", "dc11:language", "dc:source", "dc:replaces", "dc:isRequiredBy", "dc11:creator", "dc11:contributor", "dc11:type", "dc:type", "rdf:type", "dc:format", "dc:conformsTo");
+
 
         foreach ($conceptscheme->properties() as $prop) {
             foreach ($conceptscheme->allLiterals($prop, $lang) as $val) {
