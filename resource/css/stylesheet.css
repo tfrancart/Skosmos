@@ -7,7 +7,7 @@ html, body {
 /* ***** Tous les liens ***** */
 
 a {
-	color: #0075d1;
+	color: #0075d1 !important;
 }
 
 /* ***** Titre h1 "description du vocabulaire" ***** */
