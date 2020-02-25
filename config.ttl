@@ -23,14 +23,14 @@
     skosmos:sparqlEndpoint <http://localhost:3030/skosmos/sparql> ;
     # sparql-query extension, or "Generic" for plain SPARQL 1.1
     # set to "JenaText" instead if you use Fuseki with jena-text index
-    skosmos:sparqlDialect "JenaText" ;
+    skosmos:sparqlDialect "Generic" ;
     # whether to enable collation in sparql queries
     skosmos:sparqlCollationEnabled false ;
     # HTTP client configuration
     skosmos:sparqlTimeout 20 ;
     skosmos:httpTimeout 5 ;
     # customize the service name
-    skosmos:serviceName "Skosmos" ;
+    skosmos:serviceName "" ;
     # customize the base element. Set this if the automatic base url detection doesn't work. For example setups behind a proxy.
     # skosmos:baseHref "http://localhost/Skosmos/" ;
     # interface languages available, and the corresponding system locales
@@ -74,7 +74,8 @@
 :thesaurus a skosmos:Vocabulary, void:Dataset ;
     dc:title    "UNESCO Thesaurus"@en,
             "Tesauro de la UNESCO"@es,
-            "Thésaurus de l'UNESCO"@fr ;
+            "Thésaurus de l'UNESCO"@fr,
+            "مكنز اليونسكو"@ar ;
     dc:subject :cat_general ;
     dc:type mdrtype:THESAURUS ;
     void:uriSpace "http://vocabularies.unesco.org/thesaurus/";
