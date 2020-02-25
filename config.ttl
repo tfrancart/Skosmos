@@ -92,7 +92,7 @@
     skosmos:mainConceptScheme   <http://vocabularies.unesco.org/thesaurus> .
 
 :categories a skos:ConceptScheme;
-    skos:prefLabel "Skosmos Vocabulary Categories"@en
+    skos:prefLabel "UNESCO Vocabularies"@en, "Vocabulaires de l'UNESCO"@fr, "Vocabularios y ontologies disponible"@es
 .
 
 :cat_general a skos:Concept ;
