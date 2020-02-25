@@ -34,7 +34,10 @@ h1 {
 
 .header-left > h1 {
 	background-color: #004983;
-	color: #FFFFFF;
+}
+/* Fix to override the !important on a above */
+.header-left > h1 > a {
+	color: #FFFFFF !important;
 }
 
 /* fix margin of header-float because of long label */
