@@ -81,11 +81,6 @@ class Concept extends VocabularyDataObject
         $this->order = array("rdf:type", "dc:isReplacedBy", "skos:definition", "skos:broader", "isothes:broaderGeneric", "isothes:broaderPartitive", "isothes:broaderInstantial", "skos:narrower", "isothes:narrowerGeneric", "isothes:narrowerPartitive", "isothes:narrowerInstantial", "skos:related", "skos:altLabel", "skosmos:memberOf", "skos:note", "skos:scopeNote", "skos:historyNote", "rdfs:comment", "dc11:source", "dc:source", "skos:prefLabel");
         $this->graph = $graph;
         $this->clang = $clang;
-        // setting the Punic plugins locale for localized datetime conversions
-        if ($this->clang && $this->clang !== '') {
-            Punic\Data::setDefaultLocale($clang);
-        }
-
     }
 
     /**
