@@ -477,6 +477,10 @@ class Vocabulary extends DataObject
         $letters = array();
         $digits = false;
         $specials = false;
+        $lang = $lang ? $lang : $this->getEnvLang();
+        
+
+
         foreach ($chars as $char) {
             if (preg_match('/\p{L}/u', $char)) {
                 $letters[] = $char;
@@ -486,14 +490,29 @@ class Vocabulary extends DataObject
                 $specials = true;
             }
         }
-        usort($letters, 'strcoll');
-        if ($specials) {
-            $letters[] = '!*';
+
+        // ***** Reverse Array for arabic alphabet ***** 
+        if(  $clang == "ar" && $lang == "ar") {
+            usort($letters, 'strcoll');
+            $reverseArray = array_reverse($letters, true);
+            $letters = $reverseArray;
+            
+                                               //   **** 
+        } else {
+
+            usort($letters, 'strcoll');
+
+
+            if ($specials ) {
+                $letters[] = '!*';
+            }
+
+            if ($digits) {
+                $letters[] = '0-9';
+            }
+
         }
 
-        if ($digits) {
-            $letters[] = '0-9';
-        }
 
         return $letters;
     }
