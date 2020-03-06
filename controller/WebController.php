@@ -227,6 +227,10 @@ class WebController extends Controller
     {
         $lang = $request->getLang();
         $this->setLanguageProperties($lang);
+
+        // setting the Punic plugins locale for localized datetime conversions
+        Punic\Data::setDefaultLocale($lang);
+
         $vocab = $request->getVocab();
 
         $langcodes = $vocab->getConfig()->getShowLangCodes();
