@@ -25,6 +25,11 @@ h1 {
 	background-size: contain;
 	height: 50px;
 }
+html[dir="rtl"] .topbar {
+    background-position: right;
+}
+
+
 
 /* ***** Barre de recherche ***** */
 
@@ -64,6 +69,9 @@ h1 {
 	margin-bottom : 20px;
 	vertical-align: middle;
 }
+html[dir="rtl"] .headerbar{
+    margin-bottom: 20px;
+}
 
 .headerbar > .header-float {
 	margin-top: 10px;
@@ -82,6 +90,9 @@ h1 {
 .welcome-box {
 	width: 25% !important;
 }
+html[dir="rtl"] .welcome-box{
+    float: right;
+}
 
 .voclist-right #vocabulary-list {
     float:right;
@@ -91,6 +102,11 @@ h1 {
     padding: 10px;
 }
 
+html[dir="rtl"] .voclist-right #vocabulary-list {
+    float: left;
+    margin-right: unset;
+    margin-left: unset;
+}
 /* ***** About Page ***** */
 
 #unesco-about {
@@ -101,8 +117,28 @@ h1 {
     width: 73%;
     padding: 10px;
 }
+html[dir="rtl"] #unesco-about {
+    float: left;
+    margin-right: unset;
+    margin-left: unset;
+}
 
 /* ***** Lien UNESDOC ***** */
 .unesdoc {
 	color: #d15c00 !important;
+}
+
+/* ***** Fix Occurences *****  */
+
+    html[dir="rtl"] .shortened-symbol {
+        position: relative;
+        right: 100%;
+        transform: translate(75%, calc( -100% - 2px));
+    }
+
+@media (max-width: 1259px) {
+    html[dir="rtl"] .shortened-symbol {
+        
+        transform: translate(75%, calc( -100% - 4px));
+    }
 }
