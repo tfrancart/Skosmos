@@ -490,6 +490,7 @@ class Vocabulary extends DataObject
             }
         }
 
+
         // ***** Reverse Array for arabic alphabet ***** 
         if(  $clang == "ar" && $lang == "ar") {
             usort($letters, 'strcoll');
@@ -503,6 +504,11 @@ class Vocabulary extends DataObject
         if ($specials ) {
             $letters[] = '!*';
         }
+          
+        if ($digits) {
+            $letters[] = '0-9';
+        }
+
 
         return $letters;
     }
