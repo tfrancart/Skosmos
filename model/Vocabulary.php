@@ -479,6 +479,16 @@ class Vocabulary extends DataObject
         $specials = false;
         $lang = $lang ? $lang : $this->getEnvLang();
 
+        foreach ($chars as $char) {
+            if (preg_match('/\p{L}/u', $char)) {
+                $letters[] = $char;
+            } elseif (preg_match('/\d/u', $char)) {
+                $digits = true;
+            } else {
+                $specials = true;
+            }
+        }
+
 
         // ***** Reverse Array for arabic alphabet ***** 
         if(  $clang == "ar" && $lang == "ar") {
