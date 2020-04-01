@@ -479,6 +479,7 @@ class Vocabulary extends DataObject
         $specials = false;
         $lang = $lang ? $lang : $this->getEnvLang();
 
+
         foreach ($chars as $char) {
             if (preg_match('/\p{L}/u', $char)) {
                 $letters[] = $char;
@@ -501,10 +502,6 @@ class Vocabulary extends DataObject
 
         if ($specials ) {
             $letters[] = '!*';
-        }
-
-        if ($digits) {
-            $letters[] = '0-9';
         }
 
         return $letters;
