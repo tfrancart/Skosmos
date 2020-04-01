@@ -130,6 +130,7 @@ html[dir="rtl"] #unesco-about {
 
 /* ***** Fix Occurences *****  */
 
+
 html[dir="rtl"] .shortened-symbol {
     position: relative;
     right: 100%;
