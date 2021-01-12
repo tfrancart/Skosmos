@@ -395,20 +395,22 @@ function schemeRoot(schemes) {
   for (var k = 0; k < schemes.length; k++) {
     var theScheme = schemes[k]; 
 
-    if(theScheme.subject == null) {     
-      // avoid creating entries with empty labels
-      var theSchemeLabel = pickLabel(theScheme);
-      if(theSchemeLabel != '') {      
-        topArray.push(
-            {
-              text:theSchemeLabel,
-              a_attr:{ "href" : vocab + '/' + lang + '/page/?uri=' + theScheme.uri, 'class': 'scheme'},
-              uri: theScheme.uri,
-              children: true,
-              state: { opened: false } 
-            }
-        );
-      }
+    if(theScheme.uri != 'http://opendata.inrae.fr/thesaurusINRAE/domainesINRAE' && theScheme.uri != 'http://opendata.inrae.fr/thesaurusINRAE/thesaurusINRAE') {
+        if(theScheme.subject == null) {     
+        // avoid creating entries with empty labels
+        var theSchemeLabel = pickLabel(theScheme);
+        if(theSchemeLabel != '') {      
+            topArray.push(
+                {
+                text:theSchemeLabel,
+                a_attr:{ "href" : vocab + '/' + lang + '/page/?uri=' + theScheme.uri, 'class': 'scheme'},
+                uri: theScheme.uri,
+                children: true,
+                state: { opened: false } 
+                }
+            );
+        }
+        }
     }
   }
 
