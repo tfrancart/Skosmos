@@ -425,7 +425,7 @@ msgstr "Termes du concept dans d'autres langues."
 
 #: /tmp/cache/587c83c09abaa/3c/3c4ea3202d0add91bf2080022b707c23115e0beb434024ddb2de27749e6bbe83.php:660
 msgid "foreign prefLabels"
-msgstr "Traductions"
+msgstr "Traduction(s)"
 
 #: /tmp/cache/587c83c09abaa/f2/f29f57cf31b29541d6f810d43d1f7a07e79cfddcf23678f04612a410c0f0607b.php:39
 msgid "from all"
@@ -529,7 +529,7 @@ msgstr "sélectionné"
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:143
 msgid "skos:altLabel"
-msgstr "Variante"
+msgstr "Synonyme(s)"
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:179
 msgid "skos:altLabel_help"
@@ -545,7 +545,7 @@ msgstr "Concept générique dans un autre vocabulaire"
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:129
 msgid "skos:broader"
-msgstr "Concept générique"
+msgstr "Concept(s) générique(s)"
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:171
 msgid "skos:broader_help"
@@ -589,7 +589,7 @@ msgstr "Exemple"
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:155
 msgid "skos:hasTopConcept"
-msgstr "A pour top concept"
+msgstr "A pour top concept(s)"
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:165
 msgid "skos:historyNote"
@@ -617,7 +617,7 @@ msgstr "Concepts spécifiques dans un autre vocabulaire."
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:131
 msgid "skos:narrower"
-msgstr "Concepts spécifiques"
+msgstr "Concept(s) spécifique(s)"
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:173
 msgid "skos:narrower_help"
@@ -638,7 +638,7 @@ msgstr "Terme préférentiel"
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:137
 msgid "skos:related"
-msgstr "Concepts associés"
+msgstr "Concept(s) associé(s)"
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:139
 msgid "skos:relatedMatch"
@@ -676,22 +676,22 @@ msgstr "L'ensemble duquel ce concept est une partie."
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:201
 #: /tmp/cache/587c83c09abaa/8a/8aeec9eddcf0848575d119210eda5a849c129c96ea86195b4448536a02a47817.php:449
 msgid "skosmos:memberOf"
-msgstr "Appartient au groupe"
+msgstr "Appartient au(x) groupe(s)"
 
 #: /tmp/cache/587c83c09abaa/3c/3c4ea3202d0add91bf2080022b707c23115e0beb434024ddb2de27749e6bbe83.php:611
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:205
 msgid "skosmos:memberOfArray"
-msgstr "Appartient au tableau"
+msgstr "Appartient au(x) tableau(x)"
 
 #: /tmp/cache/587c83c09abaa/3c/3c4ea3202d0add91bf2080022b707c23115e0beb434024ddb2de27749e6bbe83.php:609
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:207
 msgid "skosmos:memberOfArray_help"
-msgstr "Le tableau de concepts auquel ce concept appartient."
+msgstr "Le(s) tableau(x) de concepts auquel ce concept appartient."
 
 #: /tmp/cache/587c83c09abaa/3c/3c4ea3202d0add91bf2080022b707c23115e0beb434024ddb2de27749e6bbe83.php:546
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:203
 msgid "skosmos:memberOf_help"
-msgstr "Le groupe auquel appartient le concept."
+msgstr "Le/les groupe(s) auquel appartient le concept."
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:23
 msgid "zxx-x-taxon"
