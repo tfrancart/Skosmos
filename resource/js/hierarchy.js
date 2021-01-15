@@ -574,7 +574,9 @@ function getTreeConfiguration() {
               else if(aClass != 'domain' && bClass == 'domain') {
                 // B is before A
                 return 1;
-              }
+              } else {
+		return naturalCompare(this.get_text(a).toLowerCase(), this.get_text(b).toLowerCase());
+	      }
             } else {
               // A has class, but not B (should not happen) : alpha sort
               return naturalCompare(this.get_text(a).toLowerCase(), this.get_text(b).toLowerCase());
