@@ -1,0 +1,130 @@
+/** background color **/
+
+html, body {
+    background-color: #ddd8ce !important;
+}
+
+/* ***** Tous les liens ***** */
+
+a {
+	color: #275662 !important;
+}
+
+/* ***** Titre h1 "description du vocabulaire" ***** */
+
+h1 {
+	color: #275662;
+}
+
+
+/* ***** Header logo ***** */
+
+.topbar {
+	background-image: url('../pics/BandeauVO_siteWeb.png');
+	background-repeat:no-repeat;
+	background-size: cover;
+	height: 230px;
+}
+
+/* removes space between top image and search bar */
+/* Also sets brownish background */
+.topbar-white {
+	margin-bottom: 0px;
+	background-color: #ddd8ce;
+}
+.frontpage {
+	margin-bottom: 0px;
+}
+
+
+/* ***** css du Fil d'ariane (breadcrumbs) ***** */
+#breadcrumbs {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-left: 10px;
+    background-color: #f5f5f5;
+}
+
+#breadcrumbs a {
+    font-size: 1.6rem;
+}
+
+.breads {
+    font-style: italic;
+    font-size: 1.6rem;
+}
+
+#breadcrumbs-navigation {
+	float: right;
+	padding-right:10px;
+	min-width:200px;
+}
+
+
+/* ***** Barre de recherche ***** */
+
+.headerbar-coloured {
+	background-color: #66C1BF;
+}
+
+.header-left > h1 {
+	background-color: #66C1BF;
+}
+/* Fix to override the !important on a above */
+.header-left > h1 > a {
+	color: #FFFFFF !important;
+}
+
+/* fix margin of header-float because of long label */
+/* Also fix top margin */
+.header-float {
+	margin-right: 30px !important;
+	margin-top: 5px;
+}
+
+#search-all-button {
+    background-color: #275662;
+}
+
+.search-vocab-text {
+    background-color: #66C1BF;
+}
+
+#lang-dropdown-toggle, .multiselect {
+    background-color: #275662 !important;
+}
+
+/* fix for home page */
+
+.headerbar {
+	background-color: #66C1BF;
+	margin-bottom : 20px;
+	vertical-align: middle;
+}
+
+.headerbar > .header-float {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+/* ***** left menu ***** */
+
+.sidebar-grey {
+    background-color: #ffffff;
+}
+
+/* ***** Home page ***** */
+
+/* ***** Home logo and probably also About page ***** */
+
+.welcome-box {
+	width: 25% !important;
+}
+
+.voclist-right #vocabulary-list {
+    float:right;
+    margin-left: 15px;
+    position: relative;
+    width: 73% !important;
+    padding: 10px;
+}
