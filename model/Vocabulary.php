@@ -630,6 +630,10 @@ class Vocabulary extends DataObject implements Modifiable
       return $this->config->getTitle($lang);
     }
 
+    public function getDescription($lang=null) {
+      return $this->config->getDescription($lang);
+    }
+
     public function getShortName() {
       return $this->config->getShortName();
     }
