@@ -11,3 +11,5 @@ tests/jena-fuseki*
 .vagrant
 .project
 .DS_Store
+
+resource/js/hierarchy.old.js
