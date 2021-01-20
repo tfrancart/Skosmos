@@ -121,10 +121,6 @@ h1 {
 	width: 25% !important;
 }
 
-.voclist-right #vocabulary-list {
-    float:right;
-    margin-left: 15px;
-    position: relative;
-    width: 73% !important;
-    padding: 10px;
+.vocab-category > ul {
+	width: 95%;
 }

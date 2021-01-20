@@ -12,7 +12,6 @@
   <div class="vocabularies">
     {% for vocabClassName,vocabArray in request.vocabList %}
     <div class="vocab-category">
-      <h3>{{ vocabClassName|upper }}</h3>
       <ul>
       {% for vocab in vocabArray %}
         <li><a class="navigation-font" href="{{ vocab.id }}/{{ request.lang }}/{% if request.contentLang != request.lang and request.contentLang != '' %}?clang={{ request.contentLang }}{% endif %}">{{ vocab.title }}</a></li>
