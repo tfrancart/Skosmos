@@ -134,6 +134,15 @@ class VocabularyConfig extends BaseConfig
     }
 
     /**
+     * Returns the description of this vocabulary.
+     * @return string the description of the vocabulary
+     */
+    public function getDescription($lang = null)
+    {
+        return $this->getLiteral('dc:description', false, $lang);
+    }
+
+    /**
      * Returns a boolean value set in the config.ttl config.
      * @return boolean
      */
