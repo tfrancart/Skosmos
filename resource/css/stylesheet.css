@@ -107,6 +107,12 @@ h1 {
 	margin-bottom: 5px;
 }
 
+.vocab-list-item > div {
+	margin-left: 20px;
+	font-size:smaller;
+	font-style: italic;
+}
+
 /* ***** left menu ***** */
 
 .sidebar-grey {
