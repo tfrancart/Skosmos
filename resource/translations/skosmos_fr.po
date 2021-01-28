@@ -165,7 +165,7 @@ msgstr "Erreur : Le term \"%term%\" n'a pas été trouvé dans le vocabulaire !"
 #: /tmp/cache/587c83c09abaa/4a/4a8733799c4f4aa865ece4715881ffcbef92985ed08edc2acd445e7b0c129fab.php:54
 #: /tmp/cache/587c83c13194c/0b/0bbfc29e05e244fa07889ce1678840902f16e5f76560e00137de0cc3bb084b8b.php:194
 msgid "Feedback"
-msgstr "Vos commentaires"
+msgstr "Nous contacter"
 
 #: /tmp/cache/587c83c09abaa/4a/4a8733799c4f4aa865ece4715881ffcbef92985ed08edc2acd445e7b0c129fab.php:64
 msgid "Feedback has been sent!"
@@ -597,7 +597,7 @@ msgstr "Note historique"
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:151
 msgid "skos:inScheme"
-msgstr "Schéma de concept"
+msgstr "Microthesaurus"
 
 #: /tmp/cache/587c83c09abaa/4e/4e05e5051b20c875609479922a558d59b8500ae386eaf79bc460e69d8781a753.php:149
 msgid "skos:member"
@@ -773,3 +773,6 @@ msgstr ""
 
 msgid "Available vocabularies and ontologies"
 msgstr "Les vocabulaires gérés par la DipSO"
+
+msgid "skos:inScheme_help"
+msgstr "Microthesaurus d'appartenance du concept"
