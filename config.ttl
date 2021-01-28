@@ -1,0 +1,128 @@
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix wv: <http://vocab.org/waiver/terms/norms> .
+@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosmos: <http://purl.org/net/skosmos#> .
+@prefix isothes: <http://purl.org/iso25964/skos-thes#> .
+@prefix mdrtype: <http://publications.europa.eu/resource/authority/dataset-type/> .
+@prefix : <#> .
+
+# Skosmos main configuration
+
+:config a skosmos:Configuration ;
+    # SPARQL endpoint
+    # a local Fuseki server is usually on localhost:3030
+    skosmos:sparqlEndpoint <http://localhost:3030/vocabulaires-prod/sparql> ;
+    # sparql-query extension, or "Generic" for plain SPARQL 1.1
+    # set to "JenaText" instead if you use Fuseki with jena-text index
+    skosmos:sparqlDialect "Generic" ;
+    # whether to enable collation in sparql queries
+    skosmos:sparqlCollationEnabled false ;
+    # HTTP client configuration
+    skosmos:sparqlTimeout 20 ;
+    skosmos:httpTimeout 5 ;
+    # customize the service name
+    skosmos:serviceName "Skosmos" ;
+    # customize the base element. Set this if the automatic base url detection doesn't work. For example setups behind a proxy.
+    # skosmos:baseHref "https://vocabulaires.irstea.fr/skosmos-new/" ;
+    # interface languages available, and the corresponding system locales
+    skosmos:languages (
+        [ rdfs:label "en" ; rdf:value "en_GB.utf8" ]
+        [ rdfs:label "fr" ; rdf:value "fr_FR.utf8" ]
+    ) ;
+    # how many results (maximum) to load at a time on the search results page
+    skosmos:searchResultsSize 20 ;
+    # how many items (maximum) to retrieve in transitive property queries
+    skosmos:transitiveLimit 1000 ;
+    # whether or not to log caught exceptions
+    skosmos:logCaughtExceptions true ;
+    # set to TRUE to enable logging into browser console
+    skosmos:logBrowserConsole false ;
+    # set to a logfile path to enable logging into log file
+    # skosmos:logFileName "/tmp/skosmos-inrae.log" ;
+    # a default location for Twig template rendering
+    skosmos:templateCache "/tmp/skosmos-template-cache" ;
+    # customize the css by adding your own stylesheet
+    skosmos:customCss "resource/css/stylesheet.css" ;
+    # default email address where to send the feedback
+    skosmos:feedbackAddress "groupe-semantique@lists.irstea.fr" ;
+    # email address to set as the sender for feedback messages
+    skosmos:feedbackSender "noreply-skosmos@irstea.fr" ;
+    # email address to set as the envelope sender for feedback messages
+    skosmos:feedbackEnvelopeSender "noreply-skosmos@irstea.fr" ;
+    # whether to display the ui language selection as a dropdown (useful for cases where there are more than 3 languages) 
+    skosmos:uiLanguageDropdown false ;
+    # whether to enable the spam honey pot or not, enabled by default
+    skosmos:uiHoneypotEnabled true ;
+    # default time a user must wait before submitting a form
+    skosmos:uiHoneypotTime 5 ;
+    # plugins to activate for the whole installation (including all vocabularies)
+    skosmos:globalPlugins () .
+
+# Skosmos vocabularies
+
+:thesaurus a skosmos:Vocabulary, void:Dataset ;
+    dc:title "Thesaurus INRAE"@fr,
+             "INRAE Thesaurus"@en ;
+    dc:description "Thésaurus ouvert et partagé couvrant les domaines de recherche d’INRAE. Il sert de référentiel au sein de l’institut pour indexer et annoter des documents, pages web, descriptions d’activités, jeux de données, à des fins de recherche ou d’analyse de l’information. 
+Contribuez en proposant des modifications, ajouts ou corrections du thésaurus en cliquant sur 'Nous contacter'"@fr;
+    dc:description "open and shared thesaurus covering INRAE's research fields. It serves as a controled vocabulary within the Institute for indexing and annotating documents, web pages, descriptions of activities, datasets, etc. for research or information analysis purposes."@en ;
+    dc:subject :cat_general ;
+    dc:type mdrtype:THESAURUS ;
+    void:uriSpace "http://opendata.inrae.fr/thesaurusINRAE/";
+    skosmos:groupClass skos:Collection;
+    skosmos:language "fr", "en";
+    skosmos:shortName "Thesaurus INRAE";
+    skosmos:feedbackRecipient "thesaurusINRAE@inrae.fr" ;
+    skosmos:showChangeList "true" ;
+    skosmos:showTopConcepts true ;
+    skosmos:searchByNotation true ;
+    skosmos:showNotation false ;
+    skosmos:sortByNotation false ;
+    void:sparqlEndpoint <http://localhost:3030/vocabulaires-prod/sparql> ;
+    skosmos:sparqlGraph <http://opendata.inrae.fr/thesaurusINRAE>
+.
+
+
+:thesaurus-irstea a skosmos:Vocabulary, void:Dataset ;
+    dc:title "Thesaurus d'Irstea"@fr,
+             "Irstea Thesaurus"@en ;
+    dc:description "Thésaurus utilisé à Irstea pour indexer les publications et les jeux de données. Ce vocabulaire n’est plus maintenu. Une grande partie des concepts est repris dans le thésaurus INRAE"@fr ;
+    dc:description "The thesaurus formerly used at Irstea to index publications and datasets. This vocabulary is no longer maintained. A large part of the concepts is included in the INRAE’s thesaurus."@en ;
+    dc:subject :cat_general ;
+    dc:type mdrtype:THESAURUS ;
+    void:uriSpace "http://myskos.cadic.net/thesor/";
+    skosmos:language "fr";
+    skosmos:shortName "Irstea - Thesaurus";
+    skosmos:feedbackRecipient "groupe-semantique@lists.irstea.fr" ;
+    skosmos:showTopConcepts true ;
+    void:sparqlEndpoint <http://localhost:3030/vocabulaires-prod/sparql> ;
+    skosmos:sparqlGraph <http://vocabulaires.irstea.fr/thesaurus>
+.
+
+
+:categories a skos:ConceptScheme;
+    skos:prefLabel "Skosmos Vocabulary Categories"@en
+.
+
+:cat_general a skos:Concept ;
+    skos:topConceptOf :categories ;
+    skos:inScheme :categories ;
+    skos:prefLabel "Yleiskäsitteet"@fi,
+        "Allmänna begrepp"@sv,
+        "General concepts"@en
+.
+
+mdrtype:THESAURUS a skos:Concept ;
+    skos:prefLabel "Тезаурус"@bg, "Tezaurus"@cs, "Tesaurus"@da, "Thesaurus"@de, "Θησαυρός"@el, "Thesaurus"@en, "Tesaurus"@et, "Tesaurus"@fi, "Thésaurus"@fr, "Pojmovnik"@hr, "Tezaurusz"@hu, "Tesauro"@it, "Tēzaurs"@lv, "Tezauras"@lt, "Teżawru"@mt, "Thesaurus"@nl, "Tesaurus"@no, "Tezaurus"@pl, "Tesauro"@pt, "Tezaur"@ro, "Synonymický slovník"@sk, "Tezaver"@sl, "Tesauro"@es, "Tesaurus"@sv
+.
+
+mdrtype:ONTOLOGY a skos:Concept ;
+    skos:prefLabel "Онтология"@bg, "Ontologie"@cs, "Ontologi"@da, "Ontologie"@de, "Οντολογία"@el, "Ontology"@en, "Ontoloogia"@et, "Ontologia"@fi, "Ontologie"@fr, "Ontologija"@hr, "Ontológia"@hu, "Ontologia"@it, "Ontoloģija"@lv, "Ontologija"@lt, "Ontoloġija"@mt, "Ontologie"@nl, "Ontologi"@no, "Struktura pojęciowa"@pl, "Ontologia"@pt, "Ontologie"@ro, "Ontológia"@sk, "Ontologija"@sl, "Ontología"@es, "Ontologi"@sv
+.
