@@ -113,6 +113,16 @@ class VocabularyConfig extends BaseConfig
         return $this->getId();
     }
 
+
+    public function getNotation()
+    {
+        $notation = $this->getLiteral('skos:notation');
+        return isset($notation) ? $notation : null;
+    }
+
+    /**
+
+
     /**
      * Get the vocabulary feedback e-mail address and return it.
      *
