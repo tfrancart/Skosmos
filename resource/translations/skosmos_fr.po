@@ -766,7 +766,7 @@ msgid "search_example_text"
 msgstr "Passer le curseur sur un texte souligné en pointillé pour voir plus d'informations sur la propriété.<br /><br />Par défaut, la recherche se fait sur le début des libellés. Pour chercher un mot au milieu ou en fin d’un libellé, utilisez le symbole *. Par exemple : *animal permet de trouver 'biologie animale'"
 
 msgid "feedback_enter_name_email"
-msgstr "Veuillez entrer votre nom et votre adresse électronique si vous souhaitez recevoir une réponse directe. Vous avez également la possibilité de soumettre vos commentaires de manière anonyme. NB : Les commentaires concernant un vocabulaire spécifique sont directement transmis à son administrateur."
+msgstr "Merci de nous faire part de vos remarques, questions et souhaits d’évolution à propos de ce site ou d’un vocabulaire particulier en utilisant le formulaire ci-dessous. Vous pouvez indiquer le vocabulaire en question à l’aide du menu déroulant."
 
 msgid "concept_types"
 msgstr ""
