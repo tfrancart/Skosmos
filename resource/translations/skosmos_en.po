@@ -769,10 +769,7 @@ msgstr ""
 
 msgid "feedback_enter_name_email"
 msgstr ""
-"Please enter your name and email address if you wish to receive a direct "
-"response. You also have the option to submit your feedback anonymously. NB: "
-"Feedback regarding a specific vocabulary is referred directly to its "
-"administrator."
+"Thank you for sending us your remarks, questions and wishes for evolution about this site or a particular vocabulary using the form below. You can indicate the concerned vocabulary using the drop-down menu."
 
 msgid "concept_types"
 msgstr "Concept types"
