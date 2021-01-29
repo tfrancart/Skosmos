@@ -75,6 +75,7 @@ Contribuez en proposant des modifications, ajouts ou corrections du thésaurus e
     dc:description "open and shared thesaurus covering INRAE's research fields. It serves as a controled vocabulary within the Institute for indexing and annotating documents, web pages, descriptions of activities, datasets, etc. for research or information analysis purposes."@en ;
     dc:subject :cat_general ;
     dc:type mdrtype:THESAURUS ;
+    skos:notation "10";
     void:uriSpace "http://opendata.inrae.fr/thesaurusINRAE/";
     skosmos:groupClass skos:Collection;
     skosmos:language "fr", "en";
@@ -97,6 +98,7 @@ Contribuez en proposant des modifications, ajouts ou corrections du thésaurus e
     dc:description "The thesaurus formerly used at Irstea to index publications and datasets. This vocabulary is no longer maintained. A large part of the concepts is included in the INRAE’s thesaurus."@en ;
     dc:subject :cat_general ;
     dc:type mdrtype:THESAURUS ;
+    skos:notation "20" ;
     void:uriSpace "http://myskos.cadic.net/thesor/";
     skosmos:language "fr";
     skosmos:shortName "Irstea - Thesaurus";
