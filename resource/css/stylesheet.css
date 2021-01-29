@@ -130,3 +130,10 @@ h1 {
 .vocab-category > ul {
 	width: 95%;
 }
+
+/***** about page *****/
+#about-inrae {
+	background-color: rgb(255,255,255);
+	padding: 10px;
+	padding-bottom: 3em;
+}
