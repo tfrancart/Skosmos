@@ -763,7 +763,7 @@ msgstr "Passer le curseur sur un texte souligné en pointillé pour voir plus d'
 
 #: /tmp/cache/587c83c13194c/0b/0bbfc29e05e244fa07889ce1678840902f16e5f76560e00137de0cc3bb084b8b.php:201
 msgid "search_example_text"
-msgstr "Passer le curseur sur un texte souligné en pointillé pour voir plus d'informations sur la propriété.<br /><br />Par défaut, la recherche se fait sur le début des libellés. Pour chercher un mot au milieu ou en fin d’un libellé, utilisez le symbole *. Par exemple : *animal permet de trouver 'biologie animale'"
+msgstr "La recherche tient compte des accents et des cédilles. <br /><br /> Par défaut, la recherche se fait sur le début des libellés. Pour chercher un mot au milieu ou en fin d’un libellé, utilisez le symbole *. Par exemple : *animal permet de trouver “biologie animale”.<br /><br /> Pour chercher une suite de caractères, utilisez le symbole * avant et après. Par exemple : *séro* permet de trouver “analyse sérologique”"
 
 msgid "feedback_enter_name_email"
 msgstr "Merci de nous faire part de vos remarques, questions et souhaits d’évolution à propos de ce site ou d’un vocabulaire particulier en utilisant le formulaire ci-dessous. Vous pouvez indiquer le vocabulaire en question à l’aide du menu déroulant."
