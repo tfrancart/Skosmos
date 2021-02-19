@@ -27,7 +27,7 @@ class Concept extends VocabularyDataObject implements Modifiable
         'rdfs:label', # handled separately by getLabel
 
         'skos:topConceptOf', # because it's too technical, not relevant for users
-        'skos:inScheme', # should be evident in any case
+        // 'skos:inScheme', # should be evident in any case
         'skos:member', # this shouldn't be shown on the group page
         'dc:created', # handled separately
         'dc:modified', # handled separately

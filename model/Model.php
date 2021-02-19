@@ -105,7 +105,8 @@ class Model
             // find all the vocabs in this category
             $vocs = array();
             foreach ($cat->getVocabularies() as $voc) {
-                $vocs[$shortname ? $voc->getConfig()->getShortname() : $voc->getConfig()->getTitle()] = $voc;
+                // $vocs[$shortname ? $voc->getConfig()->getShortname() : $voc->getConfig()->getTitle()] = $voc;
+                $vocs[$shortname ? $voc->getConfig()->getShortname() : $voc->getConfig()->getNotation()] = $voc;
             }
             uksort($vocs, 'strcoll');
 

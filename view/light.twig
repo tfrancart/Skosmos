@@ -51,7 +51,7 @@
     <span id="breadcrumbs-language">
       {% for langcode, langdata in languages %}
       {% if request.lang != langcode %}
-      <a id="language-{{ langcode}}" class="navigation-font" href="{{ request.langurl|replace({("#{request.lang}/"): "#{langcode}/"}) }}"> {{langdata.name}}</a>
+      <a id="language-{{ langcode}}" class="navigation-font" href="{{ request.langurl|slice(1,request.langurl|length)|replace({("#{request.lang}/"): "#{langcode}/"}) }}"> {{langdata.name}}</a>
       {% endif %}
       {% endfor %}
     </span>
