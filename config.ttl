@@ -68,7 +68,7 @@
 # Skosmos vocabularies
 
 :thesaurus a skosmos:Vocabulary, void:Dataset ;
-    dc:title "Thesaurus INRAE"@fr,
+    dc:title "Thésaurus INRAE"@fr,
              "INRAE Thesaurus"@en ;
     dc:description "Thésaurus ouvert et partagé couvrant les domaines de recherche d’INRAE. Il sert de référentiel au sein de l’institut pour indexer et annoter des documents, pages web, descriptions d’activités, jeux de données, à des fins de recherche ou d’analyse de l’information. 
 Contribuez en proposant des modifications, ajouts ou corrections du thésaurus en cliquant sur 'Nous contacter'"@fr;
@@ -92,7 +92,7 @@ Contribuez en proposant des modifications, ajouts ou corrections du thésaurus e
 
 
 :thesaurus-irstea a skosmos:Vocabulary, void:Dataset ;
-    dc:title "Thesaurus d'Irstea"@fr,
+    dc:title "Thésaurus d'Irstea"@fr,
              "Irstea Thesaurus"@en ;
     dc:description "Thésaurus utilisé à Irstea pour indexer les publications et les jeux de données. Ce vocabulaire n’est plus maintenu. Une grande partie des concepts est repris dans le thésaurus INRAE"@fr ;
     dc:description "The thesaurus formerly used at Irstea to index publications and datasets. This vocabulary is no longer maintained. A large part of the concepts is included in the INRAE’s thesaurus."@en ;
@@ -110,7 +110,7 @@ Contribuez en proposant des modifications, ajouts ou corrections du thésaurus e
 
 
 :categories a skos:ConceptScheme;
-    skos:prefLabel "Skosmos Vocabulary Categories"@en
+    skos:prefLabel "DipSO's Semantic resources"@en, "Resources sémantiques de la DipSO"@fr
 .
 
 :cat_general a skos:Concept ;
