@@ -5,6 +5,8 @@
 
 <p>Ces référentiels sont représentés selon les standards du web sémantique et suivent les principes FAIR : standard de représentation SKOS, identifiants uniques et pérennes, métadonnées riches, etc.</p>
 
+<p>L'export intégral en RDF/XML du Thesaurus INRAE est disponible en téléchargement <a href="https://vocabulaires.irstea.fr/exports/thesaurus/latest/thesaurusINRAE.rdf">ici</a>.</p>
+
 <div>
 	<img src="resource/pics/DipSO_logo_gradient_rvb.png" style="max-width:200px;" />
 </div>
@@ -19,6 +21,8 @@
 <p>Welcome to the INRAE platform for exhibiting and sharing INRAE's knowledge organization systems.</p>
 
 <p>These semantic resources are represented according to the Semantic Web standards and follow the FAIR principles: SKOS representation standard, unique and persistent identifiers, rich metadata, etc.</p>
+
+<p>The full export of the INRAE Thesaurus in RDF/XML is available for download <a href="https://vocabulaires.irstea.fr/exports/thesaurus/latest/thesaurusINRAE.rdf">here</a>.</p>
 
 <div>
         <img src="resource/pics/DipSO_logo_gradient_rvb.png" style="max-width:200px;" />
